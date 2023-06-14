@@ -1,0 +1,54 @@
+<div appBsModal #dashboardConfigModal="bs-modal" class="modal fade" role="dialog" aria-labelledby="dashboardConfigModal"
+    aria-hidden="true" id="container" data-dismiss="modal" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog tmss-modal-md">
+        <div class="modal-content">
+            <div novalidate autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span>{{l('ViewInvoice') }}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="close()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="row mt-2 mb-2" style="display: flex; justify-content: center;">
+                    <div class="col-xl-5 col-sm-5">
+                        <grid-table [showPagination]="false" [columnDefs]="functionColDef" [rowSelection]="'multiple'"
+                            [defaultColDef]="defaultColDef" [rowData]=" sysFunctions"
+                            (callBackEvent)="callBackFuntionGrid($event)"
+                            (onChangeSelection)="onChangeFunctionSelection($event)"></grid-table>
+                    </div>
+                    <div class="col-xl-2 col-sm-2"
+                        style="padding: 0; display: grid; justify-content: center; margin: auto;">
+                        <button (click)="addFunction()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            {{ l('Add') }}
+                            <i class="fa fa-angle-double-right ml-2"></i>
+                        </button>
+                        <button (click)="removeFunction()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa fa-angle-double-left mr-2"></i>
+                            {{ l('Remove') }}
+                        </button>
+                    </div>
+                    <div class="col-xl-5 col sm-5">
+                        <grid-table [showPagination]="false" [columnDefs]="functionUserColDef"
+                            [defaultColDef]="defaultColDef" [rowData]="userFunctions"
+                            (callBackEvent)="callBackUserFuntionGrid($event)"
+                            (onChangeSelection)="onChangeUserFunctionSelection($event)"></grid-table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer modal-footer-master">
+                <button (click)="save()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                    <i class="fa tmss-fa fa-check mr-1"></i>
+                    {{'Save' | localize}}
+                </button>
+                <button (click)="close()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-danger">
+                    <i class="fa tmss-fa fa-times mr-1"></i>
+                    {{'CancelModal' | localize}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

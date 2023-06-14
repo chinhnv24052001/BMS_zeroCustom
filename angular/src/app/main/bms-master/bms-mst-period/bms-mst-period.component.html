@@ -1,0 +1,77 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <form class="form" [formGroup]="periodForm" *ngIf="periodForm">
+                        <div class="row">
+                            <div class="col-xl-4 col-sm-4">
+                                <tmss-text-input [text]="l('PeriodName')" formControlName="periodName">
+                                </tmss-text-input>
+                            </div>
+                            <div class="col-xl-4 col-sm-4">
+                                <tmss-text-input [text]="l('PeriodYear')" formControlName="periodYear">
+                                </tmss-text-input>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <button (click)="searchPeriod()" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i class="fa tmss-fa fa-search mr-1"></i>
+                                    {{'Search' | localize}}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <div>
+                                <h6> {{'PeriodInfo' | localize}}</h6>
+                            </div>
+                            <grid-table [height]="'200px'" [columnDefs]="gridColDef" [rowData]="listPeriod"
+                                 [paginationParams]="paginationParams"
+                                (callBackEvent)="callBackGrid($event)"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                (onChangeSelection)="onChangeSelection($event)">
+                            </grid-table>
+                        </div>
+                    </div>
+                    <!-- </p-panel> -->
+                    <div class="col-12 text-right">
+                        <button (click)="add()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{'AddModal' | localize}}
+                        </button>
+                        <button (click)="edit()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'Edit' | localize}}
+                        </button>
+                        <button (click)="delete()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+                            {{'Delete' | localize}}
+                        </button>
+                        <button (click)="exportExcell()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined p-button-success">
+                            <i class="fa tmss-fa fa-file-download mr-1"></i>
+                            {{'ExportData' | localize}}
+                        </button>
+                    </div>
+
+                    <div style="height: 2px; background-color: brown;"></div>
+
+                    <app-bms-mst-period-version #bmsMstPeriodVersion
+                        [periodName]="periodName"></app-bms-mst-period-version>
+                </div>
+            </div>
+        </div>
+        <create-or-edit-bms-mst-period #createOrEditBmsMstPeriod
+            (close)="searchPeriod()" (setTableVersion)="setTableVersion()"></create-or-edit-bms-mst-period>
+    </div>
+</div>

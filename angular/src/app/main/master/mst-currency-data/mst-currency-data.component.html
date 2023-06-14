@@ -1,0 +1,78 @@
+<div class="content d-flex flex-column flex-column-fluid">
+    <div [class]="containerClass">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <div class="form">
+                    <p-panel header="{{l('SearchModal')}}" [toggleable]="true">
+                        <div class="row">
+                            <div class="col-xl-3 col-sm-12">
+                                <tmss-combobox [text]="l('FromCurrency')" [items]="currencyList"
+                                    [(ngModel)]="currencyValue"></tmss-combobox>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <tmss-combobox [text]="l('ToCurrency')" [items]="currencyList"
+                                    [(ngModel)]="toCurrencyValue"></tmss-combobox>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <tmss-datepicker [text]="l('FromDate')" [(ngModel)]="fromDate"></tmss-datepicker>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <tmss-datepicker [text]="l('ToDate')" [(ngModel)]="toDate"></tmss-datepicker>
+                            </div>
+                        </div>
+                        <div class="row text-right mt-1">
+                            <div class="col-xl-2 col-sm-12 text-right">
+                                <button (click)="searchData()" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i class="fa tmss-fa fa-search mr-1"></i>
+                                    {{ 'SearchModal' | localize}} </button>
+                            </div>
+                        </div>
+                    </p-panel>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="rowData"
+                            (callBackEvent)="callBackGrid($event)" [paginationParams]="paginationParams"
+                            (changePaginationParams)="changePaginationParams($event)"
+                            (onChangeSelection)="onChangeSelection($event)">
+                        </grid-table>
+                    </div>
+
+                    <div class="col-12 text-right">
+                        <button *ngIf="isGranted('MasterData.MstExchangeRateData.Add')" (click)="createOrEditModal.show()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{ l('Add') }}
+                        </button>
+                        <button *ngIf="isGranted('MasterData.MstExchangeRateData.Edit')" (click)="createOrEditModal.show(selectedRow)" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary" [disabled]="!selectedRow.id">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{ l('Edit') }}
+                        </button>
+                        <button *ngIf="isGranted('MasterData.MstExchangeRateData.Delete')" (click)="deleteRow()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-danger" [disabled]="!selectedRow.id">
+                            <i class="fa tmss-fa fa-trash mr-1"></i>
+                            {{ l('Delete') }}
+                        </button>
+                        <button *ngIf="isGranted('MasterData.MstExchangeRateData.Export')" (click)="exportExcell()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-success" >
+                            <i class="fa tmss-fa fa-file-download mr-1"></i>
+                            {{ l('ExportToExcel') }}
+                        </button>
+                    </div>
+                </div>
+                <!-- </p-panel> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-create-or-edit-currency-data-modal (modalSave)="searchData()" [currencyList]="currencyList"
+    #createOrEditModal></app-create-or-edit-currency-data-modal>

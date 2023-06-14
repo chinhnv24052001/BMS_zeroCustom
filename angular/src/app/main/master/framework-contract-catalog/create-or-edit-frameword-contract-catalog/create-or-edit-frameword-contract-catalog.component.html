@@ -1,0 +1,113 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                <h5 class="modal-title" style="margin-left: 15px;">
+                    <span *ngIf="isEdit">{{l("Edit")}}</span>
+                    <span *ngIf="!isEdit">{{l("Add")}}</span>
+                </h5>
+                <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                    [attr.aria-label]="l('Close')">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+
+            <div class="modal-body modal-body-master">
+                <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm"
+                    novalidate autocomplete="off">
+                    <div class="form-group" hasError="templateCode">
+                        <tmss-text-input [text]="l('CodeContractCatalog')" formControlName="templateCode"
+                            isRequired="true"></tmss-text-input>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">Required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" hasError="templateName">
+                        <tmss-text-input [text]="l('ContractCatalog')" formControlName="templateName"
+                        isRequired="true"></tmss-text-input>
+                    <div class="error-message" errorMessage>
+                        <div *ifError="'required'">Required</div>
+                    </div>
+                    </div>
+
+                    <div class="form-group" hasError="inventoryGroupId">
+                        <tmss-combobox [text]="l('InventoryGroup')" formControlName="inventoryGroupId" isRequired="true"
+                            [items]="listInventoryGroups"></tmss-combobox>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">Required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" hasError="description">
+                        <tmss-textarea [text]="l('Description')"
+                            formControlName="description"></tmss-textarea>
+                    </div>
+
+                    <div class="form-group" hasError="isActive">
+                        <tmss-combobox class="input-search" [text]="l('Status')" formControlName="isActive"
+                            isRequired="true" [items]="listStatus">
+                        </tmss-combobox>
+                    </div>
+
+                    <div class="form-group" hasError="attachmentFileName">
+                        <tmss-text-input [text]="l('Attachments')" formControlName="attachmentFileName" isDisabled="true"
+                            ></tmss-text-input>
+                    </div>
+
+                    <div class="row" >
+                        <div class="col-xl-12 col-sm-12 mt-1 ph-0">
+                            <div class="ui-g-12 ui-md-7" style="display: flex;">
+                                <div *ngIf="!viewOnly" style="display: flex; justify-content: space-between;">
+                                    <input #imgInput type="file" class="d-none" (change)="onUpload($event)">
+                                    <button  type="button" class="tmss-btn tmss-footer-btn choose-file-btn" style="margin-left: 0; height: 24px;"
+                                        (click)="chooseFile()">
+                                        <span>{{l("ChooseFile")}}</span>
+                                    </button>
+                                </div>
+
+                                <!-- <button *ngIf="!viewOnly"  class="tmss-btn tmss-footer-btn btn-outline-primary"
+                                    [disabled]="!fileName" (click)="upload()">
+                                    <i class="fa tmss-fa fa-upload mr-1"></i>{{ 'Tải lên' }}
+                                </button> -->
+
+                                <button *ngIf="!viewOnly" [disabled]="createOrEditForm.get('attachmentFileName').value == undefined || createOrEditForm.get('attachmentFileName').value == ''" (click)="deleteFile()"
+                                    class="tmss-btn tmss-footer-btn btn-outline-danger">
+                                    <i class="fa tmss-fa fa-trash-alt mr-1"></i>{{l("Delete")}}
+                                </button>
+
+                                <button   [disabled]="createOrEditForm.get('attachmentFileName').value == undefined || createOrEditForm.get('attachmentFileName').value == ''"  (click)="downloadFile()"
+                                    class="tmss-btn btn-outline-primary ml-1">
+                                    <i class="fa fa-download mr-1"></i>{{l("Download")}}
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+                <!-- <div class="col-xl-12 col-sm-12 mt-1">
+                    <import-attach-file #attach [viewOnly]="viewOnly" [reqId]="selectedData?.id"
+                        [attachType]="'TC'"></import-attach-file>
+                </div> -->
+
+            </div>
+            <div class="modal-footer modal-footer-master">
+                <button *ngIf="isGranted('PriceManagement.FrameworkContractCatalog.Add') && isGranted('PriceManagement.FrameworkContractCatalog.Edit')" (click)="save()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-primary">
+                    <i class="fa tmss-fa fa-plus mr-1"></i>
+                    {{"Save" | localize}}
+                </button>
+                <button (click)="closeModel()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-danger">
+                    <i class="fa tmss-fa fa-times mr-1"></i>
+                    {{"Close" | localize}}
+                </button>
+
+                <button class="ghost" #submitBtn></button>
+
+            </div>
+        </div>
+    </div>
+</div>

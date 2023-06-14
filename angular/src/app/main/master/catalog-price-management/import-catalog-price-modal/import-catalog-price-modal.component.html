@@ -1,0 +1,71 @@
+<!-- <div bsModal #importCatalogModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="importCatalogModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form #createOrEdit="ngForm" *ngIf="importCatalogForm" [formGroup]="importCatalogForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span>{{ l('ImportCatalogPrice')}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="close()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body-master">
+                    <fieldset class="fieldset-border ph-0">
+                        <div class="ui-md-12 ph-0" style="display: flex;">
+                            <tmss-text-input class="pl-0" [text]="l('File')" formControlName="fileName">
+                            </tmss-text-input>
+                            <div style="display: flex; justify-content: space-between;">
+                                <input #imgInput type="file" class="d-none" (change)="onUpload($event)" name="filename"
+                                    accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                                <button pButton pRipple type="button" style="margin-left: 0; height: 24px;" (click)="reset()">
+                                    <i class="fa tmss-fa fa-upload mr-1"></i>
+                                    <span>{{ l('ChooseFle') }}</span>
+                                </button>
+                            </div>
+                            <button pButton pRipple class="tmss-btn p-button-outlined p-button-primary" (click)="upload()">
+                                <i class="fa tmss-fa fa-upload mr-1"></i>{{ l('Upload') }}
+                            </button>
+                            <button (click)="save()" pButton pRipple type="button" class="tmss-btn p-button-outlined p-button-primary">
+                                <i class="fa tmss-fa fa-save mr-1"></i>
+                                {{ l('Save') }}
+                            </button>
+                            <button (click)="close()" pButton pRipple type="button" class="tmss-btn p-button-outlined p-button-danger">
+                                <i class="fa tmss-fa fa-times mr-1"></i>
+                                {{ l('Cancel') }}
+                            </button>
+                            <button pButton pRipple class="tmss-btn p-button-outlined p-button-success">
+                                <i class="fa tmss-fa fa-file-download mr-1"></i>{{ l('Download') }}
+                            </button>
+                        </div>
+                    </fieldset>
+                    <fieldset class="fieldset-border ph-0">
+                        <h6 class="card-header pl-0">
+                            {{ l('CatalogPriceList') }}
+                        </h6>
+                        <div class="panel panel-default pt-1">
+                            <grid-table [showPagination]="false" [columnDefs]="importColDefs"
+                                [rowData]="" [height]="'320px'" [defaultColDef]="defaultColDefs"></grid-table>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button (click)="save()" pButton pRipple type="button" class="tmss-btn p-button-outlined p-button-primary">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        {{ l('Save') }}
+                    </button>
+                    <button (click)="close()" pButton pRipple type="button" class="tmss-btn p-button-outlined p-button-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{ l('Cancel') }}
+                    </button>
+                    <!-- <button class="ghost" #submitBtn></button> -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div> -->

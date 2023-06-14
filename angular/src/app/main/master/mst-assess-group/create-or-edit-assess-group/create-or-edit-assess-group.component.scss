@@ -1,0 +1,11 @@
+:host ::ng-deep {
+
+    div[role=rowgroup] > div > div:first-child {
+        padding: 0
+    }
+
+    .ag-theme-alpine .ag-header-group-cell {
+        padding-left: unset !important;
+        padding-right: unset !important;
+    }
+}

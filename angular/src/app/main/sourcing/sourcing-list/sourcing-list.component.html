@@ -1,0 +1,94 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div >
+                        <p-panel header="{{'Search' | localize}}" [toggleable]="true">
+                            <div class="row align-items-center">
+
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-text-input [text]="l('SourcingCode')" (onClickInput)="searchData()" [(ngModel)]="sourcingCodeFilter">
+                                    </tmss-text-input>
+                                </div>
+
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-text-input [text]="l('SourcingName')" (onClickInput)="searchData()" [(ngModel)]="sourcingNameFilter">
+                                    </tmss-text-input>
+                                </div>
+
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-combobox [text]="l('InventoryGroup')" [items]="inventoryGroupList" [(ngModel)]="inventoryGroupFilterId">
+                                    </tmss-combobox>
+                                </div>
+
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-datepicker [text]="l('EffectiveFromDate')"  [(ngModel)]="effectiveFromDate">
+                                    </tmss-datepicker>
+                                </div>
+
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-datepicker [text]="l('EffectiveToDate')"  [(ngModel)]="effectiveToDate">
+                                    </tmss-datepicker>
+                                </div>
+
+                                <div class="col-xl-3 col-sm-12  mt-1">
+                                    <button (click)="searchData()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-search mr-1"></i>
+                                        {{'Search' | localize}}
+                                    </button>
+                                </div>
+                            </div>
+                        </p-panel>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="rowData"
+                                [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                                [rowSelection]="'multiple'"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                (onChangeSelection)="onChangeSelection($event)">
+                            </grid-table>
+                        </div>
+                    </div>
+                    <!-- </p-panel> -->
+                    <div class="col-12 text-right">
+                        <button (click)="addSourcing()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{'Add' | localize}}
+                        </button>
+
+
+                        <button  [disabled]="!selectedRow?.id" (click)="editSourcing()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'Edit' | localize}}
+                        </button>
+
+                        <button  [disabled]="!selectedRow?.id" (click)="deleteSourcing()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa tmss-fa fa-trash mr-1"></i>
+                            {{'Delete' | localize}}
+                        </button>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+

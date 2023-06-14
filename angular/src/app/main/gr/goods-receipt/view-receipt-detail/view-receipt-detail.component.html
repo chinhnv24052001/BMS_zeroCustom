@@ -1,0 +1,324 @@
+<div class="content d-flex flex-column flex-column-fluid">
+    <div [class]="containerClass">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm"
+                    novalidate autocomplete="off">
+                    <p-panel header="{{l('InfomationModal')}}" [toggleable]="true">
+                        <!-- <div class="row">
+                            <div class="col-xl-2 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('ReceiptNum')" isRequired="true"
+                                    isDisabled="true" formControlName="receiptNum"></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-datepicker *ngIf="receiptType==0" [text]="l('ShippedDate')"
+                                        formControlName="shippedDate"></tmss-datepicker>
+                                    <tmss-datepicker *ngIf="receiptType==1" [text]="l('ServiceStartDate')"
+                                        formControlName="serviceStartDate"></tmss-datepicker>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-datepicker *ngIf="receiptType==0" [text]="l('ReceivedDate')" isRequired="true"
+                                        formControlName="receivedDate"></tmss-datepicker>
+                                    <tmss-datepicker *ngIf="receiptType==1" [text]="l('ServiceEndDate')"
+                                        formControlName="serviceEndDate"></tmss-datepicker>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('Vendor')" isDisabled="true"
+                                        formControlName="vendorName" isRequired="true"></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('VendorSite')" isDisabled="true"
+                                        formControlName="vendorSiteCode" isRequired="true"></tmss-text-input>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('ReceiptNum')" isRequired="true" isDisabled="true"
+                                        formControlName="receiptNum"></tmss-text-input>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-combobox [items]="listDocument" [text]="l('DocumentType')"
+                                        formControlName="documentId"></tmss-combobox>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-combobox [items]="listSupplier" [text]="l('Vendor')"
+                                        formControlName="vendorId" isRequired="true"></tmss-combobox>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="row">
+                            <div class="col-xl-3 col-sm-12">
+                                <tmss-text-input [text]="l('DeliverToEmployeeId')" isDisabled="true"
+                                formControlName="employeeName1"></tmss-text-input>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('Title')" isDisabled="true" formControlName="employeeTitle1" ></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('DeliverName1')" isDisabled="true" formControlName="deliverName1" ></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('Title')" isDisabled="true" formControlName="deliverTitle1" ></tmss-text-input>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="row">
+                            <div class="col-xl-3 col-sm-12">
+                                <tmss-text-input [text]="l('DeliverToEmployeeId')" isDisabled="true"
+                                    formControlName="employeeName1"></tmss-text-input>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('Title')" isDisabled="true"
+                                        formControlName="employeeTitle1"></tmss-text-input>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('DeliverName1')"
+                                        formControlName="deliverName1"></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('Title')"
+                                        formControlName="deliverTitle1"></tmss-text-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="row">
+                            <div class="col-xl-3 col-sm-12">
+                                <tmss-text-input [text]="l('DeliverToEmployeeId2')"
+                                formControlName="employeeName2" isDisabled="true"></tmss-text-input>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('Title')" isDisabled="true" formControlName="employeeTitle2" ></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('DeliverName2')" isDisabled="true" formControlName="deliverName2" ></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('Title')"  isDisabled="true" formControlName="deliverTitle2" ></tmss-text-input>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="row">
+                            <div class="col-xl-3 col-sm-12">
+                                <tmss-text-input [text]="l('DeliverToEmployeeId2')" formControlName="employeeName2"
+                                    isDisabled="true"></tmss-text-input>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('Title')" isDisabled="true"
+                                        formControlName="employeeTitle2"></tmss-text-input>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('DeliverName2')"
+                                        formControlName="deliverName2"></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('Title')"
+                                        formControlName="deliverTitle2"></tmss-text-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-datepicker *ngIf="receiptType==0" [text]="l('ShippedDate')"
+                                        formControlName="shippedDate"></tmss-datepicker>
+                                    <tmss-datepicker *ngIf="receiptType==1" [text]="l('ServiceStartDate')"
+                                        formControlName="serviceStartDate"></tmss-datepicker>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-datepicker *ngIf="receiptType==0" [text]="l('ReceivedDate')" isRequired="true"
+                                        formControlName="receivedDate"></tmss-datepicker>
+                                    <tmss-datepicker *ngIf="receiptType==1" [text]="l('ServiceEndDate')"
+                                        formControlName="serviceEndDate"></tmss-datepicker>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('Comments')"
+                                        formControlName="comments"></tmss-text-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-6 col-sm-12">
+                                <div class="ui-g-12 ph-0">
+                                    <!-- Bảng thông tin cần thiết -->
+                                    <grid-table #tbAttachment [columnDefs]="attColDef" [height]="'100px'"
+                                        [showPagination]="false" [rowData]="uploadData"
+                                        (callBackEvent)="callBackGridAttachment($event)"
+                                        (onChangeSelection)="onChangeSelectionAttachment($event)">
+                                    </grid-table>
+                                </div>
+                                <div class="row">
+                                    <button style="margin-top: 5px;" *ngIf="selectedRowAttachment!=null"
+                                        (click)="downloadFile()" class="tmss-btn btn-outline-primary ml-1">
+                                        <i class="fa fa-download mr-1"></i>{{ 'Download' }}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-sm-12">
+                                <div class="row">
+                                    <div class="col-xl-6 col-sm-12" style="padding-left: 0px !important;">
+                                        <div class="form-group">
+                                            <tmss-combobox [items]="receiptStatusList" [text]="l('Status')"
+                                                formControlName="status" isDisabled="true"></tmss-combobox>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-6 col-sm-12" style="padding-right: 0px !important;">
+                                        <div class="form-group">
+                                            <tmss-combobox [items]="approveStatusList" [text]="l('ApproveStatus')"
+                                                formControlName="authorizationStatus" isDisabled="true"></tmss-combobox>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-12 col-sm-12">
+                                    <div class="form-group">
+                                        <button style="margin-left: -3px !important;" (click)="listAllReceipts.show()"
+                                            pButton pRipple type="button"
+                                            class="tmss-btn p-button-outlined btn-outline-primary">
+                                            <i class="fa tmss-fa fa-search mr-1"></i>
+                                            {{'Search' | localize}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </p-panel>
+                    <button class="ghost" #submitBtn></button>
+                </form>
+            </div>
+        </div>
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <grid-table [height]="'500px'" [columnDefs]="gridColDefDetail" [rowData]="listPoLineDetail"
+                            (callBackEvent)="callBackGridPrDetail($event)" [showPagination]="true"
+                            (onChangeSelection)="onChangeSelectionPrDetail($event)"
+                            [frameworkComponents]="frameworkComponents" [paginationParams]="paginationParamsDetail">
+                        </grid-table>
+                    </div>
+                </div>
+                <!-- </p-panel> -->
+            </div>
+        </div>
+
+        <!-- <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-3 col-sm-12 mb-05">
+                        <tmss-text-input [text]="l('Order Type')" [(ngModel)]="poTypeLookupCode"
+                            isDisabled="true"></tmss-text-input>
+                    </div>
+                    <div class="col-xl-3 col-sm-12">
+                        <tmss-text-input [text]="l('Order')" [(ngModel)]="poNo" isDisabled="true"></tmss-text-input>
+                    </div>
+                    <div class="col-xl-3 col-sm-12">
+                        <tmss-text-input [text]="l('Supplier')" [(ngModel)]="vendorName"
+                            isDisabled="true"></tmss-text-input>
+                    </div>
+                    <div class="col-xl-3 col-sm-12">
+                        <tmss-datepicker [text]="l('NeedByDate')" [(ngModel)]="needByDate"
+                            isDisabled="true"></tmss-datepicker>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6 col-sm-12">
+                        <tmss-text-input [text]="l('ItemDescription')" class="mb-05" [(ngModel)]="itemDescription"
+                            isDisabled="true"></tmss-text-input>
+                    </div>
+                    <div class="col-xl-3 col-sm-12">
+                        <tmss-text-input [text]="l('Destination')" [(ngModel)]="destination"
+                            isDisabled="true"></tmss-text-input>
+                    </div>
+                    <div class="col-xl-3 col-sm-12">
+                        <tmss-text-input [text]="l('RoutingHeader')" [(ngModel)]="receivingRoutingDesc"
+                            isDisabled="true"></tmss-text-input>
+                    </div>
+                </div>
+
+            </div>
+        </div> -->
+        <div class="text-right">
+            <button *ngIf="selectedReceiptRow.receiptType == 1" (click)="sendRequest()" pButton pRipple type="button"
+                class="tmss-btn p-button-outlined btn-outline-success">
+                <i class="fa tmss-fa fa-plane mr-1"></i>
+                {{ l('SendRequest') }}
+            </button>
+            <button ng-if="selectedReceiptRow.status==0" (click)="cancelReceipt()" pButton pRipple type="button"
+                style=" width: 100px;" class="tmss-btn p-button-outlined btn-outline-primary">
+                <i class="fa tmss-fa fa-save mr-1"></i>
+                {{l('Cancel')}}
+            </button>
+            <button (click)="export()" pButton pRipple
+                type="button" class="tmss-btn p-button-outlined btn-outline-success">
+                <i class="fa tmss-fa fa-file-download mr-1"></i>
+                {{ l('ExportExcel') }}
+            </button>
+            <!-- <button (click)="printReceipt()" pButton pRipple type="button" style=" width: 100px;"
+                class="tmss-btn p-button-outlined p-button-primary">
+                <i class="fa tmss-fa fa-save mr-1"></i>
+                {{l('Print')}}
+            </button>
+            <button (click)="closeForm()" pButton pRipple type="button" style=" width: 100px;"
+                class="tmss-btn p-button-outlined p-button-primary">
+                <i class="fa tmss-fa fa-save mr-1"></i>
+                {{l('Close')}}
+            </button> -->
+        </div>
+    </div>
+</div>
+
+<tmss-select-grid-modal #listAllReceipts [height]="'330px'" [headerText]="l('ListReceipts')" [modalClass]="'modal-lg'"
+    (close)="patchReceipt($event)" [isHideSearchField]="false" [columnDefs]="gridReceiptsDef" [showPagination]="false"
+    [showInput]="true" [apiCall]="getAllReceipts.bind(this)" (isLoading)="setLoading($event)"></tmss-select-grid-modal>
+
+    <view-list-approve-detail  #viewDetailApprove></view-list-approve-detail>

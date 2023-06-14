@@ -1,0 +1,160 @@
+<div appBsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 10px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span *ngIf="isEdit">{{'EditApprovalTree' | localize}}</span>
+                        <span *ngIf="!isEdit">{{'AddApprovalTree' | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body modal-body-master">
+                    <h5 style="margin-bottom: 10px;">{{'ApprovalTreeInformation' | localize}}</h5>
+                    <div class="col-xl-12 col-sm-12">
+                        <div class="form-group" hasError="processTypeId">
+                            <tmss-combobox class="input-search" [text]="l('ProcessType')" isRequired="true"
+                                formControlName="processTypeId" [items]="listProcessType">
+                            </tmss-combobox>
+                            <div class="error-message" errorMessage>
+                                <div *ifError="'required'">{{'Required' | localize}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-6 col-sm-12">
+                            <div class="form-group">
+                                <tmss-combobox class="input-search" [isDisabled]="true" [text]="l('CurrencyName')"
+                                    formControlName="currencyId" [items]="listCurrency">
+                                </tmss-combobox>
+                                <!-- <div class="error-message" errorMessage>
+                                    <div *ifError="'required'">{{'Required' | localize}}</div>
+                                </div> -->
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-sm-12">
+                            <div class="form-group">
+                                <tmss-combobox class="input-search" [text]="l('InventoryGroupId')"
+                                    formControlName="inventoryGroupId" [items]="listIventory">
+                                </tmss-combobox>
+                                <!-- <div class="error-message" errorMessage>
+                                    <div *ifError="'required'">{{'Required' | localize}}</div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-xl-6 col-sm-12">
+                            <div class="form-group" hasError="amountFrom">
+                                <tmss-text-input [text]="l('AmountFrom')" formControlName="amountFrom"
+                                    isRequired="true" type="money"></tmss-text-input>
+                                <div class="error-message" errorMessage>
+                                    <div *ifError="'required'">{{'Required' | localize}}</div>
+                                    <div *ngIf="amountFromGreaterThan0Val">{{'AmountFromGreaterThan0Val' | localize}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-sm-12">
+                            <div class="form-group" hasError="amountTo">
+                                <tmss-text-input [text]="l('AmountToModal')" formControlName="amountTo" isRequired="true"
+                                    type="money"></tmss-text-input>
+                                <div class="error-message" errorMessage>
+                                    <div *ifError="'required'">{{'Required' | localize}}</div>
+                                </div>
+                                <div class="error-message" errorMessage *ngIf="amountErr">
+                                    <div>{{'ValAmountTo' | localize}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12 col-sm-12">
+                        <div class="form-group" hasError="description">
+                            <tmss-textarea [text]="l('Description')" formControlName="description"></tmss-textarea>
+                        </div>
+                    </div>
+
+                    <div style="height: 2px; background-color: brown; margin: 20px 0 30px 0;"></div>
+
+                    <div class="card card-custom gutter-b">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div style="display: flex;">
+                                        <div style="width: 50%;">
+                                            <button *ngIf="isGranted('ConfigureSystem.ApprovalTree.Add')" (click)="add()" pButton pRipple type="button"
+                                                class="tmss-btn p-button-outlined btn-outline-primary">
+                                                <i class="fa tmss-fa fa-plus mr-1"></i>
+                                                {{l('AddModal')}}
+                                            </button>
+                                            <button *ngIf="isGranted('ConfigureSystem.ApprovalTree.Edit')" (click)="edit()" pButton pRipple type="button"
+                                                class="tmss-btn p-button-outlined btn-outline-primary">
+                                                <i class="fa tmss-fa fa-edit mr-1"></i>
+                                                {{l('Edit')}}
+                                            </button>
+                                            <button *ngIf="isGranted('ConfigureSystem.ApprovalTree.Delete')" (click)="removeSelectedRow()" pButton pRipple type="button"
+                                                class="tmss-btn p-button-outlined btn-outline-danger">
+                                                <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+                                                {{l('Delete')}}
+                                            </button>
+                                        </div>
+
+                                        <div style="width: 50%;">
+                                            <div class="text-right">
+                                                <button (click)="changeIndexUp()" pButton pRipple type="button"
+                                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                                    <i class="fa tmss-fa fa-arrow-up mr-1"></i>
+                                                </button>
+                                                <button (click)="changeIndexDown()" pButton pRipple type="button"
+                                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                                    <i class="fa tmss-fa fa-arrow-down mr-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <grid-table [height]="'300px'" [columnDefs]="gridColDefDetail"
+                                        [rowData]="displayedData" (callBackEvent)="callBackGridPrDetail($event)"
+                                        [showPagination]="false" (onChangeSelection)="onChangeSelectionDetail($event)"
+                                        [frameworkComponents]="frameworkComponents">
+                                    </grid-table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button (click)="save()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        {{'SaveModal' | localize}}
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{'Cancel' | localize}}
+                    </button>
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </form>
+            <create-or-edit-approval-tree-detail #createOrEditApprovalTreeDetail
+                (close)="addRow($event)"></create-or-edit-approval-tree-detail>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,267 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span *ngIf="isForm == 1">{{'Edit' | localize}}</span>
+                        <span *ngIf="isForm == 0 && typeAdd == 2">{{'TransferBudget' | localize}}</span>
+                        <span *ngIf="isForm == 0 && typeAdd == 1">{{'Addition' | localize}}</span>
+                        <span *ngIf="isForm == 2">{{'Detail' | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body modal-body-master">
+                    <div class="row" style=" margin-bottom: 10px;" *ngIf="rejectOrApproval == 2">
+                        <div class="col-xl-12 col-sm-12">
+                            <tmss-textarea [text]="l('Reason Reject')"  formControlName="reasonReject" [isRequired]="true"></tmss-textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-xl-6 col-sm-12">
+                            <div class="form-group" hasError="date">
+                                <tmss-datepicker [isDisabled]="isForm == 2" [text]="l('Date')"
+                                    formControlName="date"></tmss-datepicker>
+                                <div class="error-message" errorMessage>
+                                    <div *ifError="'required'">{{'Required' | localize}}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-sm-12">
+                            <div class="form-group">
+                                <tmss-text-input [text]="l('TransferNo')" formControlName="transferNo"
+                                    isDisabled="true"></tmss-text-input>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-6 col-sm-12" *ngIf="typeAdd == 2">
+                            <fieldset class="fieldset-custom">
+                                <legend style="width: fit-content;">
+                                    <h4 style="width: fit-content;">{{'TransferFrom' | localize}}</h4>
+                                </legend>
+                                <div class="form-group">
+                                    <!-- <tmss-combobox class="input-search" [text]="l('Dep./Div')" isRequired="true"
+                                        formControlName="fromDepId" [items]="listDep1">
+                                    </tmss-combobox> -->
+                                    <tmss-text-input [text]="l('Dep./Div')" formControlName="fromDepName"
+                                        isDisabled="true"></tmss-text-input>
+                                </div>
+
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('PICName')" formControlName="fromPICName"
+                                        isDisabled="true"></tmss-text-input>
+                                </div>
+
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('PICNoEmail')" formControlName="fromPICNoEmail"
+                                        isDisabled="true"></tmss-text-input>
+                                </div>
+
+                                <div class="form-group" hasError="fromBudgetId">
+                                    <tmss-combobox [isDisabled]="isForm == 2" class="input-search"
+                                        [text]="l('BudgetCode')" isRequired="true" formControlName="fromBudgetId"
+                                        [items]="listBudget1" (ngModelChange)="onchangeFromBudget($event)">
+                                    </tmss-combobox>
+                                    <div class="error-message" errorMessage>
+                                        <div *ifError="'required'">{{'Required' | localize}}</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('BudgetName')" formControlName="budgetName1"
+                                        isDisabled="true"></tmss-text-input>
+                                </div>
+
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('Remaining')" formControlName="fromRemaining"
+                                        type="number" isDisabled="true"></tmss-text-input>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div class="col-xl-6 col-sm-12">
+                            <fieldset class="fieldset-custom">
+                                <legend style="width: fit-content;">
+                                    <h4 style="width: fit-content;">{{'TransferTo' | localize}}</h4>
+                                </legend>
+                                <div class="form-group">
+                                    <!-- <tmss-combobox class="input-search" [text]="l('Dep./Div')" isRequired="true"
+                                        formControlName="toDepId" [items]="listDep2">
+                                    </tmss-combobox> -->
+                                    <tmss-text-input [text]="l('Dep./Div')" formControlName="toDepName"
+                                        isDisabled="true"></tmss-text-input>
+                                </div>
+
+                                <div class="form-group">
+                                    <tmss-combobox [isDisabled]="isForm == 2" *ngIf="typeAdd == 2" class="input-search"
+                                        [text]="l('PICName')" isRequired="true" formControlName="toPICUserId"
+                                        [items]="listUserToTransfer" (ngModelChange)="onchangeToUserInfo($event)">
+                                    </tmss-combobox>
+
+                                    <tmss-text-input *ngIf="typeAdd == 1" [text]="l('PICName')"
+                                        formControlName="toPICName" isDisabled="true"></tmss-text-input>
+                                </div>
+
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('PICNoEmail')" formControlName="toPICNoEmail"
+                                        isDisabled="true"></tmss-text-input>
+                                </div>
+
+                                <div class="form-group" hasError="toBudgetId">
+                                    <tmss-combobox [isDisabled]="isForm == 2" class="input-search"
+                                        [text]="l('BudgetCode')" isRequired="true" formControlName="toBudgetId"
+                                        [items]="listBudget2" (ngModelChange)="onchangeToBudget($event)">
+                                    </tmss-combobox>
+                                    <div class="error-message" errorMessage>
+                                        <div *ifError="'required'">{{'Required' | localize}}</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('BudgetName')" formControlName="budgetName2"
+                                        isDisabled="true"></tmss-text-input>
+                                </div>
+
+                                <div class="form-group">
+                                    <tmss-text-input *ngIf="typeAdd == 2" [text]="l('Remaining')"
+                                        formControlName="toRemaining" type="number" isDisabled="true"></tmss-text-input>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div class="col-xl-6 col-sm-12" *ngIf="typeAdd == 1">
+                            <fieldset class="fieldset-custom" style="margin-top: 14px; height: 194px;">
+
+                                <div class="form-group" style="margin-top: 20px;">
+                                    <tmss-text-input [text]="l('Remaining')" formControlName="toRemaining" type="number"
+                                        isDisabled="true"></tmss-text-input>
+                                </div>
+
+                                <div class="form-group">
+                                    <tmss-text-input [isDisabled]="isForm == 2" [text]="l('AmountTransfered')"
+                                        formControlName="amountTransfer"></tmss-text-input>
+                                </div>
+                                <div class="form-group" hasError="purpose">
+                                    <tmss-textarea [isDisabled]="isForm == 2" class="tmss-textarea-tranfer"
+                                        [text]="l('Purpose')" formControlName="purpose"></tmss-textarea>
+                                    <div class="error-message" errorMessage>
+                                        <div *ifError="'required'">{{'Required' | localize}}</div>
+                                    </div>
+                                </div>
+
+                                <div class="ui-g-12 ui-md-7" style="display: flex; margin-bottom: 7px;">
+                                    <tmss-text-input [isDisabled]="isForm == 2" [text]="l('FileName')"
+                                        formControlName="fileName" isDisabled="true"></tmss-text-input>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <input disabled="isForm == 2" #imgInput type="file" class="d-none"
+                                            (change)="onUpload($event)">
+                                        <button type="button" style="margin-left: 10px; height: 23px;"
+                                            (click)="resetAttachment()">
+                                            <span>{{ 'Chọn file' }}</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 10px;" *ngIf="typeAdd == 2">
+                        <div class="col-xl-6 col-sm-12">
+                            <div class="form-group">
+                                <tmss-text-input [isDisabled]="isForm == 2" [text]="l('AmountTransfered')"
+                                    formControlName="amountTransfer"></tmss-text-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="typeAdd == 2">
+                        <div class="col-xl-12 col-sm-12">
+                            <div class="form-group" hasError="purpose">
+                                <tmss-textarea [isDisabled]="isForm == 2" [text]="l('Purpose')"
+                                    formControlName="purpose"></tmss-textarea>
+                                <div class="error-message" errorMessage>
+                                    <div *ifError="'required'">{{'Required' | localize}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-custom gutter-b" >
+                        <div class="card-body">
+                            <div class="text-right" *ngIf="isForm != 2">
+                                <button (click)="addRow(true)" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i class="fa tmss-fa fa-plus mr-1"></i>
+                                    {{l('Add')}}
+                                </button>
+                                <button (click)="removeSelectedRow()" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined btn-outline-danger">
+                                    <i class="fa tmss-fa fa-times mr-1"></i>
+                                    {{l('Delete')}}
+                                </button>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <grid-table [height]="'300px'" [columnDefs]="gridColDef"
+                                        [rowData]="listTranbudgetItem" (callBackEvent)="callBackGrid($event)"
+                                        [showPagination]="false" (onChangeSelection)="onChangeSelectionItem($event)"
+                                        (keydown)="agKeyUp($event)" [frameworkComponents]="frameworkComponents">
+                                    </grid-table>
+                                </div>
+                            </div>
+
+                            <!-- </p-panel> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-master">
+                    <button *ngIf="isForm != 2" (click)="save()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        {{'SaveModal' | localize}}
+                    </button>
+
+                    <button *ngIf="isForm == 2 && tabKey == 1 && rejectOrApproval == 1"  (click)="approvalAndSubmit()" pButton pRipple
+                        type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-check mr-1"></i>
+                        {{'Submit' | localize}}
+                    </button>
+
+                    <button *ngIf="!isMAFin && isForm == 2 && tabKey != 1 && rejectOrApproval == 1" (click)="approvalAndSubmit()" pButton pRipple
+                        type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-check mr-1"></i>
+                        {{'Approval And Submit' | localize}}
+                    </button>  
+
+                    <button *ngIf="isMAFin && selectRowTransfer.statusId > 6 && rejectOrApproval == 1" (click)="approvalAndSubmit()" pButton pRipple
+                    type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                    <i class="fa tmss-fa fa-check mr-1"></i>
+                    {{'Approval' | localize}}
+                    </button> 
+
+                    <button *ngIf="isForm == 2 && tabKey != 1 && rejectOrApproval == 2" (click)="reject()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{'Reject' | localize}}
+                    </button>
+
+                    <button (click)="closeModel()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{'Cancel' | localize}}
+                    </button>
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

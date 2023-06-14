@@ -1,0 +1,63 @@
+<div bsModal #viewProductDetailModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" id="modal"
+    aria-labelledby="viewProductDetailModal" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                <h5 class="modal-title" style="margin-left: 15px;">
+                    <span>{{ l('ProductDetail') }}</span>
+                </h5>
+                <button type="button" style="margin-right: 1% !important;" class="close" (click)="close()"
+                    [attr.aria-label]="l('Close')">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="view_prod" [title]="product.productName">
+                    <div style="padding: 0.5rem 0rem 0.5rem 0rem !important; display: flex; width: 100%; margin-block: 0px;" class="hover">
+                        <div
+                            style="display: flex; width: 40%; margin-block: 0px; display: flex; flex-wrap: wrap;">
+                            <img
+                                [src]="product.productImage == null ? '/assets/common/images/no_image.png' : product.productImage">
+                        </div>
+                        <div
+                            style="display: flex; width: 60%; margin-block: 0px; display: flex; flex-wrap: wrap;">
+                            <div class="ph-0">
+                                <div style="width: 100%; font-size: 20px; font-weight: 700;">
+                                    <p class="title">{{product.productName}}</p>
+                                </div>
+                                <div style="width: 100%; height: 24px !important;">
+                                    <p class="title">{{product.productCode}}{{ product.color ? '.' + product.color : '' }}
+                                    </p>
+                                </div>
+                                <div style="width: 100%; height: 42px !important;">
+                                    <p class="content">{{product.supplierName}}</p>
+                                </div>
+                                <div style="width: 100%; padding: 0.5rem 0rem 0.2rem 0rem !important;">
+                                    <p class="price">{{moneyFormart(product.unitPrice)}} {{product.currencyCode}} /
+                                        {{product.primaryUomCode}}</p>
+                                </div>
+                            </div>
+                            <div class="row ph-0" style="width: 100%;">
+                                <div class="col-xl-10 col-sm-10">
+                                    <tmss-text-input [text]="l('Quantity')" [(ngModel)]="qty"
+                                        [type]="'number'"></tmss-text-input>
+                                </div>
+                                <div class="col-xl-2 col-sm-2">
+                                    <button class="btn" type="button" (click)="addToCart()" [disabled]="qty <= 0">
+                                        <i class="fa" style="color: #3B82F6">&#xf290;</i>
+                                    </button>
+                                </div>
+                                <div class="col-12">
+                                    <div class="btn btn-outline-danger" (click)="close()">
+                                        <i class="fa fa-times" style="color: white !important"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

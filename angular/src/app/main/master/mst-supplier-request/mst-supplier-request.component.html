@@ -1,0 +1,98 @@
+<div class="content d-flex flex-column flex-column-fluid">
+    <div [class]="containerClass">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <div class="form" >
+                    <p-panel header="{{'Search' | localize}}" [toggleable]="true">
+                        <div class="row">
+                            <div class="col-xl-4 col-sm-12">
+                                <tmss-text-input [text]="l('EnterkeywordModal')" [placeholder]="'Nhập tên người nhận hoặc Email nhận'" (onClickInput)="searchData()" [(ngModel)]="filterText"></tmss-text-input>
+                            </div>
+
+                            <div class="col-xl-3 col-sm-12">
+                                <button (click)="searchData()" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i class="fa tmss-fa fa-search mr-1"></i>
+                                    {{'Search' | localize}}</button>
+                            </div>
+                        </div>
+                    </p-panel>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="rowData"
+                            [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                            (changePaginationParams)="changePaginationParams($event)"
+                            [rowSelection]="'multiple'"
+                            (onChangeSelection)="onChangeSelection($event)">
+                        </grid-table>
+                    </div>
+                </div>
+                <!-- </p-panel> -->
+                <div class="col-12 text-right">
+                    <button *ngIf="isGranted('SupplierManagement.SupplierRequest.Add')" (click)="createRequest.show()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                         {{'CreateRequest' | localize}}
+                    </button>
+                    <button (click)="note.show()" [disabled]="selectedRows.length != 1" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <!-- <i class="fa tmss-fa fa-plus mr-1"></i> -->
+                         {{'Yêu cầu kiểm tra thêm thông tin' | localize}}
+                    </button>
+                    <button *ngIf="isGranted('SupplierManagement.SupplierRequest.Edit')" [disabled]="!selectedRow.id" (click)="createRequest.show(selectedRow)" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-edit mr-1"></i>
+                         {{'EditRequest' | localize}}
+                    </button>
+                    <button [disabled]="!selectedRow.id" (click)="viewDetail.show(selectedRow)" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-eye mr-1"></i>
+                        {{'ViewRequestDetail' | localize}}
+                    </button>
+                    <button  (click)="sendRequest()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-warning">
+                        <i class="fa tmss-fa fa-plane mr-1"></i>
+                         {{'SendRequest' | localize}}
+                    </button>
+                    <button  [disabled]="!selectedRow.id && selectedRows.length != 1" (click)="undoRequest()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                         {{'UndoRequest' | localize}}
+                    </button>
+                    <button  [disabled]="!selectedRow.id && selectedRows.length != 1" (click)="deleteRequest()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-trash mr-1"></i>
+                         {{'Delete' | localize}}
+                    </button>
+                    <!-- <button *ngIf="isGranted('SupplierManagement.SupplierRequest.Reject')" [disabled]="!selectedRow.id " (click)="rejectRequest()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        {{'Reject' | localize}}
+                    </button>
+                    <button *ngIf="isGranted('SupplierManagement.SupplierRequest.ApproveAndCreateAccount')" [disabled]="!selectedRow.id || selectedRow.approvalStatus == 'APPROVED'" (click)="approveRequest(true)" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-success">
+                        <i class="fa tmss-fa fa-check mr-1"></i>
+                        {{'ApproveAndCreateAccount' | localize}}
+                    </button> -->
+                    <!-- <button [disabled]="!selectedRow.id" (click)="approveRequest()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-success">
+                        <i class="fa tmss-fa fa-check mr-1"></i>
+                        Approve{{'EditRequest' | localize}}
+                    </button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-create-request-modal #createRequest (modalSave)="searchData()"></app-create-request-modal>
+    <app-view-supplier-request-info-modal #viewDetail ></app-view-supplier-request-info-modal>
+    <app-request-supplier-note-modal #note (modalSave)="requestCheckInfo($event)"></app-request-supplier-note-modal>
+    <!-- <create-or-edit-purchase-request #createOrEditMstPurchaseRequest
+        (close)="searchPurchaseRequest()"></create-or-edit-purchase-request> -->
+</div>
+
+<view-list-approve-detail (getData)="searchData()" #viewDetailApprove></view-list-approve-detail>

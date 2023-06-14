@@ -1,0 +1,35 @@
+<div class="row" >
+    <div class="col-xl-12 col-sm-12 mt-1 ph-0">
+        <grid-table [height]="height ?? '110px'" (onChangeSelection)="onChangeAttachFileSelection($event)" [frameworkComponents]="frameworkComponents"
+            (callBackEvent)="callBackAttachFileGrid($event)" [rowData]="uploadData" [showPagination]="false"
+            [columnDefs]="fileColDef" ></grid-table>
+    </div>
+    <div class="col-xl-12 col-sm-12 mt-1 ph-0">
+        <div class="ui-g-12 ui-md-7" style="display: flex;">
+            <tmss-text-input *ngIf="!viewOnly"  [text]="l('Attachments')"
+                [(ngModel)]="fileNameList"></tmss-text-input>
+            <div *ngIf="!viewOnly" style="display: flex; justify-content: space-between;">
+                <input #imgInput accept=".png,.jpg,.gif,.zip,.7z,.xlsx,.docx,.doc,.xls,.pdf,application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                type="file" class="d-none" (change)="onUpload($event)" multiple="true">
+                <button  type="button" class="tmss-btn tmss-footer-btn choose-file-btn" style="margin-left: 0; height: 24px;"
+                    (click)="chooseFile()">
+                    <span>{{ l('ChooseFile') }}</span>
+                </button>
+            </div>
+
+            <button *ngIf="!viewOnly"  class="tmss-btn tmss-footer-btn btn-outline-primary"
+                [disabled]="!fileName" (click)="upload()">
+                <i class="fa tmss-fa fa-upload mr-1"></i>{{ l('Upload')}}
+            </button>
+            <button *ngIf="!viewOnly" [disabled]="!selectedFile?.serverFileName  || selectedFile?.serverFileName == ''" (click)="deleteFile()"
+                class="tmss-btn tmss-footer-btn btn-outline-danger">
+                <i class="fa tmss-fa fa-trash mr-1"></i>{{ l('Delete')}}
+            </button>
+            <button  [disabled]="!selectedFile?.id  || selectedFile?.id == 0" (click)="downloadFile()"
+                class="tmss-btn btn-outline-primary ml-1">
+                <i class="fa fa-download mr-1"></i>{{'Download' | localize}}
+            </button>
+        </div>
+
+    </div>
+</div>

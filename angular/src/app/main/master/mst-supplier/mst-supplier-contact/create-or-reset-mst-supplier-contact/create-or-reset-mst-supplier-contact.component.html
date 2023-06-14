@@ -1,0 +1,128 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span *ngIf="statusId == 3">{{'ResetPassword' | localize}}</span>
+                        <span *ngIf="statusId == 1">{{'EditInfomation' | localize}}</span>
+                        <span *ngIf="statusId == 2">{{'CreateAccount' | localize}}</span>
+                        <span *ngIf="statusId == 0">{{'AddModal' | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body modal-body-master">
+                    <div class="form-group" hasError="supplierName">
+                        <tmss-text-input [text]="l('SupplierName')" formControlName="supplierName" [isDisabled]="true"></tmss-text-input>
+                    </div>
+                    <div class="form-group" hasError="supplierNumber">
+                        <tmss-text-input [text]="l('SupplierNumber')" formControlName="supplierNumber" [isDisabled]="true"></tmss-text-input>
+                    </div>
+                    <div class="form-group" hasError="siteAddress">
+                        <tmss-text-input [text]="l('Address')" formControlName="siteAddress" [isDisabled]='true' ></tmss-text-input>
+                    </div>
+
+                    <div *ngIf="statusId != 0 && statusId != 1" class="form-group" hasError="fullName">
+                        <tmss-text-input [text]="l('FullName')" formControlName="fullName" [isDisabled]='true'></tmss-text-input>
+                    </div>
+
+                    <div *ngIf="statusId == 0 || statusId == 1" class="form-group" hasError="firstName">
+                        <tmss-text-input [text]="l('FirstName')" formControlName="firstName" isRequired="true"></tmss-text-input>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">{{'Required' | localize}}</div>
+                        </div>
+                    </div>
+                    <div *ngIf="statusId == 0 || statusId == 1" class="form-group" hasError="midName">
+                        <tmss-text-input [text]="l('MiddleName')" formControlName="midName" isRequired="true"></tmss-text-input>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">{{'Required' | localize}}</div>
+                        </div>
+                    </div>
+                    <div *ngIf="statusId == 0 || statusId == 1" class="form-group" hasError="lastName">
+                        <tmss-text-input [text]="l('LastName')" formControlName="lastName" isRequired="true"></tmss-text-input>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">{{'Required' | localize}}</div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="form-group" hasError="emailAddress">
+                        <tmss-text-input [text]="l('EmailAddress')" formControlName="emailAddress" [isDisabled]='statusId == 2 || statusId == 3' isRequired="true"></tmss-text-input>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">{{'Required' | localize}}</div>
+                        </div>
+                    </div> -->
+
+                    <div class="form-group" hasError="emailAddress">
+                        <tmss-text-input [text]="l('EmailAddress')" [inputType]="'email'" formControlName="emailAddress" [isDisabled]='statusId == 2 || statusId == 3'
+                        [hasCheck]="true" isRequired="true"></tmss-text-input>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">{{'Required' | localize}}</div>
+                            <!-- <div *ifError="'emailFormat'">{{'Invalid email' | localize}}</div> -->
+                        </div>
+                    </div>
+
+                    <div class="form-group" hasError="userName">
+                        <tmss-text-input [text]="l('UserName')" formControlName="userName" [isDisabled]='statusId != 0 && statusId != 2' [isRequired]="statusId == 2"></tmss-text-input>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">{{'Required' | localize}}</div>
+                            <div *ifError="'maxLengthUserName'">{{'UsernameLengthNotExceed50' | localize}}</div>
+                        </div>
+                        <div class="error-message" errorMessage *ngIf="dontEnterUserName">
+                            <div>{{'IfYouEnterPasswordYouMustBeEnterUserName' | localize}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group" hasError="password" >
+                        <tmss-text-input [text]="l('Password')" [isDisabled]='statusId == 1' formControlName="password" type="password" [isRequired]="statusId == 2 || statusId == 3"></tmss-text-input>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'requiredPassword'">{{'PasswordValidate' | localize}}</div>
+                        </div>
+                        <div class="error-message" errorMessage *ngIf="dontEnterPassword">
+                            <div>{{'IfYouEnterUserNameYouMustBeEnterPassword' | localize}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group" hasError="rePassword" *ngIf="statusId != 1">
+                        <tmss-text-input [text]="l('RePassword')" formControlName="rePassword" type="password" [isRequired]="statusId == 2 || statusId == 3"></tmss-text-input>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">{{'Required' | localize}}</div>
+                        </div>
+                        <div class="error-message" errorMessage *ngIf="equalRePassword">
+                            <div>{{'RePasswordNotEqual' | localize}}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" hasError="phone">
+                        <tmss-text-input [text]="l('PhoneNumber')" formControlName="phone" [isDisabled]='statusId != 0 && statusId != 1'></tmss-text-input>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'phoneFormat'">{{'Invalid phone number' | localize}}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button *ngIf="statusId!=3" (click)="save()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        {{'SaveModal' | localize}}
+                    </button>
+
+                    <button *ngIf="statusId==3" (click)="save()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{'ResetPassword' | localize}}
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{'Cancel' | localize}}
+                    </button>
+
+                    <button class="ghost" #submitBtn></button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

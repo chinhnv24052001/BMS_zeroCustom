@@ -1,0 +1,26 @@
+.left-margin-input-search{
+    margin-left: 10px;
+}
+
+.fieldset-custom{
+    padding: 10px;
+    border: 1px solid black;
+    background-color: white;
+    height: 250px;
+  }
+
+  :host::ng-deep {
+    .left-text{
+        min-width: 120px;
+    }
+ }
+
+ .btn-manager-user-control {
+    height: 40px;
+    width: 95%;
+ }
+
+ .hr-control-user{
+    color: brown;
+    height: 2px;
+ }

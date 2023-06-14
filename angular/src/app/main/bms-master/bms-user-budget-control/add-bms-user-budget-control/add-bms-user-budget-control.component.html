@@ -1,0 +1,70 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog tmss-modal-lg">
+        <div class="modal-content">
+            <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 *ngIf="managerType == 0" class="modal-title" style="margin-left: 15px;">
+                        <span>{{'Manager Department' | localize}}</span>
+                    </h5>
+                    <h5 *ngIf="managerType != 0" class="modal-title" style="margin-left: 15px;">
+                        <span>{{'Manager Group' | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body modal-body-master">
+                    <div class="row">
+                        <div style="width: 50%;">
+                            <div class="row">
+                                <h4 style="margin-right: 5px;">{{'Budget Is Managed' | localize}}</h4>
+                                <button (click)="pushToRight()" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i style="padding-top: 2px;" class="fa tmss-fa fa-arrow-right mr-1"></i>
+                                </button>
+                            </div>
+
+                            <grid-table [height]="'500px'" [columnDefs]="gridColDef" [defaultColDef]="defaultColDef"
+                                [showPagination]="false" [rowData]="rowData" (callBackEvent)="callBackGrid($event)"
+                                (onChangeSelection)="onChangeSelection($event)" [rowSelection]="'multiple'">
+                            </grid-table>
+                        </div>
+                        <div style="width: 50%;">
+                            <div class="row">
+                                <button style="margin-right: 5px;" (click)="pushToLeft()" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i style="padding-top: 2px;" class="fa tmss-fa fa-arrow-left mr-1"></i>
+                                </button>
+                                <h4>{{'Other Budget' | localize}}</h4>
+                            </div>
+                            <grid-table [height]="'500px'" [columnDefs]="gridColDefOther"
+                                [defaultColDef]="defaultColDefOther" [showPagination]="false" [rowData]="rowDataOther"
+                                (callBackEvent)="callBackGridOther($event)"
+                                (onChangeSelection)="onChangeSelectionOther($event)" [rowSelection]="'multiple'">
+                            </grid-table>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button (click)="save()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        {{'SaveModal' | localize}}
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-secondary">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{'CancelModal' | localize}}
+                    </button>
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

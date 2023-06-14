@@ -1,0 +1,37 @@
+<div class="row" style="margin-left: 1px; margin-top: 20px;">
+    <div style=" width: 50%;">
+        <div class="row align-items-center" style="margin-right: 5px;">
+            <div class="col-12">
+                <div>
+                    <h6> {{'ListSupplierSite' | localize}}</h6>
+                </div>
+                <grid-table [height]="'200px'" [columnDefs]="gridColDef" [rowData]="listSupplierSite"
+                    [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                    (changePaginationParams)="changePaginationParams($event)"
+                    (onChangeSelection)="onChangeSelection($event)">
+                </grid-table>
+            </div>
+        </div>
+         <!-- </p-panel> -->
+         <div class="col-12 text-right">
+            <button (click)="addSite()" pButton pRipple type="button"
+                class="tmss-btn p-button-outlined btn-outline-primary">
+                <i class="fa tmss-fa fa-plus mr-1"></i>
+                {{'AddModal' | localize}}
+            </button>
+            <button (click)="editSite()" pButton pRipple type="button"
+                class="tmss-btn p-button-outlined btn-outline-primary">
+                <i class="fa tmss-fa fa-edit mr-1"></i>
+                {{'Edit' | localize}}
+            </button>
+            <button (click)="deleteSite()" pButton pRipple type="button"
+                class="tmss-btn p-button-outlined btn-outline-danger">
+                <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+                {{'Delete' | localize}}
+            </button>
+        </div>
+    </div>
+    
+        <app-mst-supplier-contact #mstContact style=" width: 50%;" [supplierName]="supplierName" [supplierNumber]="supplierNumber" [supplierSiteId]="supplierSiteId" [siteAddress]="siteAddress" [supplierId]="supplierId"></app-mst-supplier-contact  >
+</div>
+<create-or-edit-mst-supplier-site #createOrEditMstSupplierSite (close)="searchSupplierSite($event)" [supplierName]="supplierName"></create-or-edit-mst-supplier-site>

@@ -1,0 +1,140 @@
+import { ICellRendererParams } from '@ag-grid-enterprise/all-modules';
+import { HttpClient } from '@angular/common/http';
+import { Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CustomColDef, GridParams, PaginationParamsModel } from '@app/shared/models/base.model';
+import { AppConsts } from '@shared/AppConsts';
+import { AppComponentBase } from '@shared/common/app-component-base';
+import { BmsMstPeriodServiceProxy, BmsMstSegment1ServiceProxy, BmsMstSegment1TypeCostServiceProxy, MstPeriodServiceProxy, MstSegment1Dto, TypeCostDto } from '@shared/service-proxies/service-proxies';
+import { ceil } from 'lodash-es';
+import { finalize } from 'rxjs/operators';
+import { BmsImportSegmentComponent } from '../bms-import-segment/import-segment.component';
+import { CreateOrEditBmsMstSegment1TypeCostComponent } from './create-or-edit-bms-mst-segment1-type-cost/create-or-edit-bms-mst-segment1-type-cost.component';
+
+@Component({
+  selector: 'app-bms-mst-segment1-type-cost',
+  templateUrl: './bms-mst-segment1-type-cost.component.html',
+  styleUrls: ['./bms-mst-segment1-type-cost.component.css']
+})
+export class BmsMstSegment1TypeCostComponent extends AppComponentBase implements OnInit {
+  @ViewChild(' createOrEditBmsMstSegment1TypeCost', { static: true })  createOrEditBmsMstSegment1TypeCost: CreateOrEditBmsMstSegment1TypeCostComponent;
+  @ViewChild('bmsImportSegment', { static: true }) bmsImportSegment: BmsImportSegmentComponent; 
+  segment1TypeCostForm: FormGroup;
+  gridColDef: CustomColDef[];
+  paginationParams: PaginationParamsModel = { pageNum: 1, pageSize: 20, totalCount: 0, totalPage: 0, sorting: '', skipCount: 0 };
+  gridParams: GridParams | undefined;
+  selectedRow: TypeCostDto = new TypeCostDto();
+  listSegment1TypeCost: TypeCostDto[];
+  
+  urlBase: string = AppConsts.remoteServiceBaseUrl;
+
+  constructor(
+    injector: Injector,
+    private _bmsMstSegment1TypeCostServiceProxy: BmsMstSegment1TypeCostServiceProxy,
+    private _http: HttpClient,
+    private formBuilder: FormBuilder,
+  ) {
+    super(injector);
+  }
+
+  ngOnInit(): void {
+    this.buildForm();
+    this.gridColDef = [
+      {
+        // STT
+        headerName: this.l('STT'),
+        headerTooltip: this.l('STT'),
+        cellRenderer: (params: ICellRendererParams) => ((this.paginationParams.pageNum! - 1) * this.paginationParams.pageSize! + params.rowIndex + 1).toString(),
+        maxWidth: 70,
+      },
+      {
+        headerName: this.l('TypeCostName'),
+        headerTooltip: this.l('TypeCostName'),
+        field: 'typeCostName', 
+        maxWidth: 200
+      },
+      {
+        headerName: this.l('Description'),
+        headerTooltip: this.l('Description'),
+        field: 'description',
+        maxWidth: 400
+      },
+    ]
+  }
+
+  buildForm() {
+    this.segment1TypeCostForm = this.formBuilder.group({
+      typeCostName: [undefined],
+    });
+    this.search();
+  }
+
+  callBackGrid(params: GridParams) {
+    this.gridParams = params;
+    params.api.setRowData([]);
+  }
+
+  onChangeSelection(params) {
+    this.selectedRow =
+      params.api.getSelectedRows()[0] ?? new TypeCostDto();
+    this.selectedRow = Object.assign({}, this.selectedRow);
+  }
+
+  changePaginationParams(paginationParams: PaginationParamsModel) {
+    if (!this.listSegment1TypeCost) {
+      return;
+    }
+    this.paginationParams = paginationParams;
+    this.paginationParams.skipCount = (paginationParams.pageNum - 1) * paginationParams.pageSize;
+    this.paginationParams.pageSize = paginationParams.pageSize;
+    this.search();
+  }
+
+  search() {
+    this.spinnerService.show();
+    this._bmsMstSegment1TypeCostServiceProxy.getAllTypeCost(
+      this.segment1TypeCostForm.get('typeCostName').value,
+      (this.paginationParams ? this.paginationParams.sorting : ''),
+      (this.paginationParams ? this.paginationParams.pageSize : 20),
+      (this.paginationParams ? this.paginationParams.skipCount : 1))
+      .pipe(finalize(() => {
+        this.spinnerService.hide();
+      }))
+      .subscribe((result) => {
+        this.listSegment1TypeCost = result.items;
+        this.gridParams.api.setRowData(this.listSegment1TypeCost);
+        this.paginationParams.totalCount = result.totalCount;
+        this.paginationParams.totalPage = ceil(result.totalCount / this.paginationParams.pageSize);
+        this.gridParams.api.sizeColumnsToFit();
+      });
+  }
+
+  add() {
+    this.createOrEditBmsMstSegment1TypeCost.show();
+  }
+
+  edit() {
+    if (this.selectedRow.id && this.selectedRow.id > 0) {
+      this.createOrEditBmsMstSegment1TypeCost.show(this.selectedRow.id);
+    } else {
+      this.notify.warn(this.l(AppConsts.CPS_KEYS.Please_Select_1_Line_To_Edit));
+    }
+  }
+
+  delete() {
+    if (this.selectedRow.id && this.selectedRow.id > 0) {
+      this.message.confirm('', this.l(AppConsts.CPS_KEYS.Are_You_Sure), (isConfirmed) => {
+        if (isConfirmed) {
+          this.spinnerService.show();
+          this._bmsMstSegment1TypeCostServiceProxy.delete(this.selectedRow.id).subscribe(val => {
+            this.notify.success('Successfully Deleted');
+            this.search();
+            this.spinnerService.hide();
+          });
+        }
+      });
+    } else {
+      this.notify.warn(this.l(AppConsts.CPS_KEYS.Please_Select_1_Line_To_Delete))
+    }
+  }
+}

@@ -1,0 +1,48 @@
+<div appBsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        {{l('Apply/UnApplyPrepayment')}}
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body modal-body-master">
+                    <div class="row align-items-center">
+                        <div id="table1" class="col-12">
+                            <grid-table [height]="'300px'"
+                                [columnDefs]="gridColDef"
+                                [rowData]="listItem"
+                                [paginationParams]="paginationParams"
+                                (callBackEvent)="callBackGrid($event)"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                [frameworkComponents]="frameworkComponents"
+                                (onChangeSelection)="onChangeSelection($event)"
+                                cellEditStopParams="{'stopEditingWhenGridLosesFocus': true}">
+                            </grid-table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button (click)="save()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{'Save' | localize}}
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{'Cancel' | localize}}
+                    </button>
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

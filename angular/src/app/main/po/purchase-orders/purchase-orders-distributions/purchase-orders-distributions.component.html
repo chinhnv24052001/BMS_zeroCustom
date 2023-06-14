@@ -1,0 +1,131 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog tmss-modal-lg">
+        <div class="modal-content">
+            <form #mstPurchasePurposeForm="ngForm" *ngIf="pODistributionsForm" [formGroup]="pODistributionsForm"
+                novalidate autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span>{{'Distributions' | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModal()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body modal-body-master">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-body">
+                            <!-- <p-panel header="{{l('GeneralInformation')}}" [toggleable]="true"> -->
+                            <div class="row">
+                                <div class="col-xl-4 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-text-input [text]="l('PartNo')" isDisabled="true"
+                                            formControlName="partNo"></tmss-text-input>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-text-input [text]="l('PartName')" isDisabled="true"
+                                            formControlName="partName"></tmss-text-input>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-text-input [text]="l('Quantity')" isDisabled="true"
+                                            formControlName="quantity"></tmss-text-input>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-4 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('Org')" isDisabled="true" formControlName="shipToOrganizationId"
+                                            [items]="listOrganization"></tmss-combobox>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-text-input [text]="l('ShipTo')" isDisabled="true"
+                                            formControlName="shipTo"></tmss-text-input>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-right">
+                                <button *ngIf="tabKey != 2" (click)="addRowDistributions()" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i class="fa tmss-fa fa-plus mr-1"></i>
+                                    {{l('Add')}}
+                                </button>
+                                <button *ngIf="tabKey != 2" (click)="removeSelectedRowDistributions()" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined btn-outline-danger">
+                                    <i class="fa tmss-fa fa-times mr-1"></i>
+                                    {{l('Delete')}}
+                                </button>
+                                <!-- <button (click)="createPr()" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined p-button-primary">
+                                    <i class="fa tmss-fa fa-save mr-1"></i>
+                                    {{l('Save')}}
+                                </button> -->
+                            </div>
+                            <!-- </p-panel> -->
+                        </div>
+                    </div>
+                    <button class="ghost" #submitBtn></button>
+                    <div class="card card-custom gutter-b">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <grid-table [height]="'300px'" [columnDefs]="gridColDefDistributions"
+                                        [rowData]="listPurchaseDistributions"
+                                        (callBackEvent)="callBackGridDistributions($event)" [showPagination]="false"
+                                        (onChangeSelection)="onChangeSelectionDistributions($event)"
+                                        (keydown)="agKeyUp($event)" [frameworkComponents]="frameworkComponents"
+                                        (cellValueChanged)="cellValueChangedDistributions($event)"
+                                        (cellEditingStopped)="cellEditingStoppedDistributions($event)"
+                                        (onSearch)="searchByEnterDistributions($event)">
+                                    </grid-table>
+                                </div>
+                            </div>
+
+                            <!-- </p-panel> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button *ngIf="tabKey != 2" (click)="save()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        {{'RememberMe' | localize}}
+                    </button>
+                    <button (click)="closeModal()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{'Close' | localize}}
+                    </button>
+
+                    <button class="ghost" #submitBtn></button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<tmss-select-grid-modal #listRequester [height]="'330px'" [headerText]="l('ListRequester')" [modalClass]="'modal-lg'"
+    (close)="patchRequester($event)" [isHideSearchField]="false" [columnDefs]="requestersDefs" [showPagination]="false"
+    [showInput]="true" [apiCall]="getAllRequesters.bind(this)" [notPartFilter]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #listLocationDistributions [height]="'330px'" [headerText]="l('ListLocation')"
+    [modalClass]="'modal-lg'" (close)="patchLocationDistributions($event)" [isHideSearchField]="false"
+    [columnDefs]="locationDefs" [showPagination]="false" [showInput]="true" [apiCall]="getAllLocations.bind(this)"
+    [notPartFilter]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #selectBudgetCodeHeadModal [height]="'300px'" [headerText]="l('BudgetCodeSelection')"
+    [columnDefs]="budgetCodeColDefs" [isHideSearchField]="false" [apiCall]="getAllGlCode.bind(this)"
+    [modalClass]="'modal-lg'" [textLeft]="l('Confirm')" [notPartFilter]="true"
+    (close)="patchBudgetCode($event)"></tmss-select-grid-modal>

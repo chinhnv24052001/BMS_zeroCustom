@@ -1,0 +1,122 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div >
+                        <p-panel header="{{'Search' | localize}}" [toggleable]="true">
+                            <div class="row align-items-center">
+
+                                <div class="col-xl-4 col-sm-12">
+                                    <tmss-text-input [text]="l('FilterText')" (onClickInput)="searchData()" [(ngModel)]="FilterText">
+                                    </tmss-text-input>
+                                </div>
+
+                                <div class="col-xl-4 col-sm-12  mt-1">
+                                    <button (click)="searchData()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-search mr-1"></i>
+                                        {{'Search' | localize}}
+                                    </button>
+                                </div>
+                            </div>
+                        </p-panel>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="rowData"
+                                [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                                [rowSelection]="'multiple'"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                (onChangeSelection)="onChangeSelection($event)">
+                            </grid-table>
+                        </div>
+                    </div>
+                    <!-- </p-panel> -->
+                    <div class="col-12 text-right">
+                        <button (click)="assessModal.show()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{'Add' | localize}}
+                        </button>
+
+                        <!-- <button ng-if="selectedRow" (click)="edit()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary"> -->
+
+                        <button  [disabled]="!selectedRow?.id" (click)="assessModal.show(selectedRow)" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'Edit' | localize}}
+                        </button>
+
+                        <button  [disabled]="!selectedRow?.id" (click)="deleteAssess()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa tmss-fa fa-trash mr-1"></i>
+                            {{'Delete' | localize}}
+                        </button>
+
+
+                        <!--  <button (click)="delete()" disabled pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined p-button-danger">
+                            <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+                            {{'Delete' | localize}}
+                        </button> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <grid-table [height]="'300px'" [columnDefs]="gridDetailColDef" [rowData]="rowDataDetail"
+                                [showPagination]="false" (callBackEvent)="callBackDetailGrid($event)"
+                                (onChangeSelection)="onChangeDetailSelection($event)">
+                            </grid-table>
+                        </div>
+
+                        <!-- <div class="col-12 text-right">
+                            <button (click)="assessDetailModal.show()" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-plus mr-1"></i>
+                                {{'Add' | localize}}
+                            </button>
+
+
+                            <button  [disabled]="!selectedDetailRow?.id" (click)="assessDetailModal.show(selectedDetailRow)" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-edit mr-1"></i>
+                                {{'Edit' | localize}}
+                            </button>
+
+                            <button  [disabled]="!selectedDetailRow?.id" (click)="deleteAssessDetail()" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-danger">
+                                <i class="fa tmss-fa fa-trash mr-1"></i>
+                                {{'Delete' | localize}}
+                            </button>
+
+
+
+                        </div> -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<app-create-or-edit-assess #assessModal (modalSave)="searchData()"></app-create-or-edit-assess>
+<app-create-or-edit-assess-detail #assessDetailModal (modalSave)="saveAssessDetail($event)"></app-create-or-edit-assess-detail>
+
+

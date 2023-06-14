@@ -1,0 +1,14 @@
+<div style="margin-left: 1px; margin-top: 20px;">
+    <div class="row align-items-center" style="margin-right: 5px;">
+        <div class="col-12">
+            <div>
+                <h6> {{'ListPersonnel' | localize}}</h6>
+            </div>
+            <grid-table [height]="'250px'" [columnDefs]="gridColDef" [rowData]="listPersonnel"
+                [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                (changePaginationParams)="changePaginationParams($event)"
+                (onChangeSelection)="onChangeSelection($event)">
+            </grid-table>
+        </div>
+    </div>
+</div>

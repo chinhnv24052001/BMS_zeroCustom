@@ -1,0 +1,97 @@
+<div class="content d-flex flex-column flex-column-fluid">
+    <div [class]="containerClass">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <form class="form" [formGroup]="searchForm" *ngIf="searchForm">
+                    <p-panel header="{{'Search' | localize}}" [toggleable]="true">
+                        <div class="row">
+                            <div class="col-xl-3 col-sm-12" style="margin-bottom: 3px;">
+                                <tmss-text-input [text]="l('ReceiptNoteNum')" formControlName="sReceiptNoteNum"></tmss-text-input>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <tmss-combobox  [items]="receiptNoteStatusList" [text]="l('Status')" formControlName="sStatus"></tmss-combobox>
+                            </div>
+                            <div class="col-xl-5 col-sm-12">
+                                <tmss-combobox [items]="listSupplier" [text]="l('Vendor')" formControlName="sVendorId"></tmss-combobox>
+                                <!-- <tmss-search-input [text]="l('Supplier')" formControlName="supplierName"
+                                    (onSearch)="showSearchSupplier()" [showModal]="true"></tmss-search-input> -->
+                            </div>
+                            <!-- <div class="col-xl-2 col-sm-12">
+                                <tmss-combobox  [items]="siteList" [text]="l('Site')" formControlName="sVendorSiteId"></tmss-combobox>
+                            </div> -->
+                            
+                            <div class="col-xl-3 col-sm-12">
+                                <tmss-datepicker *ngIf="this.receiptNoteType==0" [text]="l('ShippedDateFrom')" 
+                                formControlName="sShippedDateFrom"></tmss-datepicker>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <tmss-datepicker *ngIf="this.receiptNoteType==0" [text]="l('ToDate')" 
+                                formControlName="sShippedDateTo"></tmss-datepicker>
+                            </div>
+                            <div class="col-xl-2 col-sm-12">
+                                <button (click)="searchReceiptNotes()" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i class="fa tmss-fa fa-search mr-1"></i>
+                                    {{'Search' | localize}}</button>
+                            </div>
+                        </div>
+                    </p-panel>
+                </form>
+            </div>
+        </div>
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <grid-table [height]="'500px'" [columnDefs]="gridColDef" [rowData]="listReceipts"
+                            [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                            (changePaginationParams)="changePaginationParams($event)"
+                            (onChangeSelection)="onChangeSelection($event)">
+                        </grid-table>
+                    </div>
+                </div>
+                <!-- </p-panel> -->
+                <div class="col-12 text-right">
+                    <button (click)="addReceiptNote()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{l('Add')}}
+                    </button>
+                    <!-- <button ng-if="selectedRow.status==0" (click)="editReceiptNote()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-edit mr-1"></i>
+                        {{l('Edit')}}
+                    </button> -->
+                    <!-- <button (click)="deleteReceiptNote()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined p-button-danger">
+                        <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+                        {{l('Delete')}}
+                    </button> -->
+                    <button *ngIf="selectedRow" (click)="viewDetail()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-eye mr-1"></i>
+                        {{l('ViewDetail')}}
+                    </button>
+                    <button *ngIf="selectedRow.id" (click)="printReceiptNote(0)" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-secondary">
+                        <i class="fa tmss-fa fa-print mr-1"></i>
+                        {{l('PrintGRN')}}
+                    </button>
+                    <button *ngIf="selectedRow.id && this.receiptNoteType==1" (click)="printReceiptNote(1)" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-secondary">
+                        <i class="fa tmss-fa fa-print mr-1"></i>
+                        {{l('PrintACC')}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <create-or-edit-purchase-request #createOrEditMstPurchaseRequest
+        (close)="searchPurchaseRequest()"></create-or-edit-purchase-request> -->
+</div>
+
+<tmss-select-grid-modal #listSupplierPopup [height]="'330px'" [headerText]="l('ListSupplier')" [modalClass]="'modal-lg'"
+    (close)="patchSupplier($event)" [isHideSearchField]="false" [columnDefs]="supplierDefs" [showPagination]="false"
+    [showInput]="true" [notPartFilter]="true" [apiCall]="getAllSupplier.bind(this)"
+    (isLoading)="setLoading($event)"></tmss-select-grid-modal>

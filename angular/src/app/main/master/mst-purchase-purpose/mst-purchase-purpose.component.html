@@ -1,0 +1,73 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <!-- <sub-header [title]="'VenderManament' | localize">
+            <div role="actions">
+                <button (click)="create()" pButton pRipple
+                    type="button" class="p-button-primary" icon="fa fa-plus" label="{{l('Add')}}">
+                </button>
+            </div>
+        </sub-header> -->
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <form class="form" [formGroup]="purchasePurposeForm" *ngIf="purchasePurposeForm">
+                        <p-panel header="{{'Search' | localize}}" [toggleable]="true">
+                            <div class="row align-items-center">
+                                <tmss-text-input [text]="l('PurchasePurposeName')"
+                                    formControlName="purchasePurposeName"></tmss-text-input>
+                                <div class="col-xl-3 col-sm-3">
+                                    <button (click)="searchPurchasePurpose()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-search mr-1"></i>
+                                        {{'Search' | localize}}
+                                    </button>
+                                </div>
+                            </div>
+                        </p-panel>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="listPurchasePurpose"
+                                [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                (onChangeSelection)="onChangeSelection($event)">
+                            </grid-table>
+                        </div>
+                    </div>
+                    <!-- </p-panel> -->
+                    <div class="col-12 text-right">
+                        <button *ngIf="isGranted('MasterData.PurchasePurpose.Import')" (click)="importExcel()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-success">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'ImportFromExcel' | localize}}
+                        </button>
+                        <button *ngIf="isGranted('MasterData.PurchasePurpose.Add')" (click)="addPurchasePurpose()"
+                            pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{'Add' | localize}}
+                        </button>
+                        <button *ngIf="isGranted('MasterData.PurchasePurpose.Edit')" (click)="editPurchasePurpose()"
+                            pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'Edit' | localize}}
+                        </button>
+                        <button *ngIf="isGranted('MasterData.PurchasePurpose.Delete')" (click)="deletePurchasePurpose()"
+                            pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+                            {{'Delete' | localize}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <create-or-edit-mst-purchase-purpose #createOrEditMstPurchasePurpose
+            (close)="searchPurchasePurpose()"></create-or-edit-mst-purchase-purpose>
+        <importPurchasePurpose #importPurchasePurpose (close)="searchPurchasePurpose()"></importPurchasePurpose>
+    </div>
+</div>

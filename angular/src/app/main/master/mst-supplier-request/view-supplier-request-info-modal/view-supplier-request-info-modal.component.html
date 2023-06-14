@@ -1,0 +1,305 @@
+<div bsModal #viewDetailModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="viewDetailModal"  [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog tmss-modal-lg">
+        <div class="modal-content">
+
+            <div autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 10px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span >{{'ViewDetail' | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="close()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body modal-body-master">
+                    <tabset>
+                        <tab [heading]="l('GeneralInformation')">
+                            <div class="row" >
+
+                                <fieldset class="fieldset-custom" style="margin-bottom: 20px;">
+                                    <legend style="width: fit-content;">
+                                        <h3 style="width: fit-content;">{{'GeneralInformation' | localize}}</h3>
+                                    </legend>
+                                    <div class="row">
+                                                <div class="col-xl-7 col-sm-4 mt-1 first-input">
+                                                    <tmss-text-input [isDisabled]="true" [text]="l('Supplier')" [(ngModel)]="selectedRequest.supplierName"
+                                                        isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                                            </div>
+
+                                            <div class="col-xl-5 col-sm-12 mt-1">
+                                                    <tmss-text-input [isDisabled]="true" [text]="l('RequestEmailModal')" [(ngModel)]="selectedRequest.requestEmail"
+                                                        isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                                            </div>
+
+                                            <!-- <div class="col-xl-2 col-sm-2 mt-1">
+                                                <tmss-text-input [isDisabled]="true" [text]="'Password'" [(ngModel)]="selectedRequest.address"
+                                                    isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                                            </div>
+
+                                            <div class="col-xl-2 col-sm-2 mt-1">
+                                                    <tmss-text-input [isDisabled]="true" [text]="'Status'" [(ngModel)]="selectedRequest.tel"
+                                                        isRequired="true" [hasCheck]="true" [disabled]="true" ></tmss-text-input>
+                                            </div> -->
+
+                                            <!-- 2 -->
+                                            <div class="col-xl-5 col-sm-4 mt-1 first-input">
+                                                <tmss-text-input [isDisabled]="true" [text]="l('AbbreviateName')" [(ngModel)]="selectedRequest.abbreviateName"
+                                                    isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-3 col-sm-3 mt-1">
+                                                <tmss-text-input [isDisabled]="true" [text]="l('VatRegistrationNum')" [(ngModel)]="selectedRequest.taxRegistrationNumber"
+                                                    isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-4 col-sm-2 mt-1">
+                                            <tmss-text-input [isDisabled]="true" [text]="l('RepresentName')" [(ngModel)]="selectedRequest.representName"
+                                                isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                                        </div>
+
+                                    <!-- /////// -->
+
+                                        <div class="col-xl-6 col-sm-12 mt-1 first-input">
+                                            <tmss-text-input [isDisabled]="true" [text]="l('BeneficiaryName')" [(ngModel)]="selectedRequest.beneficiaryName"
+                                                ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-6 col-sm-12 mt-1 second-input">
+                                            <tmss-text-input [isDisabled]="true" [text]="l('BeneficiaryAccount')" [(ngModel)]="selectedRequest.beneficiaryAccount"
+                                                ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-6 col-sm-12 mt-1 first-input">
+                                            <tmss-text-input [isDisabled]="true" [text]="l('BankName')" [(ngModel)]="selectedRequest.bankName"
+                                                ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-6 col-sm-12 mt-1 second-input">
+                                                <tmss-text-input [isDisabled]="true" [text]="l('BankCode')" [(ngModel)]="selectedRequest.bankCode"
+                                                     ></tmss-text-input>
+                                        </div>
+
+
+                                        <div class="col-xl-6 col-sm-12 mt-1 first-input">
+                                                <tmss-text-input [isDisabled]="true" [text]="l('BankBranch')" [(ngModel)]="selectedRequest.bankBranch"
+                                                     ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-6 col-sm-12 mt-1 second-input">
+                                            <tmss-text-input [isDisabled]="true" [text]="l('BankAddress')" [(ngModel)]="selectedRequest.bankAddress"
+                                                ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-6 col-sm-12 mt-1 first-input">
+                                            <tmss-text-input [isDisabled]="true" [text]="l('ClassificationType')" [(ngModel)]="selectedRequest.classificationType"
+                                                 ></tmss-text-input>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                            <!-- 3 -->
+                                <fieldset class="fieldset-custom" >
+                                    <legend style="width: fit-content;">
+                                        <h3 style="width: fit-content;">{{'DetailInformations' | localize}} </h3>
+                                    </legend>
+
+                                    <div class="row">
+                                        <!-- <div class="col-xl-4 col-sm-12 mt-1 first-input">
+                                            <tmss-combobox [isDisabled]="true" [text]="'Nation'" (ngModelChange)="setProvinceList($event)" [(ngModel)]="selectedRequest.nationId"
+                                                isRequired="true" [items]="nationList" ></tmss-combobox>
+                                        </div>
+
+                                        <div class="col-xl-4 col-sm-12 mt-1">
+                                                <tmss-combobox [isDisabled]="true" [text]="'Province'" (ngModelChange)="setDistrictList($event)"  [(ngModel)]="selectedRequest.provinceId"
+                                                    isRequired="true" [items]="provinceList" ></tmss-combobox>
+                                        </div>
+
+                                        <div class="col-xl-4 col-sm-12 mt-1 third-input">
+                                            <tmss-combobox [isDisabled]="true" [text]="'District'" [(ngModel)]="selectedRequest.districtId"
+                                                    isRequired="true" [items]="districtList" ></tmss-combobox>
+                                        </div> -->
+
+                                        <div class="col-xl-8 col-sm-12 mt-1 first-input">
+                                            <tmss-text-input [isDisabled]="true" [text]="l('CompanyAddress')" [(ngModel)]="selectedRequest.address"
+                                                isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-4 col-sm-12 mt-1 third-input">
+                                            <tmss-text-input [isDisabled]="true" [text]="'Phone'" [(ngModel)]="selectedRequest.tel"
+                                                isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                                        </div>
+
+                                        <!-- <div class="col-xl-8 col-sm-12 mt-1 first-input">
+                                            <tmss-text-input [isDisabled]="true" [text]="'Location'" [(ngModel)]="selectedRequest.location"
+                                                isRequired="true" [hasCheck]="true"  ></tmss-text-input>
+                                        </div> -->
+
+
+                                        <!-- 4 -->
+                                <!--
+                                        <div class="col-xl-5 col-sm-12 mt-1">
+                                                <tmss-text-input [isDisabled]="true" [text]="'Category'" [(ngModel)]="selectedRequest.contactMobile"
+                                                    isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-3 col-sm-12 mt-1">
+                                            <tmss-combobox [isDisabled]="true" [text]="'Currency'" [(ngModel)]="selectedRequest.conntactPerson"
+                                                    isRequired="true"  ></tmss-combobox>
+                                        </div> -->
+
+
+
+
+                                        <!-- <div class="col-xl-12 col-sm-12 mt-1">
+                                            <h3>Contact Informations</h3>
+                                        </div> -->
+                                    <!-- 5 -->
+
+                                        <div class="col-xl-5 col-sm-12 mt-1 first-input">
+                                            <tmss-text-input [isDisabled]="true" [text]="l('ContactPerson1')" [(ngModel)]="selectedRequest.conntactPerson1"
+                                                isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-3 col-sm-12 mt-1">
+                                            <tmss-text-input [isDisabled]="true" [text]="l('Phone')" [(ngModel)]="selectedRequest.contactMobile1"
+                                                isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-4 col-sm-12 mt-1 third-input">
+                                            <tmss-text-input [isDisabled]="true" [text]="'Email'" [(ngModel)]="selectedRequest.contactEmail1"
+                                                isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                                        </div>
+
+                                        <!-- 6 -->
+                                        <div class="col-xl-5 col-sm-12 mt-1 first-input">
+                                            <tmss-text-input [isDisabled]="true" [text]="l('ContactPerson2')" [(ngModel)]="selectedRequest.conntactPerson2"
+                                                ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-3 col-sm-12 mt-1 ">
+                                            <tmss-text-input [isDisabled]="true" [text]="l('Phone')" [(ngModel)]="selectedRequest.contactMobile2"
+                                                 ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-4 col-sm-12 mt-1 third-input">
+                                            <tmss-text-input [isDisabled]="true" [text]="'Email'" [(ngModel)]="selectedRequest.contactEmail2"
+                                               ></tmss-text-input>
+                                        </div>
+
+                                         <!-- 7 -->
+                                         <div class="col-xl-5 col-sm-12 mt-1 first-input">
+                                            <tmss-text-input [isDisabled]="true" [text]="l('ContactPerson3')" [(ngModel)]="selectedRequest.conntactPerson3"
+                                                ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-3 col-sm-12 mt-1">
+                                            <tmss-text-input [isDisabled]="true" [text]="l('Phone')" [(ngModel)]="selectedRequest.contactMobile3"
+                                                 ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-4 col-sm-12 mt-1 third-input">
+                                            <tmss-text-input [isDisabled]="true" [text]="'Email'" [(ngModel)]="selectedRequest.contactEmail3"
+                                                 ></tmss-text-input>
+                                        </div>
+
+                                        <div class="col-xl-12 col-sm-12 mt-1" style="margin-top: 10px;">
+                                            <import-attach-file #attach [viewOnly]="true" [reqId]="selectedRequest.id" [attachType]="'SUPPLYREQUEST'"></import-attach-file>
+                                        </div>
+
+
+                                    </div>
+                                    <!-- <div *ngIf="!viewOnly" class="row">
+                                        <div class="col-xl-12 col-sm-12 mt-1" style="margin-top: 10px;">
+                                            <tmss-checkbox [text]="'Yêu cầu kiểm tra lại thông tin'" [(ngModel)]="checkInfo"
+                                                 ></tmss-checkbox>
+                                        </div>
+                                        <div *ngIf="checkInfo" class="col-xl-12 col-sm-12 mt-1" style="margin-top: 10px;">
+                                            <tmss-textarea [text]="l('Note')" [(ngModel)]="noteForMail"></tmss-textarea>
+                                        </div>
+                                    </div> -->
+
+                                </fieldset>
+                            </div>
+                        </tab>
+
+                        <tab [heading]="l('Approve')">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <grid-table [height]="'300px'" [columnDefs]="approvalColDef"
+                                            [rowData]="approvalInfos" [showPagination]="false">
+                                        </grid-table>
+                                    </div>
+                                </div>
+
+                                <!-- </p-panel> -->
+                            </div>
+                        </tab>
+
+                    </tabset>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+
+                    <!-- <div *ngIf="!viewOnly" class="modal-footer-master">
+                        <div  class="text-right mt-2">
+                            <button  *ngIf="checkInfo" (click)="resentEmail()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            {{'Yêu cầu kiểm tra thêm thông tin' | localize}}
+                        </button>
+                            <button (click)="close()" pButton pRipple type="button"
+                                class="tmss-btn tmss-footer-btn btn-outline-danger">
+                                <i class="fa tmss-fa fa-times mr-1"></i>
+                                {{'Cancel' | localize}}
+                            </button>
+                        </div>
+                    </div> -->
+
+                    <div  class="modal-footer-master">
+                        <div *ngIf="showFooter" class="text-right mt-2">
+
+                            <!-- <button  (click)="forwardEvent.emit(null);modal.hide()" pButton pRipple
+                                type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                                {{l('Duyệt và chuyển tiếp')}}
+                            </button> -->
+
+                            <button  (click)="approveEvent.emit(null);modal.hide()" pButton pRipple
+                                type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                                <!-- <i class="fa tmss-fa fa-plus mr-1"></i> -->
+                                {{l('Duyệt')}}
+                            </button>
+                            <button  (click)="rejectEvent.emit(null);modal.hide()" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-danger">
+                                <!-- <i class="fa tmss-fa fa-trash mr-1"></i> -->
+                                {{ l('Reject') }}
+                            </button>
+                            <button  (click)="requestMoreInfoEvent.emit(null)" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-success">
+                                <!-- <i class="fa tmss-fa fa-location-arrow mr-1"></i> -->
+                                {{ 'Yêu cầu thêm thông tin' }}
+                            </button>
+                            <button (click)="close()" pButton pRipple type="button"
+                                class="tmss-btn tmss-footer-btn btn-outline-danger">
+                                <i class="fa tmss-fa fa-times mr-1"></i>
+                                {{'Cancel' | localize}}
+                            </button>
+                        </div>
+                        <div *ngIf="!showFooter" class="text-right mt-2">
+                            <button (click)="close()" pButton pRipple type="button"
+                                class="tmss-btn tmss-footer-btn btn-outline-danger">
+                                <i class="fa tmss-fa fa-times mr-1"></i>
+                                {{'Cancel' | localize}}
+                            </button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

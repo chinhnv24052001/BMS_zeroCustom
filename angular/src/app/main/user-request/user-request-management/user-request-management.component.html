@@ -1,0 +1,114 @@
+<div id="container">
+    <div class="card card-custom gutter-b">
+        <div class="card-body">
+            <form class="form" [formGroup]="searchForm">
+                <div class="row">
+                    <div class="col-xl-4 col-sm-4">
+                        <div class="form-group">
+                            <tmss-text-input (onClickInput)="search()" [text]="l('URNumber')" formControlName="urNumber"></tmss-text-input>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-sm-4">
+                        <div class="form-group">
+                            <tmss-combobox [text]="l('InventoryGroup')" formControlName="inventoryGroup"
+                                [items]="inventoryGroups" [hasFilter]="false"></tmss-combobox>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-sm-4">
+                        <div class="form-group">
+                            <tmss-combobox [text]="l('StatusApproval')" formControlName="status" [items]="approvalStatus"
+                                [hasFilter]="false"></tmss-combobox>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-4 col-sm-4">
+                        <div class="form-group">
+                            <tmss-datepicker [text]="l('FromDate')" formControlName="fromDate"></tmss-datepicker>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-sm-4">
+                        <div class="form-group">
+                            <tmss-datepicker [text]="l('ToDate')" formControlName="toDate"></tmss-datepicker>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-3">
+                        <div class="form-group">
+                            <tmss-combobox [text]="l('PicUser')" formControlName="picUserId"
+                                [items]="picUsers"></tmss-combobox>
+                        </div>
+                    </div>
+                    <div class="col-xl-1 col-sm-1">
+                        <button (click)="search()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-search mr-1"></i>
+                            {{ l('Search') }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card card-custom gutter-b">
+        <div class="card-body">
+            <fieldset class="fieldset-border">
+                <div class="col-12 ph-0">
+                    <grid-table [columnDefs]="urColDefs" [defaultColDef]="defaultColDefs"
+                        [paginationParams]="paginationParams" (onChangeSelection)="onChangeURSelection($event)"
+                        (changePaginationParams)="changePaginationParams($event)" [showPagination]="true"
+                        [height]="'300px'" [rowData]="userRequests">
+                    </grid-table>
+                </div>
+                <div class="row text-right pr-5 mt-2">
+                    <button *ngIf="isGranted('UserRequest.ManageUserRequest.CreateOrEdit')" (click)="addUR($event)" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{ l('Add') }}
+                    </button>
+                    <button *ngIf="isGranted('UserRequest.ManageUserRequest.Import')"  (click)="importUserRequestModal.show()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-primary">
+                    <i class="fa tmss-fa fa-file-upload mr-1"></i>
+                    {{ l('ImportExcel') }}
+                    </button>
+                    <button (click)="viewURModal.show(selectedUserRequest)" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary"
+                        [disabled]="!selectedUserRequest.id || selectedUserRequest.creatorUserId != currentUserId">
+                        <i class="fa tmss-fa fa-eye mr-1"></i>
+                        {{ l('ViewDetails') }}
+                    </button>
+                    <button *ngIf="isGranted('UserRequest.ManageUserRequest.Delete')" (click)="delete()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger"
+                        [disabled]="!selectedUserRequest.id || selectedUserRequest.creatorUserId != currentUserId">
+                        <i class="fa tmss-fa fa-edit mr-1"></i>
+                        {{ l('Delete') }}
+                    </button>
+                    <button *ngIf="isGranted('UserRequest.ManageUserRequest.SendRequest')" (click)="sendRequest()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-warning"
+                        [disabled]="!selectedUserRequest.id || selectedUserRequest.creatorUserId != currentUserId || selectedUserRequest.approvalStatus != 'NEW' && selectedUserRequest.approvalStatus != 'REJECTED'">
+                        <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                        {{ l('SendRequest') }}
+                    </button>
+                    <button (click)="undoRequest()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        {{'UndoRequest' | localize}}
+                    </button>
+                    <button *ngIf="isGranted('UserRequest.ManageUserRequest.Export')" (click)="export()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-success">
+                        <i class="fa tmss-fa fa-file-download mr-1"></i>
+                        {{ l('ExportExcel') }}
+                    </button>
+                    <tmss-checkbox *ngIf="isGranted('UserRequest.ManageUserRequest.Export')" [text]="l('IncludeDetails')" [(ngModel)]="isIncludeDetail"></tmss-checkbox>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+
+<view-user-request-modal #viewURModal [hasRequestInfo]="selectedUserRequest.requestNote ? true : false" (modalSave)="search()"></view-user-request-modal>
+<import-user-request-modal #importUserRequestModal (modalSave)="search()"></import-user-request-modal>
+
+<view-list-approve-detail (getData)="search()" #viewDetailApprove></view-list-approve-detail>
+
+<tmss-select-grid-modal #listBuyer [height]="'330px'" [headerText]="l('BuyerList')" [modalClass]="'modal-lg'"
+    (close)="assignJob($event)" [isHideSearchField]="false" [columnDefs]="buyerColDef" [showPagination]="false"
+    [showInput]="true" [apiCall]="getAllBuyer.bind(this)" [notPartFilter]="true"></tmss-select-grid-modal>

@@ -1,0 +1,15 @@
+.left-margin-input-search{
+    margin-left: 10px;
+}
+
+.fieldset-custom{
+    padding: 10px;
+    border: 1px solid black;
+    background-color: white;
+  }
+
+  .tabset-budget-review {
+    margin-top: 5px !important;
+    margin-left: 5px;
+    margin-right: 5px;
+  }

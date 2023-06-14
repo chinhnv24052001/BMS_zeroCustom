@@ -1,0 +1,97 @@
+<div bsModal #modal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="ViewModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog tmss-modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                <h5 class="modal-title" style="margin-left: 15px;">
+                    <span>{{'Xem chi tiết thông tin duyệt' | localize}}</span>
+                </h5>
+                <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModal()"
+                    [attr.aria-label]="l('Close')">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+
+            <div class="modal-body modal-body-master">
+                <div class="card-body" style="padding: 0px">
+                    <div class="row">
+                        <div class="col-12">
+                            <grid-table [height]="'300px'" [columnDefs]="gridColDefDetailApprove"
+                                [defaultColDef]="defaultColDef"
+                                [rowData]="listDetailApprove"
+                                [frameworkComponents]="frameworkComponents"
+                                [rowSelection]="'multiple'"
+                                (onChangeSelection)="onChangeGridStep($event)"
+                                (rowDragEnd)="dragEnded($event)"
+                                (rowDragEnter)="dragStart($event)"
+                                (callBackEvent)="callBackGridPoDetailAprrove($event)" [showPagination]="false">
+                            </grid-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer modal-footer-master">
+                <!--  -->
+                 <button (click)="addNewStep.show()"
+                    class="tmss-btn  btn-outline-primary">
+                    <i class="fa tmss-fa fa-plus mr-1"></i>
+                    {{ l('Thêm bước duyệt') }}
+                </button>
+                <button (click)="confirmSent()"  type="button"
+                    class="tmss-btn  btn-outline-primary">
+                    <i class="fa tmss-fa fa-save mr-1"></i>
+                    {{ l('Confirm') + " " + l('SendRequest')}}
+                </button>
+
+                <!-- <button (click)="skipUser()"
+                    class="tmss-btn  btn-outline-primary">
+                    {{ l('Bỏ qua bước duyệt') }}
+                </button> -->
+                <!-- <button *ngIf="!viewOnly && tabKey == 1" (click)="createPo()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-primary">
+                    <i class="fa tmss-fa fa-save mr-1"></i>
+                    {{ l('Save') }}
+                </button>
+                <button *ngIf="!viewOnly && tabKey == 1" (click)="sendRequest()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-success">
+                    <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                    {{ l('SendRequest') }}
+                </button>
+
+                <button *ngIf="viewOnly" (click)="forwardEvent.emit(null);modal.hide()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-primary">
+                    <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                    {{ l('Forward') }}
+                </button>
+
+                <button *ngIf="viewOnly" (click)="approveEvent.emit(null);modal.hide()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-primary"> -->
+                    <!-- <i class="fa tmss-fa fa-plus mr-1"></i> -->
+                    <!-- {{ 'Duyệt' }}
+                </button>
+                <button *ngIf="viewOnly" (click)="rejectEvent.emit(null);modal.hide()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-danger"> -->
+                    <!-- <i class="fa tmss-fa fa-trash mr-1"></i> -->
+                    <!-- {{ 'Từ chối' }}
+                </button>
+                <button *ngIf="viewOnly" (click)="requestMoreInfoEvent.emit(null)" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-success"> -->
+                    <!-- <i class="fa tmss-fa fa-location-arrow mr-1"></i> -->
+                    <!-- {{ 'Yêu cầu thêm thông tin' }}
+                </button>-->
+                <button (click)="closeModal()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-danger">
+                    <i class="fa tmss-fa fa-times mr-1"></i>
+                    {{'Close' | localize}}
+                </button>
+
+                <!-- <button class="ghost" #submitBtn></button> -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-add-user-step-modal [userList]="userList" (modalSave)="skipOrForwardSkip($event)" #addUser></app-add-user-step-modal>
+<app-add-new-step-modal [userList]="userList" (modalSave)="addNewStepRow($event)" #addNewStep></app-add-new-step-modal>

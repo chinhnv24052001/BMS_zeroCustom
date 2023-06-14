@@ -1,0 +1,160 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="custom-row ">
+                        <div class="col-xl-8 col-sm-12 custom-row ph-0" style="align-items: end;height: fit-content;">
+
+                            <div class="col-xl-12 col-sm-12 custom-row ph-0">
+                                <div class="col-xl-4 col-sm-12 mt-1">
+                                    <tmss-text-input [text]="l('InvoiceNo')" [isDisabled]="true"
+                                        [(ngModel)]="selectedInvoice.invoiceNum"></tmss-text-input>
+                                </div>
+
+                                <div class="col-xl-4 col-sm-12 mt-1">
+                                    <tmss-text-input [text]="l('SupplierNO')" [isDisabled]="true"
+                                        [(ngModel)]="selectedInvoice.supplierNumber"></tmss-text-input>
+                                </div>
+
+                                <div class="col-xl-4 col-sm-12 mt-1">
+                                    <tmss-text-input [text]="l('SellerTaxCode')" [isDisabled]="true"
+                                        [(ngModel)]="selectedInvoice.sellerTaxCode"></tmss-text-input>
+                                </div>
+
+                                <div class="col-xl-4 col-sm-12 mt-1">
+                                    <tmss-text-input [text]="l('SerialNo')" [isDisabled]="true"
+                                        [(ngModel)]="selectedInvoice.serialNo"></tmss-text-input>
+                                </div>
+
+                                <div class="col-xl-8 col-sm-12 mt-1">
+                                    <tmss-text-input [text]="l('SupplierName')" [isDisabled]="true"
+                                        [(ngModel)]="selectedInvoice.supplierName"></tmss-text-input>
+                                </div>
+
+                                <div class="col-xl-4 col-sm-12 mt-1">
+                                    <tmss-datepicker [text]="l('InvoiceDate')" [isDisabled]="true"
+                                        [(ngModel)]="selectedInvoice.invoiceDate"></tmss-datepicker>
+                                </div>
+
+                                <div class="col-xl-6 col-sm-12 mt-1">
+                                    <tmss-text-input [text]="l('PoNo')" [(ngModel)]="selectedInvoice.poNo"></tmss-text-input>
+                                </div>
+                                <div class="col-xl-2 col-sm-12 mt-1">
+                                    <button ng-if="selectedRow" (click)="updatePoNo()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-edit mr-1"></i>
+                                        Update Po No
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-xl-4 col-sm-12 custom-row ">
+                            <!-- <div class="col-xl-5 col-sm-12 mt-1">
+                                <h6>TaxInformation</h6>
+                                <grid-table [height]="'300px'" [columnDefs]="taxColDef" [rowData]="taxData"
+                                    [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                                    (onChangeSelection)="onChangeSelection($event)" [showPagination]="false"
+                                    [height]="'100px'">
+                                </grid-table>
+                            </div> -->
+
+                            <div class="col-xl-12 col-sm-12 mt-1">
+                                <p-panel header="Công nợ" class="content-panel-custom" [toggleable]="true">
+                                    <div class="col-xl-12 col-sm-12 mt-1">
+                                        <tmss-text-input [text]="'Tiền hàng'" [(ngModel)]="selectedInvoice.distAmount"
+                                        [isDisabled]="true"></tmss-text-input>
+                                    </div>
+                                    <div class="col-xl-12 col-sm-12 mt-1">
+                                        <tmss-text-input [text]="'Tiền thuế'"
+                                        [isDisabled]="true"   [(ngModel)]="selectedInvoice.vatAmount"></tmss-text-input>
+                                    </div>
+                                    <div class="col-xl-12 col-sm-12 mt-1">
+                                        <tmss-text-input [text]="'Tổng thanh toán'"
+                                        [isDisabled]="true" [(ngModel)]="selectedInvoice.amount"></tmss-text-input>
+                                    </div>
+                                </p-panel>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+
+                    <!-- <div class="custom-row ">
+                        <div class="col-xl-6 col-sm-12 ">
+                            <h6>GoodList</h6>
+                        </div>
+                        <div class="col-xl-6 col-sm-12 custom-row text-right">
+                            <tmss-text-input [text]="'Search'"></tmss-text-input>
+                            <button ng-if="selectedRow" (click)="searchData()" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-search mr-1"></i>
+                                Search
+                            </button>
+                        </div>
+                    </div> -->
+                    <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                    <div class="row align-items-center">
+                        <div id="table1" class="col-12">
+                            <grid-table [height]="'300px'" [columnDefs]="gridColDef"
+                                [rowData]="digitalInvoiceDetail" [paginationParams]="paginationParams"
+                                (callBackEvent)="callBackGrid($event)"
+                                (onChangeSelection)="onChangeSelection($event)" [showPagination]="false">
+                            </grid-table>
+                        </div>
+                    </div>
+                    <!-- </p-panel> -->
+                    <div class="col-xl-12 col-sm-12 text-right">
+                        <button ng-if="selectedInvoice" (click)="matchInvoice()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            MatchInvoice
+                        </button>
+                        <button ng-if="selectedRow" (click)="unMatchInvoice()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            UnMatchInvoice
+                        </button>
+                        <button ng-if="selectedInvoice" (click)="compareInvoice()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            View kết quả match
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+
+                    <div class="row align-items-center">
+                        <div id="table1" class="col-12">
+                            <grid-table [height]="'120px'" [columnDefs]="attachColDef"
+                                [rowData]="attachFileList" [paginationParams]="paginationParams"
+                                (callBackEvent)="callBackAttachGrid($event)" [frameworkComponents]="frameworkComponents"
+                                (onChangeSelection)="onChangeAttachSelection($event)" [showPagination]="false">
+                            </grid-table>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12 col-sm-12 text-right">
+                        <button ng-if="selectedInvoice" (click)="matchInvoice()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            Download Attach File
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>

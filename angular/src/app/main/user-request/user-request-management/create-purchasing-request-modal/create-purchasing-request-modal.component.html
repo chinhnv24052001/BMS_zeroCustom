@@ -1,0 +1,105 @@
+<div bsModal #createPurchasingRequestModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createPurchasingRequestModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form #createOrEdit="ngForm" *ngIf="createPRForm" [formGroup]="createPRForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span>{{ l('AddNewPR') }}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="close()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body-master">
+                    <fieldset class="fieldset-border">
+                        <div class="row ph-0">
+                            <div class="col-xl-4 col-sm-4">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('PRNumber')" formControlName="prNumber" [isDisabled]="true"></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-sm-4">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('Preparer')" formControlName="preparer" [isDisabled]="true"></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-sm-4">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('Division')" formControlName="division" [isDisabled]="true"></tmss-text-input>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ph-0">
+                            <div class="col-xl-4 col-sm-4">
+                                <div class="form-group">
+                                    <tmss-combobox [text]="l('Status')" formControlName="status"></tmss-combobox>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-sm-4">
+                                <div class="form-group">
+                                    <tmss-text-input [text]="l('Email')" formControlName="email"></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-sm-4">
+                                <div class="form-group" hasError="department">
+                                    <tmss-combobox [text]="l('Department')" formControlName="department"
+                                        [isValidate]="true"></tmss-combobox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ph-0">
+                            <div class="col-xl-4 col-sm-4">
+                                <div class="form-group">
+                                    <tmss-combobox [text]="l('InventoryGroup')" formControlName="inventoryGroup"></tmss-combobox>
+                                </div>
+                            </div>
+                            <div class="col-xl-8 col-sm-8">
+                                <div class="form-group">
+                                    <tmss-textarea [text]="l('Description')" formControlName="description"></tmss-textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-sync-alt mr-1"></i>
+                                {{ l('Refresh') }}
+                            </button>
+                            <button pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-plus mr-1"></i>
+                                {{ l('Add') }}
+                            </button>
+                            <button pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                                <i class="fa tmss-fa fa-trash mr-1"></i>
+                                {{ l('Delete') }}
+                            </button>
+                        </div>
+                    </fieldset>
+                    <fieldset class="fieldset-border">
+                        <div class="col-12 ph-0">
+                            <grid-table [columnDefs]="prDetailsColDef" [defaultColDef]="defaultColDef"
+                                [showPagination]="false" [height]="'300px'" [rowData]="">
+                            </grid-table>
+                        </div>
+                    </fieldset>
+
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        {{ l('Save') }}
+                    </button>
+                    <button (click)="close()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{ l('Cancel') }}
+                    </button>
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

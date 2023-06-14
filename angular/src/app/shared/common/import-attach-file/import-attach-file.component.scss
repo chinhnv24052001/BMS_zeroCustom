@@ -1,0 +1,19 @@
+
+:host ::ng-deep {
+    .row {
+        padding: 2px 12px 2px 12px !important;
+    }
+    .input-group-text.left-text {
+        width: 128px !important;
+    }
+
+    .grid-btn-download {
+        border: 1px solid #009a00 !important;
+        height: 17px !important;
+        width: 10px !important;
+        // border-radius: 5px !important;
+        background-color: #009a00 !important;
+        cursor: pointer !important;
+    }
+
+}

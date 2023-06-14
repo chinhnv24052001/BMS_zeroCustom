@@ -1,0 +1,196 @@
+<div class="content d-flex flex-column flex-column-fluid">
+    <div [class]="containerClass">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <div class="form">
+                    <p-panel header="{{l('Search')}}" [toggleable]="true">
+                        <div class="row">
+                            <div class="col-xl-4 col-sm-12">
+                                <tmss-text-input (onClickInput)="search()" [text]="l('ContractNo')"
+                                    [(ngModel)]="contractNo"></tmss-text-input>
+                            </div>
+                            <div class="col-xl-4 col-sm-12">
+                                <tmss-datepicker [text]="l('FromDate')" [(ngModel)]="effectiveFrom"></tmss-datepicker>
+                            </div>
+
+                            <div class="col-xl-4 col-sm-12">
+                                <tmss-datepicker [text]="l('ToDate')" [(ngModel)]="effectiveTo"></tmss-datepicker>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-xl-4 col-sm-12">
+                                <tmss-text-input (onClickInput)="search()" [text]="l('AppendixNo')"
+                                    [(ngModel)]="appendixNo"></tmss-text-input>
+                            </div>
+                            <!-- <div class="col-xl-3 col-sm-12">
+                                <tmss-text-input (onClickInput)="search()" [text]="l('ApproveBy')" [(ngModel)]="approveBy"></tmss-text-input>
+                            </div> -->
+                            <!-- =======
+                            <div class="col-xl-3 col-sm-12">
+                                <tmss-text-input (onClickInput)="search()" [text]="l('ApproveBy')"
+                                    [(ngModel)]="approveBy"></tmss-text-input>
+                            </div>
+>>>>>>> master -->
+                            <div class="col-xl-4 col-sm-12">
+                                <tmss-combobox [text]="l('ApprovalStatus')" [(ngModel)]="approvalStatus"
+                                    [items]="approvalStatusList" [hasFilter]="false"></tmss-combobox>
+                            </div>
+
+                            <div class="col-xl-4 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-combobox [text]="l('InventoryGroup')" [(ngModel)]="inventoryGroupId"
+                                        [items]="listInventoryGroups"></tmss-combobox>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-1">
+                            <div class="col-xl-4 col-sm-12">
+                                <tmss-combobox [text]="l('Supplier')" [(ngModel)]="supplierId"
+                                    [items]="listSuppliers"></tmss-combobox>
+                            </div>
+                            <div class="col-xl-4 col-sm-12">
+                                <tmss-datepicker [text]="l('CreationTime')"
+                                    [(ngModel)]="creationTime"></tmss-datepicker>
+                            </div>
+                            <div class="col-xl-4 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-combobox [text]="l('CreateBy')" [(ngModel)]="userId"
+                                        [items]="listUsers"></tmss-combobox>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <button pButton pRipple type="button" (click)="search()"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i class="fa tmss-fa fa-search mr-1"></i>
+                                    {{'Search' | localize}}</button>
+                            </div>
+                        </div>
+                    </p-panel>
+                </div>
+            </div>
+        </div>
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-12 col-sm-12">
+                        <grid-table [height]="'25vh'" [columnDefs]="contractColDef" [rowData]="contractData"
+                            [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                            (changePaginationParams)="changePaginationParams($event)"
+                            (onChangeSelection)="onChangeSelection($event)">
+                        </grid-table>
+                        <div class="col-xl-12 col-sm-12 text-right">
+                            <button (click)="createOrEditContract.create()" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-plus mr-1"></i>
+                                {{'AddModal' | localize}}
+                            </button>
+                            <button (click)="importMutipleContract.show()" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-file-upload mr-1"></i>
+                                {{'ImportFromExcel' | localize}}
+                            </button>
+                            <button [disabled]="!selectedRow || !selectedRow!.id" (click)="createOrEditContract.view()"
+                                pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-eye mr-1"></i>
+                                {{'ViewDetails' | localize}}
+                            </button>
+                            <button [disabled]="!selectedRow || !selectedRow!.id" (click)="createOrEditContract.edit()"
+                                pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-edit mr-1"></i>
+                                {{'Edit' | localize}}
+                            </button>
+                            <button [disabled]="!selectedRow || !selectedRow!.id" (click)="deleteContract()" pButton
+                                pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                                <i class="fa tmss-fa fa-trash mr-1"></i>
+                                {{'Delete' | localize}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-12 col-sm-12">
+                        <grid-table [height]="'25vh'" [columnDefs]="appendixColDef" [rowData]="appendixFilter"
+                            [showPagination]="false" (callBackEvent)="callBackGridAppendix($event)"
+                            [rowSelection]="'multiple'" (onChangeSelection)="onChangeSelectionAppendix($event)">
+                        </grid-table>
+                        <div class="col-xl-12 col-sm-12 text-right">
+                            <button [disabled]="!selectedRow || !selectedRow!.id"
+                                (click)="createOrEditAppendix.create(selectedRow.id,selectedRow.supplierId,selectedRow.contractNo,selectedRow.supplierName)"
+                                pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-plus mr-1"></i>
+                                {{'Add' | localize}}
+                            </button>
+                            <button [disabled]="!selectedRowFrame || !selectedRowFrame!.id"
+                                (click)="createOrEditAppendix.edit(selectedRow.supplierId,selectedRow.contractNo,selectedRow.supplierName)"
+                                pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-edit mr-1"></i>
+                                {{'Edit' | localize}}
+                            </button>
+                            <button [disabled]="!selectedRowFrame || !selectedRowFrame!.id" (click)="deleteAppendix()"
+                                pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                                <i class="fa tmss-fa fa-trash mr-1"></i>
+                                {{'Delete' | localize}}
+                            </button>
+                            <button (click)="requestBackdate()" [disabled]="!selectedRowFrame || !selectedRowFrame!.id"
+                                pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-warning">
+                                <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                                {{'RequestBackdate' | localize}}
+                            </button>
+                            <button (click)="sentRequest()" [disabled]="!selectedRowFrame || !selectedRowFrame!.id"
+                                pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-warning">
+                                <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                                {{'SendRequest' | localize}}
+                            </button>
+                            <button (click)="undoRequest()" [disabled]="!selectedRowFrame || !selectedRowFrame!.id"
+                                pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                                {{'UndoRequest' | localize}}
+                            </button>
+                            <button [disabled]="true" (click)="approveHis()" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-edit mr-1"></i>
+                                {{'ApproveHistory' | localize}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div hidden class="card card-custom gutter-b">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <grid-table [height]="'230px'" [columnDefs]="gridDetailColDef" [rowData]="appendixItemFilter"
+                            [showPagination]="false" [paginationParams]="gridDetailParams"
+                            (callBackEvent)="callBackDetailGrid($event)"
+                            (onChangeSelection)="onChangeDetailSelection($event)">
+                        </grid-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <importFromExcel #importFromExcelComponent [contractHeaderId]="selectedRow?.id" (updateAfterEdit)="getData()">
+    </importFromExcel>
+    <app-import-multiple-contract #importMutipleContract (updateAfterEdit)="getData()">
+    </app-import-multiple-contract>
+    <view-approval-history #viewApprovalHistoryModal></view-approval-history>
+    <app-create-or-edit-prc-contract-template #createOrEditContract [selectedRow]="selectedRow"
+        [listRowAppendix]="appendixFilter" [listRowItem]="appendixItemFull"
+        (close)="getData()"></app-create-or-edit-prc-contract-template>
+    <app-create-or-edit-appendix-contract #createOrEditAppendix [listRowItem]="appendixItemFilter"
+        (close)="callBackGridAppendix($event)" [selectedRow]="selectedRowFrame"></app-create-or-edit-appendix-contract>
+    <app-create-or-edit-appendix-items #createOrEditAppendixItems
+        [selectedRow]="selectedRowItems"></app-create-or-edit-appendix-items>
+    <tmss-select-grid-modal #selectDetailModal [height]="'330px'" [notPartFilter]="true" [showInput]="false"
+        [headerText]="l('InventoryItems')" [isHideSearchField]="false" [columnDefs]="selectDetailColDef"
+        [showPagination]="false" [enableFilter]="true" [listInput]="listMstInventoryItems"
+        [defaultColDef]="defaultColDef" [textLeft]="l('Select')" (close)="setData($event)"></tmss-select-grid-modal>
+</div>
+
+<view-list-approve-detail (getData)="search()" #viewDetailApprove></view-list-approve-detail>
+<create-contract-backdate-modal #createContractBackdate (close)="search()"></create-contract-backdate-modal>

@@ -1,0 +1,159 @@
+import { TABS } from '../constants/tab-keys';
+
+export const MODULE_PATHS = {
+    APP_ADMIN_ADMIN_MODULE: 'app/admin/admin.module',
+
+    APP_MASTER_MODULE: 'app/main/master/master.module',
+    APP_MASTER_BUY_REQUEST: 'app/main/user-request/buy-request-from-catalog/buy-request-from-catalog.module',
+    APP_PR: 'app/main/pr/pr.module',
+    APP_PAYMENT: 'app/main/payment/payment-request.module',
+    APP_GR: 'app/main/gr/gr.module',
+    APP_PO: 'app/main/po/po.module',
+    APP_MASTER_CATALOG_PRICE_MANAGEMENT:
+        'app/main/user-request/catalog-price-management/catalog-price-management.module',
+
+    APP_UR_BUY_REQUEST_FROM_CATALOG: 'app/main/user-request/buy-request-from-catalog/buy-request-from-catalog.module',
+    APP_UR_REQUEST: 'app/main/user-request/user-request-management/user-request-management.module',
+
+    APP_APPROVE : 'app/main/approve/approve.module',
+
+    APP_PRICE_MANAGEMENT: 'app/main/price-management/price-management.module',
+
+    APP_SYS_SYSTEM_CONFIG: '',
+
+    APP_MAIN_DASHBOARD: 'app/main/dashboard/main-dashboard/main-dashboard.module',
+    APP_BMS_MASTER_MODULE: 'app/main/bms-master/bms-master.module',
+    APP_BMS_BUDGET_TRANSFER_MODULE: 'app/main/bms-budget-transfer/bms-budget-transfer.module',
+    APP_BMS_BUDGET_REVIEW_MODULE: 'app/main/bms-budget-review-control/bms-budget-review.module',
+    APP_SOURCING: 'app/main/sourcing/sourcing.module',
+
+
+};
+
+export const MODULE_COMPONENT_MAP = {
+
+
+
+
+    [MODULE_PATHS.APP_ADMIN_ADMIN_MODULE]: [
+        TABS.ADMIN_ORGANIZATION_UNITS,
+        TABS.ADMIN_USERS,
+        TABS.ADMIN_ROLES,
+        TABS.ADMIN_AUDIT_LOGS,
+        TABS.ADMIN_LANGUAGE,
+        TABS.ADMIN_UI_CUSTOMIZATION,
+        TABS.ADMIN_HOST_SETTINGS,
+        TABS.ADMIN_TENANT_SETTINGS,
+    ],
+
+    /* Master */
+    [MODULE_PATHS.APP_MASTER_MODULE]: [
+        TABS.MASTER_TEST,
+        TABS.MASTER_PERIOD,
+        TABS.MASTER_PURCHASE_PURPOSE,
+        TABS.MASTER_CURRENCY,
+        TABS.MASTER_UNIT_OF_MEASURE,
+        TABS.MASTER_SUPPLIER,
+        TABS.MASTER_SUPPLIER_REQUEST,
+        TABS.MASTER_CATALOG_PRICE_MANAGEMENT,
+        TABS.MASTER_APPROVAL_TREE,
+        TABS.MASTER_INVENTORY_ITEM,
+        TABS.MASTER_INVENTORY_GROUP,
+        TABS.MASTER_INVENTORY_GROUP_MODAL,
+        TABS.MASTER_HR_ORG_STRUCTURE,
+        TABS.MASTER_PRODUCT_INVENTORY_ITEM,
+        TABS.MASTER_PRICE_INVENTORY_ITEM,
+        TABS.FRAMEWORK_CONTRACT_CATALOG,
+        TABS.MST_CANCEL_REASON,
+        TABS.MASTER_CURRENCY_DATA,
+        TABS.MASTER_BUDGET_CODE,
+        TABS.MASTER_PROJECT,
+        TABS.MASTER_QUOTA_EXPENSE,
+        TABS.MASTER_PRODUCT_GROUP,
+        TABS.MASTER_LIST_OF_DOCUMENT,
+        TABS.MASTER_CATALOG,
+        TABS.MASTER_INVENTORY_CODE_CONFIG,
+        TABS.MASTER_ASSESS,
+        TABS.MASTER_ASSESS_GROUP
+    ],
+
+    [MODULE_PATHS.APP_PR]: [
+        TABS.PURCHASE_REQUEST,
+        TABS.CREATE_OR_EDIT_PURCHASE_REQUEST,
+        TABS.UR_AUTO_CREATE_PR
+    ],
+
+    [MODULE_PATHS.APP_PRICE_MANAGEMENT]: [
+        TABS.FRAMEWORK_CONTRACT_MANAGEMENT,
+    ],
+
+    [MODULE_PATHS.APP_PO]: [
+        TABS.PURCHASE_ORDERS,
+        TABS.CREATE_OR_EDIT_PURCHASE_ORDERS,
+        TABS.AUTO_CREATE_PURCHASE_ORDERS,
+        TABS.AUTO_CREATE_PURCHASE_ORDERS_FROM_CONTRACT,
+    ],
+
+
+    [MODULE_PATHS.APP_GR]: [
+        TABS.GOODS_RECEIPT,
+        TABS.CREATE_OR_EDIT_GOODS_RECEIPT,
+        TABS.CREATE_OR_EDIT_GR_FROM_RECEIPT_NOTES,
+        TABS.RECEIPT_NOTES,
+        TABS.CREATE_OR_EDIT_RECEIPT_NOTES,
+        TABS.RETURN_GOODS_RECEIPT,
+        TABS.RETURN_GOODS_RECEIPT_LIST,
+        TABS.VIEW_GOODS_RECEIPT,
+        TABS.VIEW_RECEIPT_NOTE
+    ],
+    // payment request
+    [MODULE_PATHS.APP_PAYMENT]: [TABS.PAYMENT_REQUEST, TABS.CREATE_OR_EDIT_PAYMENT_REQUEST, TABS.INVOICE, TABS.INVOCIE_ADJUSTED, TABS.CREATE_OR_EDIT_INVOCIE_ADJUSTED, TABS.PAYMENT_ADVANCE,TABS.DIGITAL_INVOICE,TABS.DIGITAL_INVOICE_DETAIL,TABS.COMPARE_INVOICE, TABS.PAYMENT_REQUEST_FROM_SUPPLIERS],
+    [MODULE_PATHS.APP_MASTER_CATALOG_PRICE_MANAGEMENT]: [TABS.MASTER_CATALOG_PRICE_MANAGEMENT],
+    /* End Master */
+
+    /* User Request */
+    [MODULE_PATHS.APP_UR_BUY_REQUEST_FROM_CATALOG]: [TABS.UR_BUY_REQUEST_FROM_CATALOG],
+    [MODULE_PATHS.APP_UR_REQUEST]: [TABS.UR_REQUEST, TABS.UR_CREATE_USER_REQUEST],
+    /* End User Request */
+
+    /* System Config */
+    [MODULE_PATHS.APP_SYS_SYSTEM_CONFIG]: [TABS.SYS_SYSTEM_CONFIG],
+    /* End System Config */
+
+    // approve
+    [MODULE_PATHS.APP_APPROVE]: [TABS.APPROVE_REQUEST],
+
+    /* Dashboard */
+    [MODULE_PATHS.APP_MAIN_DASHBOARD]: [TABS.MAIN_DASHBOARD],
+
+    [MODULE_PATHS.APP_BMS_MASTER_MODULE]: [
+        TABS.BMS_MST_SEGMENT1,
+        TABS.BMS_MST_SEGMENT2,
+        TABS.BMS_MST_SEGMENT3,
+        TABS.BMS_MST_SEGMENT4,
+        TABS.BMS_MST_SEGMENT5,
+        TABS.BMS_MST_PERIOD,
+        TABS.BMS_MST_PAIRING_SEGMENT,
+        TABS.BMS_MST_SEGMENT1_TYPE_COST,
+        TABS.BMS_MST_SEGMENT2_PROJECT_TYPE,
+        TABS.BMS_MST_SEGMENT4_GROUP,
+        TABS.BMS_MST_EXCHANGE_RATE,
+        TABS.BMS_MST_PROJECT_CODE,
+        TABS.BMS_USER_BUDGET_CONTROL,
+    ], 
+
+    
+    [MODULE_PATHS.APP_BMS_BUDGET_TRANSFER_MODULE]: [
+        TABS.BMS_BUDGET_TRANSFER,
+    ], 
+
+    [MODULE_PATHS.APP_BMS_BUDGET_REVIEW_MODULE]: [
+        TABS.BMS_BUDGET_REVIEW,
+        TABS.BMS_BUDGET_PLAN_REVIEW
+    ],
+
+    [MODULE_PATHS.APP_SOURCING]: [
+        TABS.SOURCING_LIST,
+
+    ],
+};

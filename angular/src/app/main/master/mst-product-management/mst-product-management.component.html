@@ -1,0 +1,143 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <form class="form" [formGroup]="itemsForm" *ngIf="itemsForm">
+                        <p-panel header="{{ 'Filterproduct' | localize }}" [toggleable]="true">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <tmss-text-input [text]="l('Enterkeyword')" (onClickInput)="searchItems()"
+                                            formControlName="keyword">
+                                        </tmss-text-input>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('InventoryGroup')" value="items.id"
+                                            display="items.productGroupCode" formControlName="inventoryGroupId"
+                                            [items]="listInventoryGroup"></tmss-combobox>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('Catalog')" formControlName="catalogId"
+                                            [items]="listCatalogs"></tmss-combobox>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('Supplier')" formControlName="supplierId"
+                                            [items]="listSuppliers"></tmss-combobox>
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-2">
+                                    <button (click)="searchItems()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-search mr-1"></i>
+                                        {{ 'Search' | localize }}
+                                    </button>
+                                </div>
+                            </div>
+                        </p-panel>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                    <div class="row align-items-center">
+                        <div id="table1" class="col-12">
+                            <grid-table [height]="'60vh'" [columnDefs]="gridColDef" [rowData]="listItem"
+                                [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                (rowClicked)="onChangeSelection($event)" [allowToGetMultiRecords]="true"
+                                cellEditStopParams="{'stopEditingWhenGridLosesFocus': true}">
+                            </grid-table>
+                        </div>
+                    </div>
+                    <div class="col-12 text-right">
+                        <!-- <button (click)="exportTemplate(1)" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-success">
+                            <i class="fa tmss-fa fa-file-download mr-1"></i>
+                            {{'ExportTemplate' | localize}}
+                        </button> -->
+
+                        <button *ngIf="isGranted('MasterData.ProductManagement.Import')"
+                            (click)="importInventoryItemImp()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-success">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'ImportFromExcel' | localize}}
+                        </button>
+
+                        <button *ngIf="isGranted('MasterData.ProductManagement.Export')" (click)="exportExcell()"
+                            pButton pRipple type="button" class="tmss-btn p-button-outlined p-button-success">
+                            <i class="fa tmss-fa fa-file-download mr-1"></i>
+                            {{'ExportData' | localize}}
+                        </button>
+                        <button *ngIf="isGranted('MasterData.ProductManagement.Add')"
+                            (click)="createEditProductManagement.add()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{'Add' | localize}}
+                        </button>
+                        <button *ngIf="isGranted('MasterData.ProductManagement.Edit')" ng-if="selectedRow"
+                            (click)="edit()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'Edit' | localize}}
+                        </button>
+
+                        <button *ngIf="isGranted('MasterData.ProductManagement.Delete')" ng-if="selectedRow"
+                            (click)="delete()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'Delete' | localize}}
+                        </button>
+                        <!-- class="tmss-btn p-button-outlined p-button-danger">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'Delete' | localize}}
+                        </button> -->
+                        <button ng-if="selectedRow" (click)="view()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined p-button-primary">
+                            <i class="fa tmss-fa fa-eye mr-1"></i>
+                            {{'ViewDetail' | localize}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="card card-custom gutter-b">
+                <div class="card-body">
+                     <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true">
+                    <div class="row align-items-center">
+                        <div id="table1" class="col-12">
+                            <grid-table
+                                #itemprices
+                                [height]="'140px'"
+                                [columnDefs]="gridColDefItemPrices"
+                                [rowData]="listItemPrices"
+                                [paginationParams]="paginationParamsItemPrice"
+                                (callBackEvent)="callBackGridItemsPrice($event)"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                cellEditStopParams="{'stopEditingWhenGridLosesFocus': true}"
+                            >
+                            </grid-table>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <create-edit-product-management #createEditProductManagement [selectedRow]="selectedRow"
+            (updateAfterEdit)="searchItems()"></create-edit-product-management>
+        <importFromExcel #importFromExcelComponent (updateAfterEdit)="searchItems()"></importFromExcel>
+        <importInventoryItem #importInventoryItemComponent (updateAfterEdit)="searchItems()"></importInventoryItem>
+    </div>
+</div>

@@ -1,0 +1,448 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog tmss-modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                <h5 class="modal-title" style="margin-left: 15px;">
+                    <span>{{'ViewDetail' | localize}}</span>
+                </h5>
+                <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModal()"
+                    [attr.aria-label]="l('Close')">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+
+            <div class="modal-body modal-body-master">
+                <tabset #tabsetComponent class="tab-container tabbable-line mt-3">
+                    <tab [heading]="l('GeneralInformation')">
+                        <div class="content d-flex flex-column flex-column-fluid">
+                            <div [class]="containerClass">
+                                <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm"
+                                    [formGroup]="createOrEditForm" novalidate autocomplete="off">
+                                    <div class="card card-custom gutter-b">
+                                        <div class="card-body">
+                                            <!-- <p-panel header="{{l('GeneralInformation')}}" [toggleable]="true"> -->
+                                            <div class="row">
+                                                <div class="col-xl-2 col-sm-12">
+                                                    <div class="form-group">
+                                                        <tmss-text-input [text]="l('PoNo')" isDisabled="true"
+                                                            formControlName="segment1"></tmss-text-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-2 col-sm-12">
+                                                    <div class="form-group">
+                                                        <tmss-text-input [text]="l('PoRef')"
+                                                            formControlName="poRef"></tmss-text-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <div class="form-group">
+                                                        <tmss-combobox [text]="l('TypePurchaseOrders')"
+                                                            [isDisabled]="viewOnly" formControlName="typeLookupCode"
+                                                            [items]="listLookupCode"
+                                                            [hasFilter]="false"></tmss-combobox>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <tmss-text-input [text]="l('DocumentType')" isDisabled="true"
+                                                        formControlName="documentType"></tmss-text-input>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <div class="form-group">
+                                                        <tmss-text-input [text]="l('TotalPrice')" isDisabled="true"
+                                                            formControlName="total"></tmss-text-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <div class="form-group">
+                                                        <tmss-combobox [text]="l('Currency')" [isDisabled]="viewOnly"
+                                                            formControlName="currencyCode" [items]="listCurrency"
+                                                            [hasFilter]="false"></tmss-combobox>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <div class="form-group">
+                                                        <tmss-combobox [text]="l('Buyer')" [isRequired]="!viewOnly" [isDisabled]="viewOnly" formControlName="buyerId"
+                                                                    [items]="listUsers"></tmss-combobox>
+                                                        <!-- <tmss-search-input [text]="l('Buyer')" [isDisabled]="viewOnly"
+                                                            formControlName="buyerName" [isRequired]="!viewOnly"
+                                                            (onSearch)="showSearchBuyer()"
+                                                            [showModal]="true"></tmss-search-input> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <div class="form-group">
+                                                        <tmss-text-input [text]="l('Status')" isDisabled="true"
+                                                            formControlName="authorizationStatus"></tmss-text-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <div class="form-group">
+                                                        <tmss-combobox [text]="l('Supplier')" [items]="listSuppliers" [isDisabled]="viewOnly" formControlName="vendorId"
+                                                                    [isRequired]="!viewOnly"></tmss-combobox>
+                                                        <!-- <tmss-search-input [text]="l('Supplier')"
+                                                            [isDisabled]="viewOnly" formControlName="vendorName"
+                                                            [isRequired]="!viewOnly" (onSearch)="showSearchSupplier()"
+                                                            [showModal]="true"></tmss-search-input> -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <div class="form-group">
+                                                        <tmss-text-input [text]="l('Titles')" isDisabled="true"
+                                                            formControlName="position"></tmss-text-input>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <div class="form-group">
+                                                        <tmss-combobox [text]="l('ShipTo')" [isDisabled]="viewOnly" formControlName="shipToLocationId"
+                                                                    [items]="listLocations"></tmss-combobox>
+                                                        <!-- <tmss-search-input [text]="l('ShipTo')" [isDisabled]="viewOnly"
+                                                            formControlName="shipToLocationName"
+                                                            (onSearch)="showSearchShipLocation()"
+                                                            [showModal]="true"></tmss-search-input> -->
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <div class="form-group">
+                                                        <tmss-combobox [text]="l('Site')" [isDisabled]="viewOnly"
+                                                            formControlName="vendorSiteId" [hasFilter]="false"
+                                                            [isRequired]="isRequired" [items]="listSites"></tmss-combobox>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <div class="form-group">
+                                                        <tmss-text-input [text]="l('Tel')" isDisabled="true"
+                                                            formControlName="tel"></tmss-text-input>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <div class="form-group" hasError="billToLocationId">
+                                                        <tmss-combobox [text]="l('BillTo')" [isDisabled]="viewOnly" formControlName="billToLocationId"
+                                                                    [items]="listLocations"></tmss-combobox>
+                                                        <!-- <tmss-search-input [text]="l('BillTo')" [isDisabled]="viewOnly"
+                                                            formControlName="billToLocationName"
+                                                            (onSearch)="showSearchBillLocation()"
+                                                            [showModal]="true"></tmss-search-input> -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <div class="form-group">
+                                                        <tmss-combobox [text]="l('Contact')"
+                                                            [items]="listSupplierContacts" [hasFilter]="false"
+                                                            [isDisabled]="viewOnly"
+                                                            formControlName="vendorContactId"></tmss-combobox>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <div class="form-group">
+                                                        <tmss-text-input [text]="l('Email')" isDisabled="true"
+                                                            formControlName="email"></tmss-text-input>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-xl-4 col-sm-12">
+                                                            <div class="form-group">
+                                                                <tmss-combobox [text]="l('Currency')" [isDisabled]="viewOnly" formControlName="currencyCode"
+                                                                    [items]="listCurrency"></tmss-combobox>
+                                                            </div>
+                                                        </div> -->
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <div class="form-group" hasError="inventoryGroupId">
+                                                        <tmss-combobox [text]="l('InventoryGroup')" isRequired="true"
+                                                            [hasFilter]="false" formControlName="inventoryGroupId"
+                                                            [items]="listInventoryGroups"
+                                                            (onChangeValue)="onChangeInventoryGroup($event)"></tmss-combobox>
+                                                        <div class="error-message" errorMessage>
+                                                            <div *ifError="'required'">Bắt buộc</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <div class="form-group">
+                                                        <!-- <tmss-combobox [text]="l('Supplier')" [items]="listSuppliers" formControlName="vendorId"
+                                                                isRequired="true"></tmss-combobox> -->
+                                                        <tmss-search-input [text]="l('BudgetCode')"
+                                                            formControlName="chargeAccount" isRequired="true"
+                                                            (onSearch)="showChargeAccount()"
+                                                            [showModal]="true"></tmss-search-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <tmss-datepicker [text]="l('DocumentDate')"
+                                                        formControlName="rateDate" isRequired="true"
+                                                        (ngModelChange)="changeDocumentDate()"></tmss-datepicker>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xl-8 col-sm-12">
+                                                    <div class="form-group">
+                                                        <tmss-textarea [text]="l('Description')"
+                                                            formControlName="description"></tmss-textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <tmss-checkbox [text]="l('PrepayReceipt')"  formControlName="isPrepayReceipt"
+                                                    ></tmss-checkbox>
+                                                </div>
+                                            </div>
+                                            <div class="text-right" *ngIf="!viewOnly">
+                                                <!-- <button *ngIf="tabKey == 1" (click)="createPo()" pButton pRipple type="button"
+                                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                                    <i class="fa tmss-fa fa-save mr-1"></i>
+                                                    {{'RememberMe' | localize}}
+                                                </button> -->
+
+                                                <button *ngIf="tabKey == 1" (click)="showTerms()" pButton pRipple type="button"
+                                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                                    <i class="fa tmss-fa fa-save mr-1"></i>
+                                                    {{'Terms' | localize}}
+                                                </button>
+
+                                                <button *ngIf="tabKey == 1" (click)="addRow()" pButton pRipple
+                                                    type="button"
+                                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                                    <i class="fa tmss-fa fa-plus mr-1"></i>
+                                                    {{l('Add')}}
+                                                </button>
+                                                <button *ngIf="tabKey == 1" (click)="removeSelectedRow()" pButton
+                                                    pRipple type="button"
+                                                    class="tmss-btn p-button-outlined btn-outline-danger">
+                                                    <i class="fa tmss-fa fa-times mr-1"></i>
+                                                    {{l('Delete')}}
+                                                </button>
+                                                <!-- <button (click)="createPr()" pButton pRipple type="button"
+                                                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                                                        <i class="fa tmss-fa fa-save mr-1"></i>
+                                                                        {{l('Save')}}
+                                                                    </button> -->
+                                            </div>
+                                            <!-- </p-panel> -->
+                                        </div>
+                                    </div>
+                                    <button class="ghost" #submitBtn></button>
+                                </form>
+                                <div class="card card-custom gutter-b">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <grid-table [height]="'300px'"
+                                                    [columnDefs]="viewOnly ? gridColDefDetailForView : gridColDefDetail"
+                                                    [rowData]="listPurchaseOrdersDetail"
+                                                    (callBackEvent)="callBackGridPoDetail($event)"
+                                                    [showPagination]="false"
+                                                    (onChangeSelection)="onChangeSelectionPoDetail($event)"
+                                                    [frameworkComponents]="frameworkComponents"
+                                                    (cellValueChanged)="cellValueChanged($event)"
+                                                    (cellEditingStopped)="cellEditingStopped($event)"
+                                                    (onSearch)="searchByEnter($event)">
+                                                </grid-table>
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="tabKey == 1" class="row pt-2">
+                                            <div class="col-xl-6 col-sm-12">
+                                                <div class="form-group custom-input">
+                                                    <tmss-textarea [text]="l('Yêu cầu thêm thông tin')"
+                                                        isDisabled="true" [height]="'70px'"
+                                                        [(ngModel)]="poDetail!.requestNote"></tmss-textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <tmss-textarea [text]="l('Phản hồi')"
+                                                        [isDisabled]="viewOnly || !hasRequestInfo" [height]="'70px'"
+                                                        [(ngModel)]="poDetail!.replyNote"></tmss-textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" *ngIf="hasRequestInfo">
+
+                                            <div class="col-xl-12 col-sm-12 text-right">
+                                                <button [disabled]="!poDetail.replyNote" (click)="replyRequest()"
+                                                    pButton pRipple type="button"
+                                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                                    <i *ngIf="poDetail.replyNote" class="fa tmss-fa fa-check mr-1"></i>
+                                                    Phản hồi
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- </p-panel> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-12 ph-0" style="display: flex;">
+                            <tmss-text-input *ngIf="!viewOnly" class="pl-0" [text]="l('File')" [(ngModel)]="fileName">
+                            </tmss-text-input>
+                            <div *ngIf="!viewOnly" style="display: flex; justify-content: space-between;">
+                                <button type="button" style="margin-left: 0; height: 24px;" (click)="uploadSubImage()">
+                                    <i class="fa fa-upload mr-1"></i>
+                                    <span>{{ l('ChooseFile') }}</span>
+                                </button>
+                            </div>
+                            <button (click)="refreshFile()" class="tmss-btn p-button-outlined btn-outline-success ml-2">
+                                <i class="fa fa-sync-alt mr-1"></i>{{ l('Refresh') }}
+                            </button>
+                            <button *ngIf="!viewOnly" class="tmss-btn p-button-outlined btn-outline-danger"
+                                (click)="deleteFileRow()">
+                                <i class="fa fa-trash mr-1"></i>{{ l('Delete') }}
+                            </button>
+                        </div>
+
+                        <fieldset
+                            *ngIf="(this.uploadData && this.uploadData.length > 0) || (this.listFileAttachment && this.listFileAttachment.length > 0)"
+                            class="fieldset-border mt-2">
+                            <h6 class="card-header pl-0">
+                                {{ l('Attachments') }}
+                            </h6>
+                            <div class="col-12 ph-0">
+                                <grid-table [height]="'200px'" [columnDefs]="attachmentsColDefs"
+                                    [showPagination]="false" [frameworkComponents]="frameworkComponents"
+                                    (callBackEvent)="callBackAttachmentsGrid($event)" [rowData]="uploadData"
+                                    (onChangeSelection)="onChangeAttachmentSelection($event)"></grid-table>
+                            </div>
+                        </fieldset>
+
+                    </tab>
+                    <tab *ngIf="tabKey == 1" [heading]="l('Approve')">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <grid-table [height]="'300px'" [columnDefs]="gridColDefDetailApprove"
+                                        [rowData]="listPurchaseOrdersDetailApprove"
+                                        (callBackEvent)="callBackGridPoDetailAprrove($event)" [showPagination]="false">
+                                    </grid-table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </tab>
+                    <tab *ngIf="tabKey == 1" [heading]="l('ReferenceInformation')">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <grid-table [height]="'300px'" [columnDefs]="gridColDefDetailReference"
+                                        [rowData]="listPurchaseOrdersDetailReference"
+                                        (callBackEvent)="callBackGridPoDetaillReference($event)"
+                                        [showPagination]="false">
+                                    </grid-table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </tab>
+                </tabset>
+            </div>
+            <div class="modal-footer modal-footer-master">
+                <button *ngIf="!viewOnly && tabKey == 1" (click)="createPo()" pButton pRipple type="button" [disabled]="!isDisabled"
+                    class="tmss-btn p-button-outlined btn-outline-primary">
+                    <i class="fa tmss-fa fa-save mr-1"></i>
+                    {{ l('Save') }}
+                </button>
+                <button *ngIf="!viewOnly && tabKey == 1" (click)="sendRequest()" pButton pRipple type="button" [disabled]="!isDisabled"
+                    class="tmss-btn p-button-outlined btn-outline-success">
+                    <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                    {{ l('SendRequest') }}
+                </button>
+
+                <!-- <button *ngIf="viewOnly" (click)="forwardEvent.emit(null);modal.hide()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-primary">
+                    <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                    {{l('Duyệt và chuyển tiếp')}}
+                </button> -->
+
+                <button *ngIf="viewOnly" (click)="approveEvent.emit(null);modal.hide()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-primary">
+                    <!-- <i class="fa tmss-fa fa-plus mr-1"></i> -->
+                    {{l('Duyệt')}}
+                </button>
+                <button *ngIf="viewOnly" (click)="rejectEvent.emit(null);modal.hide()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-danger">
+                    <!-- <i class="fa tmss-fa fa-trash mr-1"></i> -->
+                    {{ 'Từ chối' }}
+                </button>
+                <button *ngIf="viewOnly" (click)="requestMoreInfoEvent.emit(null)" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-success">
+                    <!-- <i class="fa tmss-fa fa-location-arrow mr-1"></i> -->
+                    {{ 'Yêu cầu thêm thông tin' }}
+                </button>
+                <button (click)="closeModal()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-danger">
+                    <i class="fa tmss-fa fa-times mr-1"></i>
+                    {{'Close' | localize}}
+                </button>
+
+                <button class="ghost" #submitBtn></button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<tmss-select-grid-modal #listCategory [height]="'330px'" [headerText]="l('ListCategory')" [modalClass]="'modal-lg'"
+    (close)="patchCategory($event)" [isHideSearchField]="false" [columnDefs]="categoryDefs" [showPagination]="false"
+    [showInput]="true" [apiCall]="getAllCategories.bind(this)" [notPartFilter]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #listInventoryItems [height]="'330px'" [headerText]="l('ListInventoryItems')"
+    [modalClass]="'modal-lg'" (close)="patchInventoryItems($event)" [isHideSearchField]="false"
+    [columnDefs]="inventoryItemsDefs" [showPagination]="false" [showInput]="true"
+    [apiCall]="getAllInventoryItems.bind(this)" [notPartFilter]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #listUOM [height]="'330px'" [headerText]="l('ListUOM')" [modalClass]="'modal-lg'"
+    (close)="patchUOM($event)" [isHideSearchField]="false" [columnDefs]="uomItemsDefs" [showPagination]="false"
+    [showInput]="true" [apiCall]="getAllUOM.bind(this)" [notPartFilter]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #listBuyer [height]="'330px'" [headerText]="l('ListBuyer')" [modalClass]="'modal-lg'"
+    (close)="patchBuyer($event)" [isHideSearchField]="false" [columnDefs]="buyerDefs" [showPagination]="true"
+    [showInput]="true" [apiCall]="getAllBuyers.bind(this)" [notPartFilter]="true"
+    [notPartFilter]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #selectChargeAccount [height]="'300px'" [headerText]="l('BudgetCodeSelection')"
+    [columnDefs]="budgetCodeColDefs" [isHideSearchField]="false" [apiCall]="getAllChargeAccount.bind(this)"
+    [modalClass]="'modal-lg'" [textLeft]="l('Confirm')" [notPartFilter]="true"
+    (close)="patchChargeAccount($event)"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #listSupplierPopup [height]="'330px'" [headerText]="l('ListSupplier')" [modalClass]="'modal-lg'"
+    (close)="patchSupplier($event)" [isHideSearchField]="false" [columnDefs]="supplierDefs" [showPagination]="false"
+    [showInput]="true" [notPartFilter]="true" [apiCall]="getAllSupplier.bind(this)"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #listLocationBill [height]="'330px'" [headerText]="l('ListLocation')" [modalClass]="'modal-lg'"
+    (close)="patchLocationBill($event)" [isHideSearchField]="false" [columnDefs]="locationDefs" [showPagination]="false"
+    [showInput]="true" [apiCall]="getAllLocations.bind(this)" [notPartFilter]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #listLocationShip [height]="'330px'" [headerText]="l('ListLocation')" [modalClass]="'modal-lg'"
+    (close)="patchLocationShip($event)" [isHideSearchField]="false" [columnDefs]="locationDefs" [showPagination]="false"
+    [showInput]="true" [apiCall]="getAllLocations.bind(this)" [notPartFilter]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #selectBudgetCodeHeadModal [height]="'300px'" [headerText]="l('BudgetCodeSelection')"
+    [columnDefs]="budgetCodeColDefs" [isHideSearchField]="false" [apiCall]="getAllGlCode.bind(this)"
+    [modalClass]="'modal-lg'" [textLeft]="l('Confirm')" [notPartFilter]="true"
+    (close)="patchBudgetCode($event)"></tmss-select-grid-modal>
+
+<purchase-orders-shipments #poShipments (close)="pathShipments($event)"></purchase-orders-shipments>
+<purchase-order-terms-modal #poTerms (close)="pathTerms($event)"></purchase-order-terms-modal>
+<view-list-approve-detail (getData)="closeModal()" #viewDetailApprove></view-list-approve-detail>

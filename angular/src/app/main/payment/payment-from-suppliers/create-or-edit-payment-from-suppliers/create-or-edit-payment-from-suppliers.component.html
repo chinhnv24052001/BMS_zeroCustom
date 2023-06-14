@@ -1,0 +1,189 @@
+<div appBsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog modal-xl" >
+        <div class="modal-content ph-0">
+            <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span>{{'PaymentRequestFromSupplier' | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body modal-body-master">
+                    <div class="row">
+                        <div class="form-group col-xl-6 col-sm-12"  hasError="paymentNo">
+                            <tmss-text-input  class="" #paymentNoInput type="text" isDisabled="true" [text]="l('PaymentNo')" formControlName="paymentNo" isRequired="true" autofocus="true"
+                            isRequired="true" ></tmss-text-input>
+                             <div class="error-message" errorMessage>
+                                <div *ifError="'required'">{{'Required' | localize}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xl-3 col-sm-12" hasError="requestDate">
+                            <tmss-datepicker [text]="l('RequestDate')" formControlName="requestDate"
+                                    [isValidate]="true"></tmss-datepicker>
+                        </div>
+                        <div class="form-group col-xl-3 col-sm-12" hasError="requestDuedate">
+                            <tmss-datepicker type="text" [text]="l('RequestDuedate')" [isValidate]="true"  formControlName="requestDuedate"></tmss-datepicker>
+                        </div>
+
+                        <div class="form-group col-xl-6 col-sm-12">
+                            <tmss-combobox [items]="listSupplier" [text]="l('Vendor')"
+                            formControlName="vendorId" isRequired="true"></tmss-combobox>
+                        </div>
+                        <div class="form-group col-xl-6 col-sm-12" hasError="site">
+                            <tmss-combobox [items]="siteList" [text]="l('Site')"
+                            formControlName="vendorSiteId" isRequired="true"></tmss-combobox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-xl-6 col-sm-12" hasError="employeeId">
+                            <!-- <tmss-text-input type="text" [text]="'Employee'"  formControlName="employeeId"></tmss-text-input> -->
+                            <tmss-text-input [text]="l('CreatorUser')" isDisabled="true" formControlName="creatorUser" ></tmss-text-input>
+                        </div>
+                        <div class="form-group col-xl-6 col-sm-12">
+                            <tmss-combobox [items]="paymentStatusList" [text]="l('Status')"
+                            formControlName="status" isDisabled="true" ></tmss-combobox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-xl-6 col-sm-12" hasError="totalAmount">
+                            <tmss-text-input class="currency," type="currency"
+                             [text]="l('TotalAmount')" [className]="'text-right'" isDisabled="true"  formControlName="totalAmount" value="0.00"
+                             ></tmss-text-input>
+                        </div>
+                        <div class="form-group col-xl-6 col-sm-12">
+                            <tmss-combobox [items]="listCurrency" [text]="l('Currency')"
+                            formControlName="currencyCode" isRequired="true"></tmss-combobox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-xl-6 col-sm-12">
+                            <tmss-combobox [items]="sourcePaymentStatusList" [text]="l('SourcePayment')"
+                            formControlName="sourcePayment"></tmss-combobox>
+                        </div>
+                        <div class="form-group col-xl-6 col-sm-12" hasError="description">
+                            <tmss-text-input type="text" [text]="l('Description')"  formControlName="description"></tmss-text-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-xl-4 col-sm-12">
+                            <tmss-search-input type="text" [text]="l('PoNo')" isRequired="true"  formControlName="poNo"
+                            (onSearch)="selectPOs()" [showModal]="true"></tmss-search-input>
+                        </div>
+                        <div class="form-group col-xl-4 col-sm-12">
+                            <tmss-text-input type="number" isDisabled="true" [text]="l('AvailableAmount')" [className]="'text-number text-right'" formControlName="availableAmount"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-xl-4 col-sm-12">
+                            <tmss-text-input type="number"  (keyup)="setTotalAmount($event)"  [text]="l('Prepayment')" [className]="'text-number text-right'"  formControlName="prepaymentAmount"></tmss-text-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-xl-4 col-sm-12">
+                            <tmss-search-input [text]="l('InvoiceNum')"
+                            formControlName="invoiceNumber" isRequired="true"
+                            (onSearch)="selectInvoice()" [showModal]="true"></tmss-search-input>
+                        </div>
+                        <div class="form-group col-xl-4 col-sm-12">
+                            <tmss-datepicker type="text"  isDisabled="true" [text]="l('InvoiceDate')" formControlName="invoiceDate"></tmss-datepicker>
+                        </div>
+                        <div class="form-group col-xl-4 col-sm-12">
+                            <tmss-text-input class="currency" type="number" [className]="'text-number text-right'" [text]="l('InvoiceAmount')"
+                             formControlName="invoiceAmount" (keyup)="calculateTotalAmount()"  value="0.00"></tmss-text-input>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-5 col-sm-12">
+                            <div class="row">
+                                <div class="form-group col-xl-12 col-sm-12 ph-0">
+                                    <tmss-combobox [items]="listPaymentMethod" [text]="l('PaymentMethod')"
+                                    formControlName="paymentMethod"></tmss-combobox>
+                                </div>
+                                <div class="form-group col-xl-12 col-sm-12 ph-0">
+                                    <tmss-text-input type="text" [text]="l('BankAccountName')"  formControlName="bankAccountName"></tmss-text-input>
+                                </div>
+                                <div class="form-group col-xl-12 col-sm-12 ph-0">
+                                    <tmss-text-input type="text" [text]="l('BankAccountNumber')"  formControlName="bankAccountNumber"></tmss-text-input>
+                                </div>
+                                <div class="form-group col-xl-12 col-sm-12 ph-0">
+                                    <tmss-text-input type="text" [text]="l('Bank')"  formControlName="bankName"></tmss-text-input>
+                                </div>
+                                <div class="form-group col-xl-12 col-sm-12 ph-0">
+                                    <tmss-text-input type="text" [text]="l('BankBranch')"  formControlName="bankBranchName"></tmss-text-input>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-7 col-sm-12">
+                            <div class="ui-g-12 ph-0">
+                                <!-- Bảng thông tin cần thiết -->
+                                <grid-table  #tbAttachment
+                                    [columnDefs]="attColDef" [height]="'120px'" [showPagination]="false"
+                                    [rowData]="uploadData"
+                                    (callBackEvent)="callBackGridAttachment($event)"
+                                    (onChangeSelection)="onChangeSelectionAttachment($event)">
+                                </grid-table>
+                            </div>
+                            <div class="ui-g-12 ui-md-7" style="display: flex;">
+                                <tmss-text-input [text]="l('ChooseFile')" formControlName="fileName"></tmss-text-input>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <input #imgInput type="file" class="d-none" (change)="onUpload($event)">
+                                    <button type="button" style="margin-left: 0; height: 24px;" (click)="resetAttachment()">
+                                        <span>{{ 'Chọn file' }}</span>
+                                    </button>
+                                </div>
+                                <button class="tmss-btn tmss-footer-btn btn-outline-primary" [disabled]="!fileName"
+                                    (click)="upload()">
+                                    <i class="fa tmss-fa fa-upload mr-1"></i>{{ 'Tải lên' }}
+                                </button>
+                                <button *ngIf="selectedRowAttachment!=null" (click)="deleteAttachFile()" class="tmss-btn tmss-footer-btn btn-outline-danger">
+                                    <i class="fa tmss-fa fa-trash-alt mr-1"></i>{{ 'Xoá' }}
+                                </button>
+                                <button *ngIf="selectedRowAttachment!=null" (click)="downloadFile()" class="tmss-btn btn-outline-primary ml-1">
+                                    <i class="fa fa-download mr-1"></i>{{ 'Download' }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="modal-footer modal-footer-master">
+                    <button *ngIf="isEditForm" (click)="sendToTMV()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-success">
+                        <i class="fa tmss-fa fa-plane mr-1"></i>
+                        {{ l('SendToTMV') }}
+                    </button>
+                    <button  (click)="save()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{'Save' | localize}}
+                    </button>
+                    <button (click)="cancel()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+                        {{'CancelPayment' | localize}}
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{' Cancel' | localize}}
+                    </button>
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<tmss-select-grid-modal #listAllInvoices [height]="'330px'" [headerText]="l('ListInvoice')" [modalClass]="'modal-lg'"
+    (close)="patchInvoice($event)" [isHideSearchField]="false" [columnDefs]="gridInvoicesDef" [showPagination]="true"
+    [showInput]="true" [alwaysShowModal] = "true" [apiCall]="getAllInvoices.bind(this)" (isLoading)="setLoading($event)">
+</tmss-select-grid-modal>
+
+<tmss-select-grid-modal #listAllPOs [height]="'330px'" [headerText]="l('ListPOs')" [modalClass]="'modal-lg'"
+    (close)="patchPO($event)" [isHideSearchField]="false" [columnDefs]="gridPOsDef" [showPagination]="true"
+    [showInput]="true" [apiCall]="getAllPOs.bind(this)"
+    [alwaysShowModal] = "true"
+    (isLoading)="setLoading($event)">
+</tmss-select-grid-modal>
+
+

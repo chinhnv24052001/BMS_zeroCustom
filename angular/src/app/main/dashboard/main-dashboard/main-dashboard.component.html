@@ -1,0 +1,118 @@
+<div id="container" style="display: flex; justify-content: space-around;">
+    <div style="height: 92vh !important; width: 90vw !important; padding-top: 2vh;">
+        <div class="row" style="margin-bottom: 10px; display: flex; justify-content: start;">
+            <div class="dv-paren">
+                <button (click)="open(0)" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-danger child-width">
+                    <i class="fa tmss-fa">&#xf290;</i>
+                    {{ l('CreateURFromCatalog') }}
+                </button>
+            </div>
+
+            <div class="dv-paren">
+                <button (click)="open(1)" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-warning child-width">
+                    <i class="fa tmss-fa fa-file-signature"></i>
+                    {{ l('DashboardUR') }}
+                </button>
+            </div>
+
+            <div class="dv-paren">
+                <button (click)="open(2)" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-help child-width">
+                    <i class="fa tmss-fa fa-box-open"></i>
+                    {{ l('DashboardPR')}}
+                </button>
+            </div>
+
+            <div class="dv-paren">
+                <button (click)="open(3)" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-secondary child-width">
+                    <i class="fa tmss-fa fa-file-invoice-dollar"></i>
+                    {{ l('DashboardPO')}}
+                </button>
+            </div>
+
+            <div class="dv-paren">
+                <button (click)="open(4)" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-primary child-width">
+                    <i class="fa tmss-fa fa-user-check"></i>
+                    {{ l('ManagerApproval') }}
+                </button>
+            </div>
+
+            <div style="padding: 0; margin: auto;">
+                <i class="fa fa-cog" style="font-size: 2vw;" (click)="dashboardConfigModal.show()"></i>
+            </div>
+        </div>
+        <div class="col-xl-12 col-sm-12" style="display: flex; justify-content: start;">
+            <div style="padding-top: 1vh;" class="col-9">
+                <grid-table [height]="'70vh'" [columnDefs]="dashboardColDef" [defaultColDef]="defaultColDef"
+                    [showPagination]="false" [rowData]="actions" (callBackEvent)="callBackActionGrid($event)"
+                    (onChangeSelection)="onChangeActionSelection($event)">
+                </grid-table>
+            </div>
+            <div class="col-xl-3 col-sm-3" style="padding-top: 1vh;">
+                <div style="border: 1px solid #dcdcdc; border-radius: 5px; padding: 1px; display: block; height: 50vh; background-color: #f5f5f5;">
+                    <div style="display: flex; justify-content: start; align-items: center;">
+                        <input style="border: 1px solid grey; border-radius: 5px; width: 90%; height: 24px"
+                            [placeholder]="l('Search')">
+                        <i class="fa fa-filter" style="margin-top: 0px; margin-right: 2px; margin-left: 2px; font-size: large;"></i>
+                    </div>
+                    <div class="topnav">
+                        <div class="dropdown">
+                            <button class="dropbtn">Dropdown
+                            </button>
+                            <i class="fa fa-angle-down icon-menu"></i>
+                            <div class="dropdown-content">
+                                <div class="catalog">Catalog 1</div>
+                                <div class="catalog">Catalog 1</div>
+                                <div class="catalog">Catalog 1</div>
+                                <div class="catalog">Catalog 1</div>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button class="dropbtn">Dropdown
+                            </button>
+                            <i class="fa fa-angle-down icon-menu"></i>
+                            <div class="dropdown-content">
+                                <div class="catalog">Catalog 1</div>
+                                <div class="catalog">Catalog 1</div>
+                                <div class="catalog">Catalog 1</div>
+                                <div class="catalog">Catalog 1</div>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button class="dropbtn">Dropdown
+                            </button>
+                            <i class="fa fa-angle-down icon-menu"></i>
+                            <div class="dropdown-content">
+                                <div class="catalog">Catalog 1</div>
+                                <div class="catalog">Catalog 1</div>
+                                <div class="catalog">Catalog 1</div>
+                                <div class="catalog">Catalog 1</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- <div class="text-right mt-2">
+            <button style="margin-right: 21px;" (click)="openApprove()" pButton pRipple type="button"
+                [disabled]="this.selectedAction.approvalStatus != 'WAITTING'"
+                class="tmss-btn p-button-outlined btn-outline-primary">
+                <i class="fa tmss-fa fa-user-check mr-1"></i>
+                {{ l('ManagerApproval') }}
+            </button>
+            <button style="margin-right: 21px;" (click)="viewDetail()" pButton pRipple type="button"
+                class="tmss-btn p-button-outlined btn-outline-primary">
+                <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                {{ l('ViewDetail') }}
+            </button>
+        </div> -->
+    </div>
+</div>
+
+<dashboard-config-modal #dashboardConfigModal></dashboard-config-modal>

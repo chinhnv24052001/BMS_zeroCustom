@@ -1,0 +1,34 @@
+<div appBsModal #noteModal="bs-modal" class="modal fade" role="dialog" aria-labelledby="noteModal"
+    aria-hidden="true" id="container" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                <h5 class="modal-title" style="margin-left: 15px;">
+                    <span>{{ l('CancelReason') }}</span>
+                </h5>
+                <button type="button" style="margin-right: 1% !important;" class="close" (click)="close()"
+                    [attr.aria-label]="l('Close')">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <fieldset class="mt-2">
+                <div class="col-xl-12 col-sm-12">
+                    <tmss-combobox [text]="l('CancelReason')" [(ngModel)]="reason" [items]="cancelReasons" [hasFilter]="false"></tmss-combobox>
+                </div>
+                <div class="modal-footer modal-footer-master  mt-2">
+                    <button [disabled]="!reason" (click)="confirm()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-check mr-1"></i>
+                        {{ l('Confirm')}}
+                    </button>
+                    <button (click)="close()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{ l('Cancel') }}
+                    </button>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>

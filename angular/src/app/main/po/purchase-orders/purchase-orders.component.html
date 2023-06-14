@@ -1,0 +1,199 @@
+<div class="content d-flex flex-column flex-column-fluid">
+    <div [class]="containerClass">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <form class="form" [formGroup]="purchaseOrdersForm" *ngIf="purchaseOrdersForm"
+                    (submit)="searchPurchaseOrders()">
+                    <p-panel header="{{'Search' | localize}}" [toggleable]="true">
+                        <div class="row">
+                            <div class="col-xl-4 col-sm-12">
+                                <tmss-text-input [text]="l('OrdersNumber')"
+                                    formControlName="ordersNo"></tmss-text-input>
+                            </div>
+                            <div class="col-xl-4 col-sm-12">
+                                <div class="form-group">
+                                    <tmss-combobox [text]="l('InventoryGroup')" formControlName="inventoryGroupId"
+                                        [items]="listInventoryGroups" [hasFilter]="false"></tmss-combobox>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-4 col-sm-12">
+                                <tmss-combobox [text]="l('Buyer')" formControlName="buyerId"
+                                    [items]="listBuyers"></tmss-combobox>
+                            </div>
+
+                            <!-- <div class="col-xl-4 col-sm-12">
+                                <tmss-search-input [text]="l('Buyer')" formControlName="buyerName"
+                                    (onSearch)="showSearchBuyer()" [showModal]="true"></tmss-search-input> -->
+
+                            <!-- </div> -->
+                        </div>
+                        <div class="row">
+
+                            <div *ngIf="tabKey == 2" class="col-xl-4 col-sm-12 mt-2">
+                                <button (click)="searchPurchaseOrders()" pButton pRipple type="submit"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i class="fa tmss-fa fa-search mr-1"></i>
+                                    {{'Search' | localize}}
+                                </button>
+                            </div>
+
+                            <div *ngIf="tabKey != 2" class="col-xl-4 col-sm-12 mt-2">
+                                <tmss-combobox [text]="l('ShipToLocation')" formControlName="shipToLocationId"
+                                    [items]="listLocations"></tmss-combobox>
+
+                                <!-- <tmss-search-input [text]="l('ShipToLocation')" formControlName="shipToLocationName"
+                                    (onSearch)="showSearchShipLocation()" [showModal]="true"></tmss-search-input> -->
+                            </div>
+
+                            <div *ngIf="tabKey != 2" class="col-xl-4 col-sm-12">
+                                <!-- <tmss-search-input [text]="l('Supplier')" formControlName="supplierName"
+                        (onSearch)="showSearchSupplier()" [showModal]="true"></tmss-search-input> -->
+
+                                <tmss-combobox [text]="l('Supplier')" [items]="listSuppliers" formControlName="supplierId"
+                                    isRequired="true"></tmss-combobox>
+                            </div>
+
+                            <div *ngIf="tabKey != 2" class="col-xl-4 col-sm-12">
+                                <tmss-combobox [text]="l('BillToLocation')" formControlName="billToLocationId"
+                                    [items]="listLocations"></tmss-combobox>
+
+                                <!-- <tmss-search-input [text]="l('BillToLocation')" formControlName="billToLocationName"
+                                    (onSearch)="showSearchBillLocation()" [showModal]="true"></tmss-search-input> -->
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4 col-sm-4 mt-2">
+                                <div *ngIf="tabKey != 2" class="form-group">
+                                    <tmss-combobox [text]="l('ApprovalStatus')" formControlName="status"
+                                        [items]="approvalStatus" [hasFilter]="false"></tmss-combobox>
+                                </div>
+                            </div>
+                            <div *ngIf="tabKey != 2" class="col-xl-4 col-sm-12 mt-2">
+                                <button (click)="searchPurchaseOrders()" pButton pRipple type="submit"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i class="fa tmss-fa fa-search mr-1"></i>
+                                    {{'Search' | localize}}
+                                </button>
+                            </div>
+                        </div>
+                    </p-panel>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <grid-table [height]="'400px'" [columnDefs]="gridColDef" [rowData]="listPurchaseOrders"
+                            [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                            (changePaginationParams)="changePaginationParams($event)"
+                            (onChangeSelection)="onChangeSelection($event)" [rowSelection]="'multiple'">
+                        </grid-table>
+                    </div>
+                </div>
+                <!-- </p-panel> -->
+                <div class="col-12 text-right">
+                    <button *ngIf="tabKey == 1" (click)="addPurchaseOrders()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{l('Add')}}
+                    </button>
+                    <button *ngIf="tabKey == 1" (click)="importPo()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-file-upload mr-1"></i>
+                        {{l('ImportExcel')}}
+                    </button>
+
+                    <button (click)="export()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-success">
+                        <i class="fa tmss-fa fa-file-download mr-1"></i>
+                        {{ l('ExportExcel') }}
+                    </button>
+                    <button (click)="viewDetail()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-eye mr-1"></i>
+                        {{l('ViewDetail')}}
+                    </button>
+                    <!-- <button *ngIf="tabKey == 1" (click)="editPurchaseOrders()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-edit mr-1"></i>
+                        {{l('Edit')}}
+                    </button> -->
+                    <button *ngIf="tabKey == 1" (click)="deletePurchaseOrders()" pButton pRipple type="button" [disabled]="!isDisabled"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+                        {{l('Delete')}}
+                    </button>
+
+                    <button *ngIf="tabKey == 1" (click)="sendRequest()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-warning">
+                        <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                        {{ l('SendRequest') }}
+                    </button>
+
+                    <button (click)="undoRequest()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        {{'UndoRequest' | localize}}
+                    </button>
+
+                    <button (click)="print()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-secondary">
+                        <i class="fa tmss-fa fa-print mr-1"></i>
+                        {{l('PrintSigle')}}
+                    </button>
+
+                    <button (click)="printDilevery()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-secondary">
+                        <i class="fa tmss-fa fa-print mr-1"></i>
+                        {{l('PrintMulti')}}
+                    </button>
+
+                    <button *ngIf="tabKey == 2" (click)="supplierConfirm(1)" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-edit mr-1"></i>
+                        {{l('Confirm')}}
+                    </button>
+
+                    <button *ngIf="tabKey == 2" (click)="supplierConfirm(2)" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-edit mr-1"></i>
+                        {{l('Reject')}}
+                    </button>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <create-or-edit-purchase-orders #createOrEditPurchaseOrders (close)="searchPurchaseOrders()"></create-or-edit-purchase-orders> -->
+</div>
+
+<import-purchase-orders #importPurchaseOrders (close)="searchPurchaseOrders()"></import-purchase-orders>
+<note-modal-supplier-confirm #supplierConfirmModal (close)="searchPurchaseOrders()"></note-modal-supplier-confirm>
+<view-detail-purchase-orders [hasRequestInfo]="selectedRow.requestNote ? true : false" #viewDetailPo
+    (close)="searchPurchaseOrders()"></view-detail-purchase-orders>
+
+<tmss-select-grid-modal #listBuyer [height]="'330px'" [headerText]="l('ListBuyer')" [modalClass]="'modal-lg'"
+    (close)="patchBuyer($event)" [isHideSearchField]="false" [columnDefs]="buyerDefs" [showPagination]="true"
+    [showInput]="true" [apiCall]="getAllBuyers.bind(this)" [notPartFilter]="true"
+    [notPartFilter]="true"></tmss-select-grid-modal>
+
+
+<tmss-select-grid-modal #listSupplierPopup [height]="'330px'" [headerText]="l('ListSupplier')" [modalClass]="'modal-lg'"
+    (close)="patchSupplier($event)" [isHideSearchField]="false" [columnDefs]="supplierDefs" [showPagination]="false"
+    [showInput]="true" [notPartFilter]="true" [apiCall]="getAllSupplier.bind(this)"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #listLocationBill [height]="'330px'" [headerText]="l('ListLocation')" [modalClass]="'modal-lg'"
+    (close)="patchLocationBill($event)" [isHideSearchField]="false" [columnDefs]="locationDefs" [showPagination]="false"
+    [showInput]="true" [apiCall]="getAllLocations.bind(this)" [notPartFilter]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #listLocationShip [height]="'330px'" [headerText]="l('ListLocation')" [modalClass]="'modal-lg'"
+    (close)="patchLocationShip($event)" [isHideSearchField]="false" [columnDefs]="locationDefs" [showPagination]="false"
+    [showInput]="true" [apiCall]="getAllLocations.bind(this)" [notPartFilter]="true"></tmss-select-grid-modal>
+
+<view-list-approve-detail (getData)="searchPurchaseOrders()" #viewDetailApprove></view-list-approve-detail>

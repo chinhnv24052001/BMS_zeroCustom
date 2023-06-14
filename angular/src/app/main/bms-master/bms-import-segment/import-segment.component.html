@@ -1,0 +1,61 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" [config]="{ ignoreBackdropClick: 'static' }">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form #mstInventoryItemsForm="ngForm" novalidate autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px">
+                    <h5 class="modal-title" style="margin-left: 15px">
+                        <span>{{ l('ImportFromExcel')}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <input #imgInput type="file" class="d-none" (change)="uploadExcel($event)" accept=".csv,.xls,.xlsx" />
+                <button type="button" style="margin-left: 10px; height: 24px; margin-top: 6px" (click)="reset()">
+                    <i class="fa fa-file-upload mr-1"></i>
+                    <span>{{ l('ChooseFile')}}</span>
+                </button>
+
+                <button (click)="exportTemplate()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-success">
+                    <i class="fa tmss-fa fa-file-download mr-1"></i>
+                    {{'ExportTemplate' | localize}}
+                </button>
+
+                <div class="card card-custom gutter-b">
+                    <div class="card-body">
+                        <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                        <div class="row align-items-center">
+                            <div id="table1" class="col-12">
+                                <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="listItem"
+                                    [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                                    (changePaginationParams)="changePaginationParams($event)"
+                                    (onChangeSelection)="onChangeSelection($event)"
+                                    cellEditStopParams="{'stopEditingWhenGridLosesFocus': true}">
+                                </grid-table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button (click)="importExcel()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        {{"Save" | localize}}
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{"Cancel" | localize}}
+                    </button>
+
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

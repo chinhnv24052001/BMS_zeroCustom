@@ -1,0 +1,61 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <form class="form" [formGroup]="configForm" *ngIf="configForm">
+                        <p-panel header="{{'SearchModal' | localize}}" [toggleable]="true">
+                            <div class="row align-items-center">
+                                <div class=" col-xl-3 col-sm-12">
+                                    <tmss-text-input [text]="l('InventoryGroupCode')" formControlName="inventoryGroupCode">
+                                    </tmss-text-input>
+                                </div>
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-text-input [text]="l('InventoryGroup')" formControlName="inventoryGroupName">
+                                    </tmss-text-input>
+                                </div>
+                                <div class="col-xl-6 col-sm-12">
+                                    <button (click)="searchProject()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-search mr-1"></i>
+                                        {{'Search' | localize}}
+                                    </button>
+                                </div>
+                            </div>
+                        </p-panel>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="listConfig"
+                                [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                (onChangeSelection)="onChangeSelection($event)">
+                            </grid-table>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-sm-12 text-right">
+                        <button *ngIf="isGranted('ConfigureSystem.InventoryCodeConfig.Add')" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary" (click)="createOrEdit.create()">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            Add
+                        </button>
+                        <button *ngIf="isGranted('ConfigureSystem.InventoryCodeConfig.Edit')" [disabled]="!check" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary" (click)="createOrEdit.edit()">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            Edit
+                        </button>
+                        <button *ngIf="isGranted('ConfigureSystem.InventoryCodeConfig.Export')" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-success" (click)="export()">
+                            <i class="fa tmss-fa fa-file-excel mr-1"></i>
+                            Export
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <app-create-or-edit-inventory-code-config #createOrEdit [selectedRow]="selectedRow"
+            (close)="searchProject()"></app-create-or-edit-inventory-code-config>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="input-group" [ngClass]="className ? className : ''">
+  <span class="input-group-text left-text" *ngIf="text">{{ text }}<p *ngIf="isValidate" style="color: red; margin: 0.2rem 0 0.2rem 0.5rem;">*</p></span>
+  <select
+    #input
+    *ngIf="!hasFilter"
+    [class.required]="isRequired"
+    class="form-control tmss-form-control"
+    [(ngModel)]="value"
+    [disabled]="isDisabled ? true : null"
+    (change)="changeValue($event)"
+    type="text"
+  >
+    <!-- <option [value]="0" disabled selected hidden>{{ placeholder }}</option> -->
+    <option *ngFor="let item of _items" [value]="item ? item[key] : undefined" [selected]="selectedItem !== null && item && item[key] === selectedItem ? true : false">{{ item ? item[label] : undefined }}</option>
+  </select>
+
+  <ng-select #ngSelectComponent [disabled]="isDisabled ? true : null" [class]="isRequired ? 'ng-select-require' : ''" [class]="_items.length == 0 ? '' : 'basic-height'" class="ng-custom" [virtualScroll]="true" *ngIf="hasFilter"  [(ngModel)]="value" style="flex:1;display: inline-grid;" (change)="changeValueFilterCbb($event)">
+    <!-- <ng-option *ngIf="items.length == 0" [value]="undefined"></ng-option> -->
+    <ng-template ng-label-tmp let-item="item">
+        {{inputLabel}}
+      </ng-template>
+    <ng-option *ngFor="let item of _items" [value]="item ? item[key] : undefined" >{{ item ? item[label] : "" }}</ng-option>
+ </ng-select>
+</div>

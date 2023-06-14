@@ -1,0 +1,84 @@
+
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+           <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="custom-row ">
+                        <div class="col-xl-3 col-sm-12">
+                            <tmss-text-input
+                                [text]="l('SupplierNumber')"
+                                [(ngModel)]="selectedInvoice.supplierNumber"
+                                [isDisabled]="true"
+                            ></tmss-text-input>
+                        </div>
+
+                        <div class="col-xl-4 col-sm-12">
+                            <tmss-text-input
+                                [text]="l('SupplierName')"
+                                [(ngModel)]="selectedInvoice.supplierName"
+                                [isDisabled]="true"
+                            ></tmss-text-input>
+                        </div>
+
+                        <div class="col-xl-3 col-sm-12">
+                            <tmss-text-input
+                                [text]="'Search'"
+                                [(ngModel)]="searchFilter"
+                            ></tmss-text-input>
+                        </div>
+
+                        <div class="col-xl-2 col-sm-12 text-right">
+                            <button ng-if="selectedRow" (click)="searchMatchData()" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-search mr-1"></i>
+                                Search
+                            </button>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+           </div>
+
+           <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                    <div class="row align-items-center">
+                        <div id="table1" class="col-12">
+                            <grid-table  [height]="'300px'" [columnDefs]="gridColDef" [rowData]="rowData"
+                                [showPagination]="false" (callBackEvent)="callBackGrid($event)"
+                                (onChangeSelection)="onChangeSelection($event)"
+                                cellEditStopParams="{'stopEditingWhenGridLosesFocus': true}"
+                                >
+                            </grid-table>
+                        </div>
+                    </div>
+                <!-- </p-panel> -->
+                <div class="col-12 text-right">
+                    <button ng-if="selectedRow" (click)="confirmInvoice()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-success">
+                        <i class="fa tmss-fa fa-check mr-1"></i>
+                        Xác nhận hóa đơn
+                    </button>
+                    <button ng-if="selectedRow" (click)="editReceiveInformation()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-edit mr-1"></i>
+                        EditReceiveInformation
+                    </button>
+
+                    <button ng-if="selectedRow" (click)="sendErrToSupplier()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-paper-plane mr-1"></i>
+                        SendErrToSupplier
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

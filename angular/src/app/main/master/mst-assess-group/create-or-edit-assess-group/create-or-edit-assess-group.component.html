@@ -1,0 +1,81 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog tmss-modal-sm-plus">
+        <div class="modal-content">
+
+            <div autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 10px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span *ngIf="selectedAssess?.id">{{'EditRequest' | localize}}</span>
+                        <span *ngIf="!selectedAssess?.id">{{'AddRequest' | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="close()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body modal-body-master">
+                    <div class="row">
+                        <div class="col-xl-6 col-sm-12 mt-1">
+                            <tmss-text-input [text]="l('AssessGroup')" [(ngModel)]="selectedAssess.assessGroupCode" [hasCheck]="true"
+                                isRequired="true" [isDisabled]="true"></tmss-text-input>
+                        </div>
+                        <div class="col-xl-6 col-sm-12 mt-1">
+                            <tmss-combobox [text]="l('AssessGroup')" [(ngModel)]="selectedAssess.assessGroupType"  isRequired="true" [items]="typeList" ></tmss-combobox>
+                        </div>
+                        <div class="col-xl-12 col-sm-12 mt-1">
+                                <tmss-text-input [text]="l('AssessGroupName')" [(ngModel)]="selectedAssess.assessGroupName" [hasCheck]="true"
+                                    isRequired="true" ></tmss-text-input>
+                        </div>
+                        <div class="col-xl-12 col-sm-12 mt-1">
+                            <tmss-textarea [text]="l('Description')" [(ngModel)]="selectedAssess.description "
+                               ></tmss-textarea>
+                        </div>
+
+                        <div class="col-xl-12 col-sm-12 mt-1 text-right">
+                            <button  (click)="listAssess.show()" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-plus mr-1"></i>
+                                {{'Add' | localize}}
+                            </button>
+                            <button  (click)="removeRow()" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-danger">
+                                <i class="fa tmss-fa fa-trash mr-1"></i>
+                                {{'Delete' | localize}}
+                            </button>
+                        </div>
+
+                        <div class="col-xl-12 col-sm-12 mt-1">
+                            <grid-table [height]="'300px'" [columnDefs]="detailColDef" [rowData]="rowData"
+                                [showPagination]="false" (callBackEvent)="callBackDetailGrid($event)"
+                                (onChangeSelection)="onChangeDetailSelection($event)">
+                            </grid-table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button  (click)="save()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        {{'SaveModal' | localize}}
+                    </button>
+                    <button (click)="close()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{'Cancel' | localize}}
+                    </button>
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<tmss-select-grid-modal #listAssess [height]="'330px'" [headerText]="l('ListAssess')"
+    [modalClass]="'modal-lg'" (close)="patchData($event)" [isHideSearchField]="false"
+    [columnDefs]="detailSelectColDef" [showPagination]="true" [showInput]="true" [alwaysShowModal]="true"
+    [apiCall]="getAsssessData.bind(this)" (isLoading)="setLoading($event)"
+    [notPartFilter]="true" [isPatchDataList]="true">
+</tmss-select-grid-modal>

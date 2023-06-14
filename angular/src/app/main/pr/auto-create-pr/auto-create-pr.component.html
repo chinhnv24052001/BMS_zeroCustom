@@ -1,0 +1,76 @@
+<div id="container">
+    <div class="card card-custom gutter-b">
+        <div class="card-body">
+            <fieldset class="fieldset-border">
+                <div class="col-12 mt-2">
+                    <div class="row">
+                        <div class="col-xl-4 col-sm-4">
+                            <tmss-text-input [text]="l('URNumber')" [(ngModel)]="userRequestNumber"></tmss-text-input>
+                        </div>
+                        <div class="col-xl-4 col-sm-4">
+                            <tmss-combobox [text]="l('Supplier')" [items]="listSuppliers"
+                                [(ngModel)]="supplierId"></tmss-combobox>
+                        </div>
+                        <div class="col-xl-4 col-sm-4">
+                            <tmss-combobox [text]="l('Buyer')" [items]="listUsers"
+                                [(ngModel)]="buyerId"></tmss-combobox>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-xl-4 col-sm-4">
+                            <tmss-combobox [text]="l('Supplier')" [isDisabled]="true" [(ngModel)]="supplierId"
+                                [hasFilter]="false"></tmss-combobox>
+                        </div>
+                        <div class="col-xl-4 col-sm-4">
+                            <tmss-combobox [text]="l('SupplierSite')" [(ngModel)]="supplierSiteId"
+                                [hasFilter]="false"></tmss-combobox>
+                        </div>
+                        <div class="col-xl-4 col-sm-4">
+                            <tmss-combobox [text]="l('DocumentType')" [hasFilter]="false"
+                                [(ngModel)]="documentTypeId"></tmss-combobox>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-xl-4 col-sm-4">
+                            <tmss-datepicker [text]="l('FromDate')" [(ngModel)]="fromDate"></tmss-datepicker>
+                        </div>
+                        <div class="col-xl-4 col-sm-4">
+                            <tmss-datepicker [text]="l('ToDate')" [(ngModel)]="toDate"></tmss-datepicker>
+                        </div>
+                        <button (click)="search()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-search mr-1"></i>
+                            {{ l('Search') }}
+                        </button>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+    </div>
+    <div class="card card-custom gutter-b">
+        <div class="card-body">
+            <fieldset class="fieldset-border mt-2">
+                <div class="col-12">
+                    <grid-table [height]="'445px'" [columnDefs]="urColDefs" [defaultColDef]="defaultColDef"
+                        (callBackEvent)="callBackUserRequestGrid($event)" [paginationParams]="paginationParams"
+                        (onChangeSelection)="onChangeUserRequestSelection($event)" [rowData]="userRequests"
+                        (changePaginationParams)="changePaginationParams($event)"
+                        [frameworkComponents]="frameworkComponents" [rowSelection]="'multiple'"></grid-table>
+                </div>
+                <div class="row text-right">
+                    <button (click)="createPR()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{ l('CreatePR') }}
+                    </button>
+                    <button (click)="createPO()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{ l('CreatePO') }}
+                    </button>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>

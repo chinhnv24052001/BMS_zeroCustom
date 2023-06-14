@@ -1,0 +1,131 @@
+<div appBsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span *ngIf="isEdit">{{'Edit' | localize}}</span>
+                        <span *ngIf="!isEdit">{{'AddModal' | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body modal-body-master ">
+                    <div class="row">
+                        <div class="form-group col-sm-4" hasError="productGroupId">
+                            <tmss-combobox class="input-search" [text]="l('Category')" formControlName="productGroupId"
+                               [items]="listProductGroup">
+                            </tmss-combobox>
+                        </div>
+                        <div class="form-group col-sm-4" hasError="productGroupCode">
+                            <tmss-text-input [text]="l('InventoryGroupCode')" formControlName="productGroupCode"
+                                isRequired="true"></tmss-text-input>
+                            <div class="error-message" errorMessage>
+                                <div *ifError="'required'">{{'Required' | localize}}</div>
+                                <div *ngIf="duplicateCode">{{'ProductGroupCodeDuplicate' | localize}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4" hasError="productGroupName">
+                            <tmss-text-input [text]="l('ProductGroupName')" formControlName="productGroupName"
+                                isRequired="true"></tmss-text-input>
+                            <div class="error-message" errorMessage>
+                                <div *ifError="'required'">{{'Required' | localize}}</div>
+                                <div *ngIf="duplicateName">{{'ProductGroupNameDuplicate' | localize}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4" hasError="picDepartmentId">
+                            <tmss-combobox class="input-search" [text]="l('InventoryDepartment')" formControlName="picDepartmentId"
+                               [items]="listHr">
+                            </tmss-combobox>
+                        </div>
+                        <div class="form-group col-sm-4" hasError="purchaDepartmentId">
+                            <tmss-combobox class="input-search" [text]="l('DepartmentInCharge')" formControlName="purchaDepartmentId"
+                               [items]="listHr">
+                            </tmss-combobox>
+                        </div>
+                        <div class="form-group col-sm-4" hasError="deliDepartmentId">
+                            <tmss-combobox class="input-search" [text]="l('DeliDepartment')" formControlName="deliDepartmentId"
+                               [items]="listHr">
+                            </tmss-combobox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4" hasError="status">
+                            <tmss-combobox class ="input-search" [text]="l('Status')" formControlName="status"
+                                [items]="listStatus">
+                            </tmss-combobox>
+                        </div>
+                        <div class="form-group col-xl-4 col-sm-4" hasError="purchasePurpose">
+                            <tmss-combobox [text]="l('PurchasePurpose')" formControlName="purchasePurpose" [items]="purchasePurposes" [hasFilter]="false"></tmss-combobox>
+                        </div>
+                        <div class="form-group col-xl-4 col-sm-4" hasError="organizationName">
+                            <tmss-combobox class ="input-search" [text]="l('OrganizationName')" formControlName="organizationName" [items]="organizations" [hasFilter]="false">
+                            </tmss-combobox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-xl-4 col-sm-4" hasError="location">
+                            <tmss-combobox [text]="l('Location')" formControlName="location" [items]="locations"></tmss-combobox>
+                        </div>
+                        <div class="form-group col-xl-8 col-sm-8" hasError="budgetCode">
+                            <tmss-search-input [text]="l('BudgetCode')" formControlName="budgetCode"
+                                (onSearch)="selectBudget($event)"
+                                [showModal]="true"></tmss-search-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12" hasError="description">
+                            <tmss-textarea [text]="l('Description')" formControlName="description"></tmss-textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-1">
+                        </div>
+                        <div class="form-group col-sm-2" hasError="isCatalog">
+                            <tmss-checkbox [text]="'Catalog'" formControlName="isCatalog"></tmss-checkbox>
+                        </div>
+                        <div class="form-group col-sm-2" hasError="isInventory">
+                            <tmss-checkbox [text]="'Inventory'" formControlName="isInventory"></tmss-checkbox>
+                        </div>
+                        <div class="form-group col-sm-2" hasError="ur">
+                            <tmss-checkbox [text]="'UR'" formControlName="ur"></tmss-checkbox>
+                        </div>
+                        <div class="form-group col-sm-2" hasError="pr">
+                            <tmss-checkbox [text]="'PR'" formControlName="pr"></tmss-checkbox>
+                        </div>
+                        <div class="form-group col-sm-2" hasError="po">
+                            <tmss-checkbox [text]="'PO'" formControlName="po"></tmss-checkbox>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button (click)="save()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-check mr-1"></i>
+                        {{'SaveModal' | localize}}
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{'Cancel' | localize}}
+                    </button>
+
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<tmss-select-grid-modal #selectBudgetCodeModal [height]="'300px'" [headerText]="l('BudgetCodeSelection')"
+    [columnDefs]="budgetCodeColDefs" [isHideSearchField]="false" [apiCall]="getAllGlCode.bind(this)"
+    [defaultColDef]="defaultColDef" [modalClass]="'modal-lg'" [textLeft]="l('Confirm')" [notPartFilter]="true"
+    (close)="patchBudgetCode($event)"></tmss-select-grid-modal>

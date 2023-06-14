@@ -1,0 +1,31 @@
+<div bsModal #viewApprovalHistoryModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="viewApprovalHistoryModal"
+    [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                <h5 class="modal-title" style="margin-left: 15px;">
+                    <span>{{ l('ApprovalHistory') }}</span>
+                </h5>
+                <button type="button" style="margin-right: 1% !important;" class="close" (click)="close()"
+                    [attr.aria-label]="l('Close')">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body-master">
+                <fieldset class="fieldset-border mt-2">
+                    <div class="col-12 ph-0">
+                        <grid-table [columnDefs]="approvalHisColDefs" [defaultColDef]="defaultColDef" [rowData]="approvalHistories" [height]="'200px'" [showPagination]="false"></grid-table>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="modal-footer-master">
+                <div class="text-right">
+                    <button (click)="close()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{ l('Close') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

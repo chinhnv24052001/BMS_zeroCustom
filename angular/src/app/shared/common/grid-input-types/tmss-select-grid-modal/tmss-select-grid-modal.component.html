@@ -1,0 +1,119 @@
+<div
+  *ngIf="!showBsModal"
+  class="modal fade"
+  appBsModal
+  #modal="bs-modal"
+  (onHidden)="reset()"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal"
+  aria-hidden="true"
+  [config]="{ backdrop: 'static'}"
+
+>
+  <div class="modal-dialog" [ngClass]="modalClass ? modalClass : ''">
+    <form #form="ngForm" autocomplete="off" (ngSubmit)="confirm()">
+      <div class="modal-content tmss-modal">
+        <div class="modal-header modal-header-master">
+          <h5 class="modal-title text-left">{{ headerText || '' }}</h5>
+          <button type="button" class="close" (click)="onCancelBtn()">
+            <span aria-hidden="true">&times;</span>
+            <i aria-hidden="true" class="ki ki-close"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <tmss-search-input class="remove-border-right-radius" *ngIf="showInput" [showSearch]="true" [text]="'Tìm kiếm'" name="inputSearch"
+            [(ngModel)]="value" (onSearch)="search($event)"></tmss-search-input>
+            <grid-table
+              [height]="showPagination ? '227px' : '300px'"
+              [columnDefs]="columnDefs"
+              [paginationParams]="paginationParams"
+              *ngIf="modal.isShown"
+              [rowData]="list"
+              [rowSelection]="rowSelection"
+              [showPagination]="showPagination"
+              (changePaginationParams)="changePaginationParams($event)"
+              [defaultColDef]="defaultColDef"
+              [enableFilter]="enableFilter"
+              (callBackEvent)="callBackGrid($event)"
+              (cellDoubleClicked)="confirm($event)"
+              (keydown)="enterEvent($event)"
+              [rowSelection]="isPatchDataList ? 'multiple' : 'single'"
+              (filterChanged)="onFilterChanged($event)"
+              (onChangeSelection)="onChangeSelection()">
+        </grid-table>
+        <div class="ui-g-12 text-left pt-1" style="font-size: 12px;font-weight:500" *ngIf="isShowRowNum" >
+            <span>Tổng số dữ liệu : {{totalCount}}</span>
+          </div>
+        </div>
+        <div class="modal-footer modal-footer-master">
+          <button  type="button" class="tmss-btn btn-outline-success" (click)="export()" *ngIf="isExport" >
+            <i class="fa tmss-fa fa-file-download"></i> {{textExport}}
+          </button>
+          <button type="submit" class="tmss-btn btn-outline-primary" [disabled]="!selectedData || isDisableSave"
+             *ngIf="!hideSaveButton">
+            <i class="fa tmss-fa fa-check"></i> {{textLeft}}
+          </button>
+          <button type="button" class="tmss-btn btn-outline-danger" (click)="onCancelBtn()"
+            *ngIf="!hideCancelButton">
+            <i class="fa tmss-fa fa-times"></i> {{textRight}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div *ngIf="showBsModal" class="modal fade" bsModal #modal="bs-modal" (onHidden)="reset()"
+  tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true" [config]="{ backdrop: 'static' }"
+  >
+  <div class="modal-dialog tmss-modal-sm" [ngClass]="modalClass ? modalClass : ''">
+    <form #form="ngForm" autocomplete="off" (ngSubmit)="confirm()">
+      <div class="modal-content">
+        <div class="modal-header modal-header-master">
+          <h5 class="modal-title text-left">{{headerText || ''}}</h5>
+          <button type="button" class="close" (click)="onCancelBtn()">
+            <span aria-hidden="true">&times;</span>
+            <i aria-hidden="true" class="ki ki-close"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <tmss-search-input class="remove-border-right-radius" *ngIf="showInput" [showSearch]="true" [text]="'Tìm kiếm'" name="inputSearch"
+            [(ngModel)]="value" (onSearch)="search($event)"></tmss-search-input>
+          <div class="panel panel-default pt-1">
+            <grid-table
+              [height]="'310px'"
+              [columnDefs]="columnDefs"
+              [rowSelection]="isPatchDataList ? 'multiple' : 'single'"
+              [paginationParams]="paginationParams"
+              *ngIf="modal.isShown"
+              [rowData]="list"
+              [enableFilter]="enableFilter"
+              [rowSelection]="rowSelection"
+              [showPagination]="showPagination"
+              (changePaginationParams)="changePaginationParams($event)"
+              [defaultColDef]="defaultColDef"
+              (callBackEvent)="callBackGrid($event)"
+              (cellDoubleClicked)="confirm($event)"
+              (keydown)="enterEvent($event)"
+              (filterChanged)="onFilterChanged($event)"
+              (onChangeSelection)="onChangeSelection()">
+            </grid-table>
+          </div>
+          <div class="ui-g-12 text-left pt-1" style="font-size: 12px;font-weight:500" *ngIf="isShowRowNum" >
+            <span>Tổng số dữ liệu : {{totalCount}}</span>
+          </div>
+        </div>
+        <div class="modal-footer modal-footer-master">
+
+          <button type="submit" class="tmss-btn btn-outline-primary"  [disabled]="!selectedData || isDisableSave" *ngIf="!hideSaveButton">
+            <i class="fa tmss-fa fa-check"></i> {{textLeft}}
+          </button>
+          <button type="button" class="tmss-btn btn-outline-danger" (click)="onCancelBtn()"
+            *ngIf="!hideCancelButton">
+            <i class="fa tmss-fa fa-times"></i> {{textRight}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

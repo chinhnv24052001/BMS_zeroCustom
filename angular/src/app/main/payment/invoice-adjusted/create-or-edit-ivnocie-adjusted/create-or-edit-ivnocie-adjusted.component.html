@@ -1,0 +1,226 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog tmss-modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                <h5 class="modal-title" style="margin-left: 15px;">
+                    <span>{{'ViewDetail' | localize}}</span>
+                </h5>
+                <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModal()"
+                    [attr.aria-label]="l('Close')">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+
+            <div class="modal-body modal-body-master">
+                <div class="content d-flex flex-column flex-column-fluid">
+                    <div [class]="containerClass">
+                        <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm"
+                            novalidate autocomplete="off">
+                            <div class="card card-custom gutter-b">
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-xl-4 col-sm-12">
+                                            <div class="form-group">
+                                                <tmss-combobox [text]="l('Supplier')" [items]="listSuppliers"
+                                                    formControlName="supplierId" isRequired="true"></tmss-combobox>
+                                                <!-- <tmss-search-input [text]="l('Supplier')" formControlName="vendorName" isRequired="true"
+                                                    (onSearch)="showSearchSupplier()" [showModal]="true"></tmss-search-input> -->
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-4 col-sm-12">
+                                            <div class="form-group">
+                                                <tmss-text-input [text]="l('BankAccount')"
+                                                    formControlName="bankAccount"></tmss-text-input>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-4 col-sm-12">
+                                            <div class="form-group">
+                                                <tmss-text-input [text]="l('BankName')"
+                                                    formControlName="bankName"></tmss-text-input>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xl-4 col-sm-12">
+                                            <div class="form-group">
+                                                <tmss-text-input [text]="l('InvoiceNo')"
+                                                    formControlName="invoiceNo"></tmss-text-input>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-4 col-sm-12">
+                                            <div class="form-group">
+                                                <tmss-text-input [text]="l('SerialNo')"
+                                                    formControlName="serialNo"></tmss-text-input>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-4 col-sm-12">
+                                            <tmss-datepicker [text]="l('InvoiceDate')"
+                                                formControlName="invoiceDate"></tmss-datepicker>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xl-4 col-sm-12">
+                                            <div class="form-group">
+                                                <tmss-combobox [text]="l('InvoiceNoAdjusted')" [items]="listInvoicesCb"
+                                                    formControlName="invoiceNoAdjusted"></tmss-combobox>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-4 col-sm-12">
+                                            <div class="form-group">
+                                                <tmss-text-input [text]="l('SerialNoAdjusted')"
+                                                    formControlName="serialNoAdjusted"></tmss-text-input>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-4 col-sm-12">
+                                            <tmss-datepicker [text]="l('InvoiceDateAdjusted')"
+                                                formControlName="invoiceDateAdjusted"></tmss-datepicker>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xl-4 col-sm-12">
+                                            <div class="form-group">
+                                                <tmss-combobox [text]="l('TypeInvoiceAdjusted')" isRequired="true"
+                                                    [hasFilter]="false" formControlName="typeAdjusted"
+                                                    [items]="listTypeInvoiceAdjusted"></tmss-combobox>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-8 col-sm-12">
+                                            <div class="form-group">
+                                                <tmss-textarea [text]="l('Description')"
+                                                    formControlName="description"></tmss-textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-right">
+
+                                        <!-- <button (click)="showTemplateContract()" pButton pRipple type="button" [disabled]="!isRequired"
+                                            class="tmss-btn p-button-outlined btn-outline-primary">
+                                            <i class="fa tmss-fa fa-save mr-1"></i>
+                                            {{'PrintContract' | localize}}
+                                        </button> -->
+
+                                        <button pButton pRipple type="button" (click)="addRow()"
+                                            class="tmss-btn p-button-outlined btn-outline-primary">
+                                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                                            {{l('Add')}}
+                                        </button>
+                                        <button pButton pRipple type="button" (click)="deleteRow()"
+                                            class="tmss-btn p-button-outlined btn-outline-danger">
+                                            <i class="fa tmss-fa fa-times mr-1"></i>
+                                            {{l('Delete')}}
+                                        </button>
+                                        <!-- <button (click)="sendRequest()" pButton pRipple type="button" [disabled]="currentIdPo === 0 || status !== 'INCOMPLETE'"
+                                            class="tmss-btn p-button-outlined btn-outline-success">
+                                            <i class="fa tmss-fa fa-plane mr-1"></i>
+                                            {{ l('SendRequest') }}
+                                        </button>
+                                        <button (click)="showTerms()" pButton pRipple type="button"
+                                            class="tmss-btn p-button-outlined btn-outline-primary">
+                                            <i class="fa tmss-fa fa-save mr-1"></i>
+                                            {{'Terms' | localize}}
+                                        </button>-->
+                                        <button (click)="save()" pButton pRipple type="button"
+                                            class="tmss-btn p-button-outlined btn-outline-primary">
+                                            <i class="fa tmss-fa fa-save mr-1"></i>
+                                            {{'RememberMe' | localize}}
+                                        </button>
+                                        <!-- <button (click)="createPr()" pButton pRipple type="button"
+                                                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                                                        <i class="fa tmss-fa fa-save mr-1"></i>
+                                                                        {{l('Save')}}
+                                                                    </button> -->
+                                    </div>
+                                    <!-- </p-panel> -->
+                                </div>
+                            </div>
+                            <button class="ghost" #submitBtn></button>
+                        </form>
+                        <div class="card card-custom gutter-b">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <grid-table [height]="'300px'" [columnDefs]="gridColDefDetail"
+                                            [rowData]="listInvocieAdjusted" (callBackEvent)="callBackGridDetail($event)"
+                                            [showPagination]="false"
+                                            (onChangeSelection)="onChangeSelectionDetail($event)"
+                                            (cellValueChanged)="cellValueChanged($event)"
+                                            [frameworkComponents]="frameworkComponents"
+                                            (cellEditingStopped)="cellEditingStopped($event)">
+                                        </grid-table>
+                                    </div>
+                                </div>
+
+                                <!-- </p-panel> -->
+                            </div>
+                        </div>
+
+                        <!-- <div class="card card-custom gutter-b">
+                            <div class="card-body">
+                                <div class="col-xl-12 ph-0" style="display: flex;">
+                                    <tmss-text-input class="pl-0" [text]="l('File')" [(ngModel)]="fileName">
+                                    </tmss-text-input>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <button type="button" style="margin-left: 0; height: 24px;" (click)="uploadSubImage()">
+                                            <i class="fa fa-upload mr-1"></i>
+                                            <span>{{ l('ChooseFile') }}</span>
+                                        </button>
+                                    </div>
+                                    <button (click)="refreshFile()" class="tmss-btn p-button-outlined btn-outline-success ml-2">
+                                        <i class="fa fa-sync-alt mr-1"></i>{{ l('Refresh') }}
+                                    </button>
+                                    <button class="tmss-btn p-button-outlined btn-outline-danger" (click)="deleteFile()">
+                                        <i class="fa fa-trash mr-1"></i>{{ l('Delete') }}
+                                    </button>
+                                </div>
+                                <fieldset *ngIf="this.uploadData.length > 0 || this.listFileAttachment.length > 0"
+                                    class="fieldset-border mt-2">
+                                    <h6 class="card-header pl-0">
+                                        {{ l('Attachments') }}
+                                    </h6>
+                                    <div class="col-12 ph-0">
+                                        <grid-table [height]="'20vh'" [columnDefs]="attachmentsColDefs" [showPagination]="false"
+                                            [rowData]="uploadData" (callBackEvent)="callBackFileGrid($event)"
+                                            (onChangeSelection)="onChangeFileSelection($event)"></grid-table>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div> -->
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer modal-footer-master">
+                <button (click)="save()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-primary">
+                    <i class="fa tmss-fa fa-save mr-1"></i>
+                    {{ l('Save') }}
+                </button>
+                <button (click)="closeModal()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-danger">
+                    <i class="fa tmss-fa fa-times mr-1"></i>
+                    {{'Close' | localize}}
+                </button>
+
+                <button class="ghost" #submitBtn></button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<tmss-select-grid-modal #listLineInvoices [height]="'330px'" [headerText]="l('ListLineInvoices')" [modalClass]="'modal-lg'"
+    (close)="patchLineInvoice($event)" [isHideSearchField]="false" [columnDefs]="lineInvoiceDefs" [showPagination]="false"
+    [showInput]="true" [apiCall]="getLineInvoiceByHeader.bind(this)" [notPartFilter]="true"></tmss-select-grid-modal>

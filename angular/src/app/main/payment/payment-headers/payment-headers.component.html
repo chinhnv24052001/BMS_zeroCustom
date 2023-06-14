@@ -1,0 +1,155 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <form class="form" [formGroup]="searchForm" *ngIf="searchForm">
+                        <p-panel header="{{'Search' | localize}}" [toggleable]="true">
+                            <div class="row align-items-center">
+
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-text-input [text]="l('PaymentNoTT')" (onClickInput)="searchData()" formControlName="paymentNo">
+                                    </tmss-text-input>
+                                </div>
+
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-text-input [text]="l('InvoiceNo')" (onClickInput)="searchData()" formControlName="invoiceNo">
+                                    </tmss-text-input>
+                                </div>
+
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-text-input [text]="l('PoNo')" (onClickInput)="searchData()" formControlName="poNo">
+                                    </tmss-text-input>
+                                </div>
+
+                                <div class="col-xl-3 col-sm-12 mt-1">
+                                    <tmss-combobox [items]="approveStatusList" class="font-size-dropdown" [text]="l('ApproveStatus')"
+                                        formControlName="sApproveStatus"></tmss-combobox>
+                                </div>
+
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-datepicker [text]="l('FromDate')"
+                                        formControlName="requestDateFrom"></tmss-datepicker>
+                                </div>
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-datepicker [text]="l('RequestDateTo')"
+                                        formControlName="requestDateTo"></tmss-datepicker>
+                                </div>
+                                <div class="col-xl-3 col-sm-12 mt-1 custom-input">
+                                    <tmss-combobox [items]="listSupplier" class="font-size-dropdown" [text]="l('Vendor')"
+                                        formControlName="vendorId" ></tmss-combobox>
+                                </div>
+                                <div class="col-xl-3 col-sm-12 mt-1 user-input">
+                                    <tmss-combobox [items]="employeeListAll" class="font-size-dropdown" style="font-size: 14px !important;" [text]="l('CreatorUser')"
+                                        formControlName="employeeId" ></tmss-combobox>
+                                </div>
+                                <div class="col-xl-3 col-sm-12 mt-1">
+                                    <tmss-combobox [items]="paymentStatusList" class="font-size-dropdown" [text]="l('StatusCT')"
+                                        formControlName="sStatus"></tmss-combobox>
+                                </div>
+
+                                <div class="col-xl-9 col-sm-12 text-right mt-1">
+                                    <button (click)="searchData()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-search mr-1"></i>
+                                        {{'Search' | localize}}
+                                    </button>
+                                </div>
+                            </div>
+                        </p-panel>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="listItem"
+                                [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                                [rowSelection]="'multiple'"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                (onChangeSelection)="onChangeSelection($event)">
+                            </grid-table>
+                        </div>
+                    </div>
+                    <!-- </p-panel> -->
+                    <div class="col-12 text-right">
+                        <button (click)="add()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{'Add' | localize}}
+                        </button>
+
+                        <!-- <button ng-if="selectedRow" (click)="edit()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary"> -->
+
+                        <button *ngIf="selectedRow.employeeId == currentUser" [disabled]="!selectedRow.id" (click)="edit()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'Edit' | localize}}
+                        </button>
+
+                        <button  (click)="sendRequest()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-warning">
+                        <i class="fa tmss-fa fa-plane mr-1"></i>
+                        {{'SendRequest' | localize}}
+                        </button>
+
+                        <button  [disabled]="!selectedRow.id" (click)="undoRequest()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        {{'UndoRequest' | localize}}
+                        </button>
+
+                        <button  *ngIf="selectedRow.employeeId == currentUser" [disabled]="!selectedRow.id" (click)="cancel()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+                            {{'CancelPayment' | localize}}
+                        </button>
+
+                        <!-- <button ng-if="selectedRow" (click)="print()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary"> -->
+
+                        <button [disabled]="!selectedRow.id" (click)="print()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-download mr-1"></i>
+                            {{'Print' | localize}}
+                        </button>
+
+
+                        <!--  <button (click)="delete()" disabled pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined p-button-danger">
+                            <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+                            {{'Delete' | localize}}
+                        </button> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <grid-table [height]="'300px'" [columnDefs]="gridDetailColDef" [rowData]="detailList"
+                                [showPagination]="false" (callBackEvent)="callBackDetailGrid($event)"
+                                [frameworkComponents]="frameworkComponents"
+                                (onChangeSelection)="onChangeDetailSelection($event)">
+                            </grid-table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <create-or-edit-payment-headers #createOrEditPaymentRequest (close)="searchData()"
+            [siteListAll]="siteListAll" [employeeListAll]="employeeListAll"
+            [paymentStatusList]="paymentStatusList"
+            [approveStatusList]="approveStatusList"></create-or-edit-payment-headers>
+    </div>
+</div>
+
+<view-list-approve-detail (getData)="searchData()" #viewDetailApprove></view-list-approve-detail>

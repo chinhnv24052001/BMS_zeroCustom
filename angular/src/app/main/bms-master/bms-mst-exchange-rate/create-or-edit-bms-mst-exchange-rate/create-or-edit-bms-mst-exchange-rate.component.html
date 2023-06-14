@@ -1,0 +1,74 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span *ngIf="isEdit">{{'Edit' | localize}}</span>
+                        <span *ngIf="!isEdit">{{'AddModal' | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body modal-body-master"> 
+
+                    <div class="form-group" hasError="periodId">
+                        <tmss-combobox class="input-search" (ngModelChange)="getListVersionByPeriodId($event)" [text]="l('Period')" isRequired="true" formControlName="periodId"
+                            [items]="listPertiod">
+                        </tmss-combobox>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">{{'Required' | localize}}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" hasError="periodVersionId">
+                        <tmss-combobox class="input-search"  [text]="l('Version')"
+                         isRequired="true" formControlName="periodVersionId"
+                            [items]="listPertiodVersion">
+                        </tmss-combobox>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">{{'Required' | localize}}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" hasError="currencyId">
+                        <tmss-combobox class="input-search" [text]="l('Currency')" isRequired="true" formControlName="currencyId"
+                            [items]="listCurrency">
+                        </tmss-combobox>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">{{'Required' | localize}}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" hasError="exchangeRate">
+                        <tmss-text-input [text]="l('ExchangeRate')" type="number" formControlName="exchangeRate" isRequired="true"></tmss-text-input>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">{{'Required' | localize}}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" hasError="description">
+                        <tmss-textarea [text]="l('Description')" formControlName="description"></tmss-textarea>
+                    </div>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button (click)="save()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        {{'SaveModal' | localize}}
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{'Cancel' | localize}}
+                    </button>
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

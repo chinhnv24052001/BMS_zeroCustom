@@ -1,0 +1,297 @@
+<div bsModal #viewURModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="viewURModal"
+    [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                <h5 class="modal-title" style="margin-left: 15px;">
+                    <span>{{ l('UrInfomation') }}</span>
+                </h5>
+                <button type="button" style="margin-right: 1% !important;" class="close" (click)="close()"
+                    [attr.aria-label]="l('Close')">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <fieldset>
+                <tabset>
+                    <tab [heading]="l('GeneralInformation')">
+                        <div class="modal-body-master">
+                            <fieldset class="fieldset-border ph-0">
+                                <div class="row">
+                                    <div class="col-xl-3 col-sm-3">
+                                        <tmss-text-input [text]="l('URNumber')" [isDisabled]="viewOnly"
+                                            [(ngModel)]="selectedUR.userRequestNumber"
+                                            [isDisabled]="true"></tmss-text-input>
+                                    </div>
+                                    <div class="col-xl-3 col-sm-3">
+                                        <tmss-text-input [text]="l('URName')" [isDisabled]="viewOnly"
+                                            [(ngModel)]="selectedUR.userRequestName"></tmss-text-input>
+                                    </div>
+                                    <div class="col-xl-3 col-sm-3">
+                                        <tmss-combobox [text]="l('PurchasePurpose')" [isDisabled]="viewOnly"
+                                            [(ngModel)]="selectedUR.purchasePurposeId" [hasFilter]="false"
+                                            [items]="purposes"></tmss-combobox>
+                                    </div>
+                                    <div class="col-xl-3 col-sm-3">
+                                        <tmss-text-input [text]="l('Status')" [isDisabled]="viewOnly"
+                                            [(ngModel)]="approvalStatus" (ngModelChange)="handleStatus($event)"
+                                            [isDisabled]="true"></tmss-text-input>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-3 col-sm-3">
+                                        <tmss-combobox [text]="l('DocumentType')" [isDisabled]="true"
+                                            [items]="documentTypes" [hasFilter]="false"></tmss-combobox>
+                                    </div>
+                                    <div class="col-xl-6 col-sm-6">
+                                        <tmss-search-input [text]="l('BudgetCode')" [isDisabled]="viewOnly"
+                                            [(ngModel)]="selectedUR.budgetCode" [showModal]="true"
+                                            (ngModelChange)="selectedUR.budgetCodeId = undefined"
+                                            [isRequired]="!viewOnly"
+                                            (onSearch)="selectBudgetCodeHeadModal.show(selectedUR.budgetCode)"></tmss-search-input>
+                                    </div>
+                                    <div class="col-xl-3 col-sm-3">
+                                        <tmss-datepicker [text]="l('DocumentDate')"
+                                            [(ngModel)]="selectedUR.documentDate"
+                                            (ngModelChange)="changeDocumentDate($event)"></tmss-datepicker>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-3 col-sm-3">
+                                        <tmss-text-input [text]="l('RequestUser')" [isDisabled]="viewOnly"
+                                            [(ngModel)]="selectedUR.requestUser" [isDisabled]="true"
+                                            [isDisabled]="true"></tmss-text-input>
+                                    </div>
+                                    <div class="col-xl-6 col-sm-6">
+                                        <tmss-datepicker [text]="l('RequestDate')" [isDisabled]="viewOnly"
+                                            [(ngModel)]="selectedUR.requestDate" [isDisabled]="true"
+                                            [isDisabled]="true"></tmss-datepicker>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-3 col-sm-3">
+                                        <tmss-combobox [text]="l('InventoryGroup')"
+                                            [(ngModel)]="selectedUR.inventoryGroupId" [isRequired]="!viewOnly && !selectedUR.inventoryGroupId"
+                                            [hasFilter]="false" [disabled]="selectedUR.inventoryGroupId || viewOnly"
+                                            [items]="inventoryGroups"></tmss-combobox>
+                                    </div>
+                                    <div class="col-xl-3 col-sm-3">
+                                        <tmss-text-input [text]="l('TotalPrice')" style="color: green !important;"
+                                            [isDisabled]="viewOnly" [(ngModel)]="totalPrice" [type]="'money'"
+                                            [isDisabled]="true"></tmss-text-input>
+                                    </div>
+                                    <div class="col-xl-1 col-sm-1">
+                                        <tmss-text-input [value]="'VND'" [isDisabled]="true"></tmss-text-input>
+                                    </div>
+                                    <div class="col-xl-3 col-sm-3">
+                                        <tmss-text-input [text]="l('OriginalTotalPrice')"
+                                            style="color: green !important;" [isDisabled]="viewOnly"
+                                            [(ngModel)]="originalTotalPrice" [type]="'money'"
+                                            [isDisabled]="true"></tmss-text-input>
+                                    </div>
+                                    <div class="col-xl-2 col-sm-2">
+                                        <tmss-combobox [text]="l('OriginalCurrency')"
+                                            [(ngModel)]="selectedUR.originalCurrencyId" [isDisabled]="true"
+                                            [hasFilter]="false" [items]="currencies"></tmss-combobox>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-sm-6">
+                                        <tmss-textarea [text]="l('Note')" [isDisabled]="viewOnly"
+                                            [(ngModel)]="selectedUR.note"></tmss-textarea>
+                                    </div>
+                                    <div class="col-xl-3 col-sm-3">
+                                        <tmss-datepicker [text]="l('DeliveryDate')" [(ngModel)]="deliveryDate"
+                                            [isRequired]="true"></tmss-datepicker>
+                                    </div>
+                                </div>
+                                <div *ngIf="selectedUR.approvalStatus == 'NEW' && selectedUR.creatorUserId == currentUserId && !viewOnly"
+                                    class="text-right">
+                                    <button (click)="addRow()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                                        {{ l('Add') }}
+                                    </button>
+                                    <button (click)="deleteRow()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-danger">
+                                        <i class="fa tmss-fa fa-trash mr-1"></i>
+                                        {{ l('Delete') }}
+                                    </button>
+                                </div>
+                            </fieldset>
+                            <fieldset class="fieldset-border mt-2">
+                                <h6 class="card-header pl-0">
+                                    {{ l('ProductList') }}
+                                </h6>
+                                <div class="col-12 ph-0">
+                                    <grid-table [columnDefs]="productsColDef" [defaultColDef]="defaultColDef"
+                                        (callBackEvent)="callBackProductColDef($event)"
+                                        (onChangeSelection)="onChangeProductSelection($event)"
+                                        [rowData]="selectedUR.products" [height]="'200px'"
+                                        [frameworkComponents]="frameworkComponents" (keydown)="agKeyUp($event)"
+                                        (onSearch)="searchByEnter($event)" [showPagination]="false"
+                                        (cellEditingStopped)="cellEditingStopped($event)"></grid-table>
+                                </div>
+
+                                <div class="row pt-2" >
+                                    <div class="col-xl-6 col-sm-12">
+                                        <div class="form-group custom-input">
+                                            <tmss-textarea [text]="l('Yêu cầu thêm thông tin')" [isDisabled]="true" [height]="'70px'"
+                                                [(ngModel)]="selectedUR!.requestNote"></tmss-textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-sm-12">
+                                        <div class="form-group">
+                                            <tmss-textarea [text]="l('Phản hồi')" [isDisabled]="viewOnly || !hasRequestInfo" [height]="'70px'"
+                                                [(ngModel)]="selectedUR!.replyNote"></tmss-textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" *ngIf="hasRequestInfo">
+
+                                    <div class="col-xl-12 col-sm-12 text-right">
+                                        <button [disabled]="!selectedUR.replyNote" (click)="replyRequest()" pButton
+                                            pRipple type="button"
+                                            class="tmss-btn p-button-outlined btn-outline-primary">
+                                            <i *ngIf="selectedUR.replyNote" class="fa tmss-fa fa-check mr-1"></i>
+                                            Phản hồi
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                            <div class="col-xl-12 ph-0 text-right mt-2" style="display: flex;">
+                                <tmss-text-input *ngIf="!viewOnly" [text]="l('File')" style="width: 30vh !important;"
+                                    [isDisabled]="viewOnly" [(ngModel)]="fileName">
+                                </tmss-text-input>
+                                <div *ngIf="!viewOnly" style="display: flex; justify-content: space-between;">
+                                    <input #imgInput type="file" class="d-none"
+                                        accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                                    <button type="button" style="margin-left: 0; height: 24px;" (click)="uploadFiles()">
+                                        <i class="fa fa-upload mr-1"></i>
+                                        <span>{{ l('ChooseFile') }}</span>
+                                    </button>
+                                </div>
+                                <button *ngIf="!viewOnly" (click)="deleteFileRow()" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined btn-outline-danger">
+                                    <i class="fa tmss-fa fa-trash mr-1"></i>
+                                    {{ l('Delete') }}
+                                </button>
+                                <button *ngIf="selectedUR.id && selectedUR.attachments.length > 0"
+                                    (click)="dowloadAttachment(false, undefined)" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i class="fa tmss-fa fa-file-download mr-1"></i>
+                                    {{ l('DowloadAllAttachments') }}
+                                </button>
+                            </div>
+                            <fieldset *ngIf="selectedUR.id && selectedUR.attachments.length > 0"
+                                class="fieldset-border mt-2">
+                                <h6 class="card-header pl-0">
+                                    {{ l('Attachments') }}
+                                </h6>
+                                <div class="col-12 ph-0">
+                                    <grid-table [height]="'200px'" [columnDefs]="attachmentsColDefs"
+                                        [defaultColDef]="defaultColDef" [showPagination]="false"
+                                        [rowData]="selectedUR.attachments" [frameworkComponents]="frameworkComponents"
+                                        (callBackEvent)="callBackAttachmentsGrid($event)"
+                                        (onChangeSelection)="onChangeAttachmentSelection($event)"></grid-table>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </tab>
+                    <tab [heading]="l('Approve')">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <grid-table [height]="'300px'" [columnDefs]="approvalColDef"
+                                        [rowData]="approvalInfos" [showPagination]="false">
+                                    </grid-table>
+                                </div>
+                            </div>
+
+                            <!-- </p-panel> -->
+                        </div>
+                    </tab>
+
+                    <tab [heading]="l('ReferenceInformation')">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <grid-table [height]="'300px'" [columnDefs]="referenceColDef" [rowData]="referenceInfo"
+                                        [showPagination]="false">
+                                    </grid-table>
+                                </div>
+                            </div>
+
+                            <!-- </p-panel> -->
+                        </div>
+                    </tab>
+                </tabset>
+            </fieldset>
+
+            <div class="modal-footer-master">
+                <div class="text-right mt-2">
+                    <button
+                        *ngIf="!viewOnly && selectedUR.approvalStatus == 'NEW' && selectedUR.creatorUserId == currentUserId"
+                        (click)="createOrEdit()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        {{ l('Save') }}
+                    </button>
+                    <button *ngIf="!viewOnly && selectedUR.creatorUserId == currentUserId" (click)="sendRequest()"
+                        pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-success">
+                        <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                        {{ l('SendRequest') }}
+                    </button>
+
+                    <!-- <button *ngIf="viewOnly" (click)="forwardEvent.emit(null);modal.hide()" pButton pRipple
+                        type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                        {{l('Duyệt và chuyển tiếp')}}
+                    </button> -->
+
+                    <button *ngIf="viewOnly" (click)="approveEvent.emit(null);modal.hide()" pButton pRipple
+                        type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <!-- <i class="fa tmss-fa fa-plus mr-1"></i> -->
+                        {{l('Duyệt')}}
+                    </button>
+                    <button *ngIf="viewOnly" (click)="rejectEvent.emit(null);modal.hide()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <!-- <i class="fa tmss-fa fa-trash mr-1"></i> -->
+                        {{ l('Reject') }}
+                    </button>
+                    <button *ngIf="viewOnly" (click)="requestMoreInfoEvent.emit(null)" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-success">
+                        <!-- <i class="fa tmss-fa fa-location-arrow mr-1"></i> -->
+                        {{ 'Yêu cầu thêm thông tin' }}
+                    </button>
+                    <button (click)="close()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{ l('Close') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<tmss-select-grid-modal #selectProductModal [height]="'300px'" [headerText]="l('ProductSelection')"
+    [columnDefs]="productColDefs" [showInput]="false" [apiCall]="getAllProducts.bind(this)"
+    [defaultColDef]="defaultColDef" [modalClass]="'modal-lg'" [textLeft]="l('Confirm')"
+    (close)="patchProduct($event)"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #selectBudgetCodeModal [height]="'300px'" [headerText]="l('BudgetCodeSelection')"
+    [columnDefs]="budgetCodeColDefs" [showInput]="false" [apiCall]="getAllGlCode.bind(this)"
+    [defaultColDef]="defaultColDef" [modalClass]="'modal-lg'" [textLeft]="l('Confirm')"
+    (close)="patchBudgetCode($event, true)"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #selectBudgetCodeHeadModal [height]="'300px'" [headerText]="l('BudgetCodeSelection')"
+    [columnDefs]="budgetCodeColDefs" [showInput]="false" [apiCall]="getAllGlCode.bind(this)"
+    [defaultColDef]="defaultColDef" [modalClass]="'modal-lg'" [textLeft]="l('Confirm')"
+    (close)="patchBudgetCode($event, false)"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #selectUomModal [height]="'300px'" [headerText]="l('UomSelection')"
+    [columnDefs]="uomColDefs" [showInput]="false" [showPagination]="false" [listInput]="uomList"
+    [defaultColDef]="defaultColDef" [modalClass]="'modal-sm'" [textLeft]="l('Confirm')" [notPartFilter]="true"
+    (close)="patchUom($event)"></tmss-select-grid-modal>

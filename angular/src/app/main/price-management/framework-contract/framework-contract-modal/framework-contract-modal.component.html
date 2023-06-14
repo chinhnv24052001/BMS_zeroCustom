@@ -1,0 +1,87 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog tmss-modal-xl">
+        <div class="modal-content">
+
+            <div autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 10px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span>{{'View Annex'}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="close()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body modal-body-master">
+                    <div class="row">
+                        <div class="col-xl-6 col-sm-12 mt-1">
+                            <tmss-text-input [text]="l('ContractNo')" [(ngModel)]="selectedData.contractNo"
+                                [isDisabled]="true"></tmss-text-input>
+                        </div>
+                        <div class="col-xl-6 col-sm-12 mt-1">
+                            <tmss-text-input [text]="l('SupplierName')" [(ngModel)]="selectedData.supplierName"
+                                [isDisabled]="true"></tmss-text-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6 col-sm-12 mt-1">
+                            <tmss-text-input [text]="l('AppendixNo')" [(ngModel)]="selectedData.appendixNo"
+                                [isDisabled]="true"></tmss-text-input>
+                        </div>
+                        <div class="col-xl-6 col-sm-12 mt-1">
+                            <tmss-datepicker [text]="l('AppendixDate')" [(ngModel)]="selectedData.appendixDate"
+                                [isDisabled]="true"></tmss-datepicker>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6 col-sm-12 mt-1">
+                            <tmss-datepicker [text]="l('EffectiveFrom')" [(ngModel)]="selectedData.effectiveFrom"
+                                [isDisabled]="true"></tmss-datepicker>
+                        </div>
+                        <div class="col-xl-6 col-sm-12 mt-1">
+                            <tmss-datepicker [text]="l('EffectiveTo')" [(ngModel)]="selectedData.effectiveTo"
+                                [isDisabled]="true"></tmss-datepicker>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12 col-sm-12 mt-1">
+                            <tmss-textarea [text]="l('Description')" [(ngModel)]="selectedData.description"
+                                [isDisabled]="viewOnly"></tmss-textarea>
+                        </div>
+                    </div>
+                    <!-- detail -->
+                    <div class="col-xl-12 col-sm-12 mt-1">
+                        <grid-table [height]="'250px'" [columnDefs]="gridDetailColDef" [rowData]="rowDataDetail"
+                            [showPagination]="false">
+                        </grid-table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer modal-footer-master">
+                <!-- <button *ngIf="viewOnly" (click)="forwardEvent.emit(null);modal.hide()" pButton pRipple
+                type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                    <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                    {{l('Duyệt và chuyển tiếp')}}
+                </button> -->
+                <button  *ngIf="viewOnly" (click)="approveEvent.emit(null);modal.hide()" pButton
+                    pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                    {{l('Duyệt')}}
+                </button>
+                <button  *ngIf="viewOnly" (click)="rejectEvent.emit(null);modal.hide()" pButton pRipple
+                    type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                    {{ 'Từ chối' }}
+                </button>
+                <button  *ngIf="viewOnly" (click)="requestMoreInfoEvent.emit(null)" pButton pRipple
+                    type="button" class="tmss-btn p-button-outlined btn-outline-success">
+                    {{ 'Yêu cầu thêm thông tin' }}
+                </button>
+                <button (click)="close()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-danger">
+                    <i class="fa tmss-fa fa-times mr-1"></i>
+                    {{'Cancel'}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,123 @@
+:host ::ng-deep {
+    .row {
+        display: flex;
+        text-align: justify;
+    }
+
+    .row .product-row {
+        padding: 0.1rem 0.1rem 0.1rem 0.1rem;
+        border: 1px solid red;
+        width: 500px;
+        height: 500px;
+        margin: 0 auto;
+    }
+
+    .badge {
+        padding-left: 9px;
+        padding-right: 9px;
+        -webkit-border-radius: 9px;
+        -moz-border-radius: 9px;
+        border-radius: 9px;
+    }
+
+    #lblCartCount {
+        font-size: 13px;
+        background: white;
+        color: red;
+        padding: 0px 5px;
+        vertical-align: top;
+        margin-left: -10px;
+        margin-top: -3px;
+    }
+
+    body {
+        background: #ebecf1;
+        color: #b3b9b9;
+    }
+
+    .view_item img {
+        width: 150px;
+        height: 100px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        object-fit: fill;
+    }
+
+    .view_item .title {
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1; /* number of lines to show */
+                line-clamp: 1;
+        -webkit-box-orient: vertical;
+        margin-bottom: 2px !important;
+    }
+
+    .view_item .content {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 24px;
+        display: -webkit-box;
+        -webkit-line-clamp: 1; /* number of lines to show */
+                line-clamp: 1;
+        -webkit-box-orient: vertical;
+        margin: auto;
+        padding: 2px 0px 1px 0px;
+    }
+
+    .view_item .btn {
+        width: 100% !important;
+        height: 24px;
+        background: #ffffff;
+        padding: 2px 5px 5px 5px;
+        border-radius: 3px;
+        border-color: #3B82F6;
+        color: #3B82F6;
+        text-align: center;
+        font-weight: 400;
+        cursor: pointer;
+        margin: 1px 0px 1px 0px;
+    }
+
+    .view_item .btn:hover {
+        background: #ff0000;
+        color: white;
+        border-color: #ff0000;
+
+        .fa {
+            color: white !important;
+        }
+    }
+
+    .view_item:hover {
+        background: #d8d8d8;
+    }
+
+    .pagination {
+        display: inline-block;
+        margin: auto;
+        padding-left: 42%;
+    }
+
+    .pagination .btn:hover {
+        background-color: #e5e5e5;
+    }
+
+    .price {
+        color: red;
+        font-weight: bold;
+        font-size: 15px !important;
+        margin-top: 2px !important;
+        margin-bottom: 2px !important;
+    }
+
+    // .cart:hover {
+    //     background-color: #3B82F6 !important;
+
+    //     .fa {
+    //         color: white !important;
+    //     }
+    // }
+}

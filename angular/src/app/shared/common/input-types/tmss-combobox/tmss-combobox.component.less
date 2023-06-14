@@ -1,0 +1,109 @@
+.border-none > select {
+    border: none;
+}
+
+::ng-deep {
+    .ng-custom > .ng-select-container{
+        height: 24px !important;
+        min-height: 24px;
+        border-radius:  0px 2px 2px 0px;
+    }
+
+    .ng-select-require > .ng-select-container >.ng-value-container>.ng-input >input{
+        background-color: #ffffcc !important;
+    }
+
+    .ng-select-require > .ng-select-container >.ng-value-container>.ng-value{
+        z-index: 1;
+
+    }
+
+    // .ng-value-container .ng-value {
+    //     white-space: nowrap !important;
+    //     overflow: hidden;
+    //     text-overflow: ellipsis;
+    //     height: 22px;
+    // }
+
+    // .ng-dropdown-panel { width: auto !important; max-width: 300px; min-width: 100%;margin-right: 10px !important; }
+
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+
+        font-size: 11px !important;
+
+    }
+
+    .ng-select.ng-select-single .ng-select-container .ng-value-container, .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-value {
+        white-space: nowrap !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 22px;
+        font-size: 11px !important;
+        padding-top: 2px;
+    }
+
+    .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+        top: 0px;
+        left: 0;
+        height:100%;
+        padding-left: 0px;
+        padding-right: 0px;
+
+    }
+
+
+    .ng-select .ng-select-container .ng-value-container .ng-input>input {
+        // box-sizing: content-box;
+        // background: none transparent;
+        // border: 0 none;
+        // box-shadow: none;
+        // outline: none;
+        // padding: 0;
+        // cursor: default;
+        height: 100%;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .ng-select .ng-clear-wrapper {
+        display: none;
+    }
+
+
+
+    // .ng-dropdown-panel .scroll-host {
+    //     overflow: hidden;
+    //     overflow-y: auto;
+    //     position: relative;
+    //     display: block;
+    //     width: fit-content;
+    //     -webkit-overflow-scrolling: touch;
+    // }
+    .ng-value-container {
+        .ng-value {
+          white-space: normal !important;
+        }
+      }
+
+    .ng-select.auto-grow {
+        display: flex;
+        //max-width: inherit;
+
+        .ng-select-container {
+         min-width: 100px;
+          width: auto;
+        }
+
+        .ng-dropdown-panel {
+          width: auto;
+        }
+      }
+
+      .basic-height .ng-dropdown-panel .ng-dropdown-panel-items {
+        min-height: 250px;
+    }
+
+
+}
+
+

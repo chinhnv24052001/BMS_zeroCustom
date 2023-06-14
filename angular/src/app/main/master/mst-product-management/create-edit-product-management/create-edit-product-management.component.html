@@ -1,0 +1,246 @@
+<div appBsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ ignoreBackdropClick: 'static' }">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form #mstInventoryItemsForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div *ngIf="!isView" class="modal-header modal-header-master" style="margin-bottom: 20px">
+                    <h5  class="modal-title" style="margin-left: 15px">
+                        <span *ngIf="isEditForm">{{"Edit" | localize}}</span>
+                        <span *ngIf="!isEditForm">{{"Add" | localize}}</span>
+                    </h5>
+                    <h5 *ngIf="isView" class="modal-title" style="margin-left: 15px">
+                        <span>{{"ViewDetail" | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div *ngIf="isView" class="modal-header modal-header-master" style="margin-bottom: 20px">
+                    <h5  class="modal-title" style="margin-left: 15px">
+                        <span>{{"ViewDetail" | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body modal-body-master">
+                    <div class="row">
+                        <div class="form-group col-sm-7" style="padding-right: 515px;">
+                            <div class="container" style="height: 100px; width: 100px; border: solid 1px;">
+                                <img src="data:image/png;base64,{{fileBase64Image}}" alt="Image" class="image"
+                                    style="width:100%;">
+                                <!-- <img src="../wwwroot/ProductImage/92374164_2.png" alt="Image" class="image" style="width:100%;"> -->
+                                <div class="middle">
+                                    <!-- <button (click)="uploadImage()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary
+                                        ">
+                                        <i class="fa tmss-fa fa-upload mr-1"></i>
+                                    </button> -->
+
+                                    <input #imgInput type="file" class="d-none" (change)="uploadImage($event)"
+                                        accept=".png,.jpg,.gif" />
+                                    <button (click)="resetInput()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary
+                                        ">
+                                        <i class="fa tmss-fa fa-upload mr-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <tmss-combobox (onChangeValue)="setCode()" [text]="l('InventoryGroup')" isRequired="true"
+                            [isDisabled]="isView" formControlName="inventoryGroupId" [items]="listInventoryGroup"></tmss-combobox>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <tmss-combobox (onChangeValue)="setCode()" [text]="l('Catalog')" isRequired="true" 
+                            [isDisabled]="isView" formControlName="catalog" [items]="listCatalog"></tmss-combobox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-5">
+                            <tmss-text-input [text]="l('PartCode')" formControlName="partNo" [maxLength]="40"
+                              [isDisabled]="true"  (input)="setPartNoCPS()"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-1">
+                            <tmss-text-input [text]="l('')" [isDisabled]="isView || checkSource" formControlName="color" placeholder="{{'Color' | localize}}"
+                                [maxLength]="2"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <tmss-text-input [text]="l('PartName')" formControlName="partName" [isDisabled]="isView || checkSource"
+                              [maxLength]="240"></tmss-text-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <tmss-combobox [text]="l('SupplierName')" formControlName="supplierId" [isDisabled]="isView || checkSource"
+                                [items]="listVendor"></tmss-combobox>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <tmss-text-input [isDisabled]="!isEditForm || isView" [text]="l('PartCodeCPS')"
+                                formControlName="partNoCPS" [maxLength]="40"></tmss-text-input>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <tmss-text-input [text]="l('PartNameSupplier')" formControlName="partNameSupplier" [isDisabled]="isView"
+                                [maxLength]="240">
+                            </tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <tmss-combobox [text]="l('PrimaryUnitOfMeasure')" formControlName="primaryUnitOfMeasure" [isDisabled]="isView || checkSource"
+                                (onChangeValue)="setPrimaryUomCode()" [items]="listUnitOfMeasure"></tmss-combobox>
+                        </div>
+                        <div hidden class="form-group col-sm-5">
+                            <tmss-text-input [text]="l('PrimaryUomCode')" [isDisabled]="isView || checkSource"
+                                formControlName="primaryUomCode"></tmss-text-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <tmss-text-input [text]="l('UnitPrice')" formControlName="unitPrice" [min]="0" [isDisabled]="true"
+                                [type]="'number'"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <tmss-text-input [text]="l('TaxPrice')" formControlName="taxPrice" [min]="0" [isDisabled]="isView || checkSource"
+                                [type]="'number'"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <tmss-combobox [text]="l('Currency')" formControlName="currencyId" [isDisabled]="isView || checkSource"
+                                [items]="listCurrency"></tmss-combobox>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="form-group col-sm-4">
+                            <tmss-text-input [text]="l('CostOfSalesAccount')" formControlName="costOfSalesAccount"
+                                [maxLength]="255"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <tmss-text-input [text]="l('ExpenseAccount')" formControlName="expenseAccount"
+                                [maxLength]="255"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <tmss-text-input [text]="l('SaleAccount')" formControlName="salesAccount"
+                                [maxLength]="255"></tmss-text-input>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <tmss-text-input [text]="l('Producer')" [isDisabled]="isView || checkSource"
+                                formControlName="producer" [maxLength]="500"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <tmss-text-input [text]="l('CountryOfOrigin')" [isDisabled]="isView || checkSource"
+                                formControlName="origin" [maxLength]="500"></tmss-text-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <tmss-text-input [text]="l('HowToPack')" [isDisabled]="isView || checkSource"
+                                formControlName="howToPack" [maxLength]="200"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <tmss-datepicker [text]="l('AvailableTime')" [isDisabled]="isView || checkSource"
+                                formControlName="availableTime"></tmss-datepicker>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <tmss-text-input [text]="l('Priority')" [isDisabled]="isView || checkSource"
+                                formControlName="priority" type="number"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <tmss-text-input [text]="l('SafetyStockLevel')" [isDisabled]="isView || checkSource"
+                                formControlName="safetyStockLevel" type="number"></tmss-text-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <tmss-text-input [text]="l('MinimumQuantity')" [isDisabled]="isView || checkSource"
+                                formControlName="minimumQuantity" type="number"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <tmss-text-input [text]="l('FactoryUse')" [isDisabled]="isView || checkSource"
+                                formControlName="factoryUse" [maxLength]="200"></tmss-text-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <tmss-text-input [text]="l('ConvertionUnitOfCode')" [isDisabled]="isView || checkSource"
+                                formControlName="convertionUnitOfCode"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <tmss-text-input [text]="l('Material')" [isDisabled]="isView || checkSource"
+                                formControlName="material" [maxLength]="200"></tmss-text-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <tmss-text-input [text]="l('Length')" [isDisabled]="isView || checkSource"
+                                formControlName="length" type="number"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-3 ">
+                            <tmss-text-input [text]="l('UnitLength')" [isDisabled]="isView || checkSource"
+                                formControlName="unitLength" [maxLength]="200"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <tmss-text-input [text]="l('Width')" [isDisabled]="isView || checkSource"
+                                formControlName="width" type="number"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-3 ">
+                            <tmss-text-input [text]="l('UnitWidth')" [isDisabled]="isView || checkSource"
+                                formControlName="unitWidth" [maxLength]="200"></tmss-text-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <tmss-text-input [text]="l('Height')" [isDisabled]="isView || checkSource"
+                                formControlName="height" type="number"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-3 ">
+                            <tmss-text-input [text]="l('UnitHeight')" [isDisabled]="isView || checkSource"
+                                formControlName="unitHeight" [maxLength]="200"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <tmss-text-input [text]="l('Weight')" [isDisabled]="isView || checkSource"
+                                formControlName="weight" type="number"></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-3 ">
+                            <tmss-text-input [text]="l('UnitWeight')" [isDisabled]="isView || checkSource"
+                                formControlName="unitWeight" [maxLength]="200"></tmss-text-input>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <tmss-datepicker [text]="l('EffectiveFrom')" [isDisabled]="true"
+                                formControlName="effectiveFrom"></tmss-datepicker>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <tmss-datepicker [text]="l('EffectiveTo')" formControlName="effectiveTo" [isDisabled]="true"></tmss-datepicker>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <tmss-combobox [text]="l('Status')" formControlName="isActive" value="items.id" 
+                                display="items.name" [items]="listStatus"></tmss-combobox>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-master">
+                    <button *ngIf="!isView && isGranted('MasterData.ProductManagement.Edit') && isGranted('MasterData.ProductManagement.Add')" (click)="save()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{"Save" | localize}}
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{"Cancel" | localize}}
+                    </button>
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

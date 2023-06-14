@@ -1,0 +1,89 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+
+            
+            <!-- <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <form class="form" [formGroup]="unitOfMeasureForm" *ngIf="unitOfMeasureForm">
+                        <p-panel header="{{'SearchUnitOfMeasure' | localize}}" [toggleable]="true">
+                            <div class="row align-items-center">
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-text-input [text]="l('UnitOfMeasure')" formControlName="unitOfMeasure">
+                                    </tmss-text-input>
+                                </div>
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-text-input [text]="l('UOMCode')" formControlName="uOMCode">
+                                    </tmss-text-input>
+                                </div>
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-text-input [text]="l('UOMClass')" formControlName="uOMClass">
+                                    </tmss-text-input>
+                                </div>
+                               
+                                <div class="col-xl-3 col-sm-12">
+                                    <button (click)="searchUnitOfMeasure()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-search mr-1"></i>
+                                        {{'Search' | localize}}
+                                    </button>
+                                </div>
+                            </div>
+                        </p-panel>
+                    </form>
+                </div>
+            </div> -->
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <grid-table [height]="'500px'" [columnDefs]="gridColDef" [defaultColDef]="defaultColDef" [rowData]="listGrid"
+                                [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                (onChangeSelection)="onChangeSelection($event)" [rowSelection]="'multiple'">
+                            </grid-table>
+                        </div>
+                    </div>
+                    <!-- </p-panel> -->
+                    <div class="col-12 text-right">
+                        <button *ngIf="tabType == 1" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-save mr-1"></i>
+                            {{'Save' | localize}}
+                        </button>
+
+                        <button  pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-eye mr-1"></i>
+                        {{'View Transfer' | localize}}
+                        </button>
+
+                        <button  pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-secondary">
+                            <i class="fa fa-sync"></i>
+                            {{l('Get Lastest Consumption')}}
+                        </button>
+
+                        <button *ngIf="tabType == 1" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-check mr-1"></i>
+                            {{'Approval' | localize}}
+                        </button>
+
+                        <button *ngIf="tabType == 1" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                            {{'To User' | localize}}
+                        </button>
+                       
+                        <button  pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined p-button-success">
+                            <i class="fa tmss-fa fa-file-download mr-1"></i>
+                            {{'Export' | localize}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <create-or-edit-mst-unit-of-measure #createOrEditMstUnitOfMeasure
+            (close)="searchUnitOfMeasure()"></create-or-edit-mst-unit-of-measure> -->
+    </div>
+</div>

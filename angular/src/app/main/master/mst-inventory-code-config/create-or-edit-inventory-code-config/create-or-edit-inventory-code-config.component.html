@@ -1,0 +1,86 @@
+<div appBsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ ignoreBackdropClick: 'static' }">
+    <div class="modal-dialog tmss-modal-md">
+        <div class="modal-content">
+            <form #mstInventoryItemsForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px">
+                    <h5 class="modal-title" style="margin-left: 15px">
+                        <span *ngIf="isEditForm">Edit</span>
+                        <span *ngIf="!isEditForm">Add</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body modal-body-master">
+                    <div class="row">
+                        <div class="form-group col-sm-4" >
+                            <tmss-combobox (onChangeValue)="setName()" [text]="l('DocumentCode')" formControlName="docCode"
+                               [isRequired]="true"  [isDisabled]="isEditForm" [items]="listInevtoryGroup"></tmss-combobox>
+                        </div>
+                        <div class="form-group col-sm-4" >
+                            <tmss-text-input (onChangeValue)="setName()" [text]="l('InventoryGroupCode')" formControlName="inventoryGroupCode"
+                            [isDisabled]="true" [isRequired]="true" ></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-4" >
+                            <tmss-text-input [isDisabled]="true" [text]="l('InventoryGroup')" formControlName="inventoryGroupName"
+                            [isRequired]="true" ></tmss-text-input>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="form-group col-sm-4" >
+                            <tmss-combobox (onChangeValue)="setName()" [text]="l('InventoryGroupCode')" formControlName="inventoryGroupCode"
+                               [isRequired]="true"  [isDisabled]="isEditForm" [items]="listInevtoryGroup"></tmss-combobox>
+                        </div>
+                        <div class="form-group col-sm-4" >
+                            <tmss-text-input (onChangeValue)="setName()" [text]="l('InventoryGroupCode')" formControlName="inventoryGroupCode"
+                            [isDisabled]="true" [isRequired]="true"  [isDisabled]="isEditForm" ></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-4" >
+                            <tmss-text-input [isDisabled]="true" [text]="l('InventoryGroup')" formControlName="inventoryGroupName"
+                            ></tmss-text-input>
+                        </div>
+
+                    </div> -->
+                    <div class="row">
+                        <div class="form-group col-sm-4" >
+                            <tmss-text-input [text]="l('CodeHeader')" formControlName="codeHeader"
+                                ></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-4" >
+                            <tmss-text-input [text]="l('StartNum')" formControlName="startNum"
+                               [type]="'number'" [maxLength]="8" ></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-4" >
+                            <tmss-text-input [text]="l('EndNum')" formControlName="endNum"
+                            [type]="'number'" [maxLength]="8" ></tmss-text-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6" >
+                            <tmss-text-input [text]="l('CurrentNum')" formControlName="currentNum"
+                            [type]="'number'" [maxLength]="8" ></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-6" >
+                            <tmss-combobox [text]="l('Status')" formControlName="status" [items]="listStatus"
+                             [isDisabled]="!isEditForm"  ></tmss-combobox>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-master">
+                    <button (click)="save()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        Save
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        Cancel
+                    </button>
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

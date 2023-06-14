@@ -1,0 +1,111 @@
+<div appBsModal #createOrEditModal="bs-modal" class="modal fade" role="dialog" aria-labelledby="createOrEditModal"
+    aria-hidden="true" id="container" data-dismiss="modal" (onHidden)="reset()" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog tmss-modal-lg">
+        <div class="modal-content">
+            <div novalidate autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span>{{'Matched Invoice' }}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body modal-body-master">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="row">
+                                <div class="col-xl-6 col-sm-12 mt-1">
+                                    <tmss-text-input [text]="this.l('Inv.Symbol')"
+                                        [(ngModel)]="selectedRow.invoiceSymbol" [isDisabled]="true"
+                                        [maxLength]="10"></tmss-text-input>
+                                </div>
+                                <div class="col-xl-6 col-sm-12 mt-1">
+                                    <tmss-text-input [text]="this.l('InvoiceNo')" [(ngModel)]="selectedRow.invoiceNum"
+                                        [isDisabled]="true" [maxLength]="50"></tmss-text-input>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="row">
+                                <div class="col-xl-12 col-sm-12 mt-1">
+                                    <tmss-combobox [text]="this.l('VendorName')" [items]="vendorList"
+                                        [(ngModel)]="selectedRow.vendorId"></tmss-combobox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="row">
+                                <div class="col-xl-6 mt-2">
+                                    <tmss-datepicker [text]="this.l('InvoiceDate')" [isDisabled]="true"
+                                        [(ngModel)]="selectedRow.invoiceDate"></tmss-datepicker>
+                                </div>
+                                <div class="col-xl-6 mt-2">
+                                    <tmss-text-input [isDisabled]="true" [text]="this.l('TotalAmount')"
+                                        [isDisabled]="true"
+                                        [(ngModel)]="selectedRow.totalPaymentAmount"></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6 mt-2">
+                                    <tmss-text-input [text]="this.l('TaxName')" [isDisabled]="true"
+                                        [(ngModel)]="selectedRow.taxName"></tmss-text-input>
+                                </div>
+                                <div class="col-xl-6 mt-2">
+                                    <tmss-text-input [min]="0" [text]="this.l('TaxRate')" [isDisabled]="true"
+                                        [(ngModel)]="selectedRow.taxRate" [type]="'number'" [min]="0"></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6 mt-2 ">
+                                    <tmss-combobox [text]="this.l('Currency')" [items]="currencyList"
+                                        [isDisabled]="true" [(ngModel)]="selectedRow.currencyId"></tmss-combobox>
+                                </div>
+                                <div class="col-xl-6 mt-2 ">
+                                    <tmss-text-input [min]="0" [(ngModel)]="selectedRow.rate" [isDisabled]="true"
+                                        [type]="'number'"></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-sm-12 mt-2">
+                                <tmss-textarea [text]="this.l('Description')" [(ngModel)]="selectedRow.description"
+                                    [isDisabled]="true" [maxLength]="255"></tmss-textarea>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <import-attach-file #attach [viewOnly]="true"
+                                        [attachType]="'INVOICE'"></import-attach-file>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-md-12 mt-2 ph-0">
+                        <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="listItem"
+                            [showPagination]="false" (callBackEvent)="callBackGrid($event)"
+                            cellEditStopParams="{'stopEditingWhenGridLosesFocus': true}"
+                            (onChangeSelection)="onChangeDetailRow($event)"
+                            (cellValueChanged)="onCellValueChanged($event)">
+                        </grid-table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer modal-footer-master">
+                <button  (click)="save()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-primary">
+                    <i class="fa tmss-fa fa-check mr-1"></i>
+                    {{'Save' }}
+                </button>
+                <button (click)="closeModel()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-danger">
+                    <i class="fa tmss-fa fa-times mr-1"></i>
+                    {{'Cancel' }}
+                </button>
+                <button class="ghost" #submitBtn></button>
+            </div>
+        </div>
+    </div>
+</div>

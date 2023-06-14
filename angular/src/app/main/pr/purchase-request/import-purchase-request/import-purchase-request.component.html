@@ -1,0 +1,71 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog tmss-modal-lg">
+        <div class="modal-content ">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span>{{ l('ImportPRFromExcel') }}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body modal-body-master">
+                    <fieldset class="fieldset-border">
+                        <div class="col-xl-12 ph-0" style="display: flex;">
+                            <tmss-text-input [text]="l('File')" [(ngModel)]="fileName" style="min-width: 450px;">
+                            </tmss-text-input>
+                            <div style="display: flex; justify-content: space-between;">
+                                <input #imgInput type="file" class="d-none" (change)="onUpload($event)" name="filename"
+                                    accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                                <button type="button" style="margin-left: 0; height: 24px;" (click)="reset()">
+                                    <i class="fa fa-upload mr-1"></i>
+                                    <span>{{ 'Chọn file' }}</span>
+                                </button>
+                            </div>
+                            <button class="tmss-btn btn-outline-primary ml-2" [disabled]="!fileName" (click)="upload()">
+                                <i class="fa fa-upload mr-1"></i>{{ 'Tải lên' }}
+                            </button>
+                            <button (click)="refresh()" class="tmss-btn btn-outline-success ml-2">
+                                <i class="fa fa-sync-alt mr-1"></i>{{ 'Làm mới' }}
+                            </button>
+                            <button (click)="exportTemplate()" class="tmss-btn btn-outline-primary">
+                                <i class="fa tmss-fa fa-download mr-1"></i>{{ l('ExportTemplate')}}
+                            </button>
+                        </div>
+                    </fieldset>
+
+
+                    <div class="card card-custom gutter-b">
+                        <div class="card-body">
+                            <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                            <div class="row align-items-center">
+                                <div id="table1" class="col-12">
+                                    <grid-table [height]="'300px'" [columnDefs]="gridColDef"
+                                        [rowData]="listRecordImports" [paginationParams]="paginationParams"
+                                        (callBackEvent)="callBackGrid($event)"
+                                        (changePaginationParams)="changePaginationParams($event)"
+                                        [showPagination]="false"
+                                        >
+                                    </grid-table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button (click)="save()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary" [disabled]="uploadData.length < 1">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        {{ l('Save') }}
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{ l('Close') }}
+                    </button>
+                    <button class="ghost" #submitBtn></button>
+                </div>
+        </div>
+    </div>
+</div>

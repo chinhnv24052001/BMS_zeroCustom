@@ -1,0 +1,144 @@
+<div class="ui-g-12">
+    <div class="ui-g-12 ph-0">
+        <tabset class="ui-g-12 mt-1 custom-tab">
+            <tab class="custom-tab" heading="{{l('QuotaCount')}}">
+                <fieldset class="fieldset-border ui-g-12 mt-1">
+                    <div>
+                        <div class="content d-flex flex-column flex-column-fluid">
+                            <div [class]="containerClass">
+                                <div class="card card-custom gutter-b">
+                                    <div class="card-body">
+                                        <form class="form" [formGroup]="qoutaForm" *ngIf="qoutaForm">
+                                            <p-panel header="{{'Search' | localize}}" [toggleable]="true">
+                                                <div class="row align-items-center">
+                                                    <div class="col-xl-3 col-sm-12">
+                                                        <tmss-text-input [text]="l('QuotaCode')"
+                                                            formControlName="qoutaCode">
+                                                        </tmss-text-input>
+                                                    </div>
+                                                    <div class="col-xl-6 col-sm-12">
+                                                        <button (click)="search()" pButton pRipple type="button"
+                                                            class="tmss-btn p-button-outlined btn-outline-primary">
+                                                            <i class="fa tmss-fa fa-search mr-1"></i>
+                                                            {{'Search' | localize}}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </p-panel>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div class="card card-custom gutter-b">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-12">
+                                                <grid-table [height]="'300px'" [columnDefs]="gridColDef"
+                                                    [rowData]="listData" [paginationParams]="paginationParams"
+                                                    (callBackEvent)="callBackGrid($event)"
+                                                    (changePaginationParams)="changePaginationParams($event)"
+                                                    (onChangeSelection)="onChangeSelection($event)">
+                                                </grid-table>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 col-sm-12 text-right">
+                                            <button *ngIf="isGranted('MasterData.QuotaExpense.Add')" pButton pRipple type="button"
+                                                class="tmss-btn p-button-outlined btn-outline-primary"
+                                                (click)="createOrEditMstQuoteExpense.create()">
+                                                <i class="fa tmss-fa fa-plus mr-1"></i>
+                                                {{'AddModal' | localize}}
+                                            </button>
+                                            <button *ngIf="isGranted('MasterData.QuotaExpense.Edit')" [disabled]="!check" pButton pRipple type="button"
+                                                class="tmss-btn p-button-outlined btn-outline-primary"
+                                                (click)="createOrEditMstQuoteExpense.edit()">
+                                                <i class="fa tmss-fa fa-edit mr-1"></i>
+                                                {{'Edit' | localize}}
+                                            </button>
+                                            <button *ngIf="isGranted('MasterData.QuotaExpense.Export')" pButton pRipple type="button"
+                                                class="tmss-btn p-button-outlined btn-outline-success"
+                                                (click)="export()">
+                                                <i class="fa tmss-fa fa-file-excel mr-1"></i>
+                                                {{'ExportData' | localize}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <app-create-or-edit-quota-expense #createOrEditMstQuoteExpense [selectedRow]="selectedRow"
+                                (close)="search()"></app-create-or-edit-quota-expense>
+                        </div>
+                    </div>
+                </fieldset>
+            </tab>
+            <tab class="custom-tab" heading="{{l('QuotaValue')}}">
+                <fieldset class="fieldset-border ui-g-12 mt-1">
+                    <div>
+                        <div class="content d-flex flex-column flex-column-fluid">
+                            <div [class]="containerClass">
+                                <div class="card card-custom gutter-b">
+                                    <div class="card-body">
+                                        <form class="form" [formGroup]="qoutaFormGroup" *ngIf="qoutaFormGroup">
+                                            <p-panel header="{{'Search' | localize}}" [toggleable]="true">
+                                                <div class="row align-items-center">
+                                                    <div class="col-xl-3 col-sm-12">
+                                                        <tmss-text-input [text]="l('QuotaCode')"
+                                                            formControlName="qoutaCode">
+                                                        </tmss-text-input>
+                                                    </div>
+                                                    <div class="col-xl-6 col-sm-12">
+                                                        <button (click)="searchGroup()" pButton pRipple type="button"
+                                                            class="tmss-btn p-button-outlined btn-outline-primary">
+                                                            <i class="fa tmss-fa fa-search mr-1"></i>
+                                                            {{'Search' | localize}}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </p-panel>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="card card-custom gutter-b">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-12">
+                                                <grid-table [height]="'300px'" [columnDefs]="gridColDef"
+                                                    [rowData]="listDataGroup" [paginationParams]="paginationGroupParams"
+                                                    (callBackEvent)="callBackGridGroup($event)"
+                                                    (changePaginationParams)="changePaginationParamsGroup($event)"
+                                                    (onChangeSelection)="onChangeSelectionGroup($event)">
+                                                </grid-table>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 col-sm-12 text-right">
+                                            <button *ngIf="isGranted('MasterData.QuotaExpense.Add')" pButton pRipple type="button"
+                                                class="tmss-btn p-button-outlined btn-outline-primary"
+                                                (click)="createOrEditMstQuoteExpenseGroup.create()">
+                                                <i class="fa tmss-fa fa-plus mr-1"></i>
+                                                 {{'AddModal' | localize}}
+                                            </button>
+                                            <button *ngIf="isGranted('MasterData.QuotaExpense.Edit')" [disabled]="!checkgroup" pButton pRipple type="button"
+                                                class="tmss-btn p-button-outlined btn-outline-primary"
+                                                (click)="createOrEditMstQuoteExpenseGroup.edit()">
+                                                <i class="fa tmss-fa fa-edit mr-1"></i>
+                                                 {{'Edit' | localize}}
+                                            </button>
+                                            <button *ngIf="isGranted('MasterData.QuotaExpense.Export')" pButton pRipple type="button"
+                                                class="tmss-btn p-button-outlined btn-outline-success"
+                                                (click)="exportGroup()">
+                                                <i class="fa tmss-fa fa-file-excel mr-1"></i>
+                                                {{'ExportData' | localize}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <app-create-or-edit-quota-expense-group #createOrEditMstQuoteExpenseGroup
+                                [selectedRow]="selectedRowGroup"
+                                (close)="searchGroup()"></app-create-or-edit-quota-expense-group>
+                        </div>
+                    </div>
+                </fieldset>
+            </tab>
+        </tabset>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+
+<tabset class="tab-container">
+    <tab *ngFor="let tab of openedTabsObj; let i = index" heading="{{tab.name | localize}}" [active]="tab.active"
+      (selectTab)="tab.code ? displayTab(tab.code, $event) : undefined" [removable]="true" (removed)="removeTabHandler(tab)" id="{{i}}">
+      <dynamic-tab
+        #dynamic_tab
+        [tabCode]="tab.code"
+        [currentTabCode]="currentTabCode"
+        (setShortcuts)="setShortcuts($event)"
+        (autoReloadWhenDisplayTab)="autoReloadWhenDisplayTab($event)"
+        (changeTabCode)="changeTabCode($event)"
+        [params]="tab.params">
+      </dynamic-tab>
+    </tab>
+  </tabset>
+  <!-- <ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts> -->

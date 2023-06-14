@@ -1,0 +1,70 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b"></div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                    <div class="row align-items-center">
+                        <div id="table1" class="col-12">
+                            <grid-table
+                                [height]="'300px'"
+                                [columnDefs]="gridColDef"
+                                [rowData]="groupList"
+                                [paginationParams]="paginationParams"
+                                (callBackEvent)="callBackGrid($event)"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                (onChangeSelection)="onChangeSelection($event)"
+                                cellEditStopParams="{'stopEditingWhenGridLosesFocus': true}"
+                            >
+                            </grid-table>
+                        </div>
+                    </div>
+                    <div class="col-12 text-right">
+                        <button *ngIf="isGranted('MasterData.InventoryGroup.Add')"
+                            (click)="createOrEditMstInventoryGroupComponent.show()"
+                            pButton
+                            pRipple
+                            type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary"
+                        >
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            Add
+                        </button>
+
+                        <button *ngIf="isGranted('MasterData.InventoryGroup.Edit')"
+                            (click)="createOrEditMstInventoryGroupComponent.show(selectedRow)"
+                            pButton
+                            pRipple
+                            type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary"
+                            [disabled]="!selectedRow.id"
+                        >
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            Edit
+                        </button>
+
+                        <button *ngIf="isGranted('MasterData.InventoryGroup.Delete')"
+                            ng-if="selectedRow"
+                            (click)="deleteInventoryGroup()"
+                            pButton
+                            pRipple
+                            type="button"
+                            class="tmss-btn p-button-outlined btn-outline-danger"
+                            [disabled]="!selectedRow.id"
+                        >
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<create-or-edit-mst-inventory-group
+    (close)="searchItems()"
+    #createOrEditMstInventoryGroupComponent
+></create-or-edit-mst-inventory-group>

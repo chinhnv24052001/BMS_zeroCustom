@@ -1,0 +1,118 @@
+<div class="content d-flex flex-column flex-column-fluid">
+    <div [class]="containerClass">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <form class="form" [formGroup]="invoiceAdjustedForm" *ngIf="invoiceAdjustedForm"
+                    >
+                    <p-panel header="{{'Search' | localize}}" [toggleable]="true">
+                        <div class="row">
+                            <div class="col-xl-4 col-sm-12">
+                                <tmss-text-input [text]="l('InvoiceNo')"
+                                    formControlName="invoiceNo"></tmss-text-input>
+                            </div>
+                            <!-- <div class="col-xl-4 col-sm-12">
+                                <tmss-combobox [text]="l('Preparer')" formControlName="preparerId"
+                                    [items]="listPerparers"></tmss-combobox>
+                            </div> -->
+                            <!-- <div class="col-xl-4 col-sm-12">
+                                <tmss-search-input [text]="l('Buyer')" [showModal]="true" (onSearch)="preparersPopup()"
+                                    formControlName="buyerId"></tmss-search-input>
+                            </div> -->
+                            <div class="col-xl-4 col-sm-12">
+                                <tmss-text-input [text]="l('SerialNo')"
+                                    formControlName="serialNo"></tmss-text-input>
+                            </div>
+                            <div class="col-xl-4 col-sm-4">
+                                <div class="form-group">
+                                    <tmss-combobox [text]="l('Supplier')" formControlName="supplierId"
+                                        [items]="listSuppliers"></tmss-combobox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- <div class="col-xl-4 col-sm-12">
+                                <tmss-datepicker [text]="l('FromDate')" formControlName="fromDate"></tmss-datepicker>
+                            </div>
+                            <div class="col-xl-4 col-sm-12">
+                                <tmss-datepicker [text]="l('ToDate')" formControlName="toDate"></tmss-datepicker>
+                            </div> -->
+
+                            <div class="col-xl-1 col-sm-12">
+                                <button (click)="searchInvoiceAdjusted()" pButton pRipple type="submit"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i class="fa tmss-fa fa-search mr-1"></i>
+                                    {{'Search' | localize}}
+                                </button>
+                            </div>
+                        </div>
+                    </p-panel>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <grid-table [height]="'400px'" [columnDefs]="gridColDef" [rowData]="listInvoiceAdjusted"
+                            [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                            (changePaginationParams)="changePaginationParams($event)"
+                            (onChangeSelection)="onChangeSelection($event)" [rowSelection]="'multiple'">
+                        </grid-table>
+                    </div>
+                </div>
+                <!-- </p-panel> -->
+                <div class="col-12 text-right">
+                    <button (click)="add()"
+                        pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{l('Add')}}
+                    </button>
+                    <!-- <button 
+                        pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-file-upload mr-1"></i>
+                        {{l('ImportExcel')}}
+                    </button> -->
+
+                    <button pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-eye mr-1"></i>
+                        {{l('ViewDetail')}}
+                    </button>
+                    <button (click)="edit()"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-edit mr-1"></i>
+                        {{l('Edit')}}
+                    </button>
+                    <button pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+                        {{l('Delete')}}
+                    </button>
+                    <!-- <button pButton pRipple class="tmss-btn p-button-outlined btn-outline-warning">
+                        <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                        {{ l('SendRequest') }}
+                    </button> -->
+                    <!-- <button pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        {{'UndoRequest' | localize}}
+                    </button> -->
+                    <button
+                        pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-success">
+                        <i class="fa tmss-fa fa-file-download mr-1"></i>
+                        {{ l('ExportExcel') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <view-purchase-request #viewPurchaseRequest [hasRequestInfo]="selectedRow.requestNote ? true : false"
+        (close)="searchPurchaseRequest()"></view-purchase-request>
+    <forward-purchase-request #forwardPurchaseRequest (close)="searchPurchaseRequest()"></forward-purchase-request>
+    <import-purchase-request #importPurchaseRequest (close)="searchPurchaseRequest()"></import-purchase-request> -->
+</div>
+
+<create-or-edit-ivnocie-adjusted (getData)="searchInvoiceAdjusted()" #createOrEditInvoiceAdjusted></create-or-edit-ivnocie-adjusted> 

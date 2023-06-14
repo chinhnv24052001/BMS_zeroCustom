@@ -1,0 +1,91 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <form class="form" [formGroup]="itemsForm" *ngIf="itemsForm">
+                        <p-panel header="{{ 'Search' | localize }}" [toggleable]="true">
+                            <div class="row align-items-center">
+                                <div class="col-xl-3 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-text-input [text]="l('EnterkeywordModal')" (input)="searchItems()"
+                                            formControlName="keyword" [placeholder]="l('SuchAsNameCode')">
+                                        </tmss-text-input>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-3 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('InventoryGroupId')" value="items.id"
+                                            display="items.productGroupName" formControlName="inventoryGroupId"
+                                            [items]="listInventoryGroup"></tmss-combobox>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-5 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('Supplier')" value="items.id"
+                                            formControlName="supplierId" [items]="listSupplier"></tmss-combobox>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-1 col-sm-12">
+                                    <button (click)="searchItems()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-search mr-1"></i>
+                                        {{ 'Search' | localize }}
+                                    </button>
+                                </div>
+                            </div>
+                        </p-panel>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                    <div class="row align-items-center">
+                        <div id="table1" class="col-12">
+                            <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="listItem"
+                                [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                (onChangeSelection)="onChangeSelection($event)"
+                                cellEditStopParams="{'stopEditingWhenGridLosesFocus': true}">
+                            </grid-table>
+                        </div>
+                    </div>
+                    <div class="col-12 text-right">
+
+
+                        <button *ngIf="selectedRow && isGranted('PriceManagement.MstPriceManagement.Import')" (click)="editInventoryItemPrice()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-success">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'ImportFromExcel' | localize}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                    <div class="row align-items-center">
+                        <div id="table1" class="col-12">
+                            <grid-table #itemprices [height]="'140px'" [columnDefs]="gridColDefItemPrices"
+                                [rowData]="listItemPrices" [paginationParams]="paginationParamsItemPrice"
+                                (callBackEvent)="callBackGridItemsPrice($event)"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                cellEditStopParams="{'stopEditingWhenGridLosesFocus': true}">
+                            </grid-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <create-or-edit-mst-inventory-item #createOrEditMstInventoryItemComponent [selectedRow]="selectedRow"
+            (updateAfterEdit)="searchItems()"></create-or-edit-mst-inventory-item>
+        <importFromExcel #importFromExcelComponent (updateAfterEdit)="searchItems()"></importFromExcel>
+        <importInventoryItem #importInventoryItemComponent (updateAfterEdit)="searchItems()"></importInventoryItem>
+    </div>
+</div>

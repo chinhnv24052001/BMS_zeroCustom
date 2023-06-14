@@ -1,0 +1,84 @@
+<div appBsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ ignoreBackdropClick: 'static' }">
+    <div class="modal-dialog tmss-modal-lg">
+        <div class="modal-content">
+            <form #mstInventoryItemsForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px">
+                    <h5 class="modal-title" style="margin-left: 15px">
+                        <span *ngIf="isEditForm">{{'Edit' | localize}}</span>
+                        <span *ngIf="!isEditForm">{{'Add' | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body modal-body-master">
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <tmss-text-input [text]="'Import file path:'" formControlName="fileName"
+                                style="width: 300px;" disabled>
+                            </tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <button type="button" style="margin-left: 4px; height: 23px;"
+                                (click)="uploadSubImage()">
+                                <i class="fa fa-file-upload mr-1"></i>
+                                <span>Choose File</span>
+                            </button>
+                            <button class="tmss-btn btn-outline-primary "style="margin-left: 8px;"  (click)="import()">
+                                <i class="fa fa-upload mr-1" aria-hidden="true"></i>
+                                <span>import</span>
+                            </button>
+                            <button type="button" class="bi bi-download" style="margin-left: 8px;"
+                                class="tmss-btn btn-outline-primary bi bi-download"
+                                onclick="document.getElementById('arImportRateDto').click()">
+                                <i class="fa fa-file-download mr-1"></i>Tải mẫu Import
+                                <a id='arImportRateDto' hidden
+                                    href='/assets/sampleFiles/InvoiceImportMultiple.xlsx'></a>
+                            </button>
+                            <button class="tmss-btn btn-outline-success " style="margin-left: 10px;" (click)="refresh()">
+                                <i class="fa fa-sync mr-1" aria-hidden="true"></i>
+                                <span>Refresh</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <h6 class="card-header pl-1">
+                                {{ l('ListInvoice') }}
+                            </h6>
+                            <grid-table [height]="'300px'" [columnDefs]="contractColDef" [rowData]="listHeader"
+                                [showPagination]="false" [defaultColDef]="defaultColDef"
+                                (callBackEvent)="callBackGrid($event)"
+                                [paginationParams]="paginationParams"></grid-table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <h6 class="card-header pl-1">
+                                {{ l('InvoiceItems') }}
+                            </h6>
+                            <grid-table [height]="'350px'" [columnDefs]="columnDef" [rowData]="listItems"
+                                [showPagination]="false" [defaultColDef]="defaultColDef"
+                                (callBackEvent)="callBackGrid($event)"
+                                [paginationParams]="paginationParams"></grid-table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-master">
+                    <button  (click)="save()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{'Save' | localize}}
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{'Cancel' | localize}}
+                    </button>
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

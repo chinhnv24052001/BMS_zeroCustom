@@ -1,0 +1,2 @@
+ALTER TABLE InvAkaLogErrors
+ADD EmailEntryId NVARCHAR(1000)

@@ -1,0 +1,2 @@
+ALTER TABLE InvAkabotHeaders
+ADD SenderName NVARCHAR(100), SenderEmail NVARCHAR(2000)

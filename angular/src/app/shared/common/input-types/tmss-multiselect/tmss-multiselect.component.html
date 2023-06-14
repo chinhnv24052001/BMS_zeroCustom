@@ -1,0 +1,13 @@
+<div class="input-group">
+  <!-- <span class="input-group-text left-text" [ngClass]="textClass">{{text}}</span> -->
+  <span class="input-group-text left-text" *ngIf="text">{{ text }}</span>
+  <p-multiSelect [options]="options"
+    [ngClass]="'multi-select ' + labelClass"
+    class="form-control tmss-form-control multiselect-max-width" 
+    [style]="{'width': '110%','border-radius':'0','background-color':isRequire ? '#ffc' : '#fff'}"
+    [(ngModel)]="selectedItems" (onChange)="changeValue($event)"
+    [defaultLabel]="defaultLabel" [disabled]="isDisabled" [required]="isRequire">
+  </p-multiSelect>
+</div>
+
+

@@ -1,0 +1,84 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span>{{'AddMultipleProjectCode' | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body modal-body-master">
+                    <div class="row align-items-center" style="margin-bottom: 10px;">
+                        <div class="col-xl-4 col-sm-12 form-group" hasError="periodId">
+                            <tmss-combobox class="input-search" [text]="l('Period')" isRequired="true"
+                                formControlName="periodId" [items]="listPertiod"
+                                (ngModelChange)="getListVersionByPeriodId($event)">
+                            </tmss-combobox>
+                            <div class="error-message" errorMessage>
+                                <div *ifError="'required'">{{'Required' | localize}}</div>
+                            </div>
+                        </div>
+    
+                        <div class="col-xl-4 col-sm-12 form-group" hasError="periodVersionId">
+                            <tmss-combobox class="input-search" [text]="l('Version')" isRequired="true"
+                                formControlName="periodVersionId" [items]="listPertiodVersion">
+                            </tmss-combobox>
+                            <div class="error-message" errorMessage>
+                                <div *ifError="'required'">{{'Required' | localize}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div style="width: 50%;">
+                            <h4>{{'ListSegment1' | localize}}</h4>
+                            <div class="error-message" errorMessage>
+                                <div *ngIf="valSeg1Required">{{'PickSomeSegment1Please' | localize}}</div>
+                                <div *ngIf="valSeg2Required" style="color: aliceblue;">{{'PickSomeSegment1Please' | localize}}</div>
+                            </div>
+                            <grid-table [height]="'500px'" [columnDefs]="gridColDefSegment1"
+                                [defaultColDef]="defaultColDef" [showPagination]="false" [rowData]="seg1RowData"
+                                (callBackEvent)="callBackSeg1Grid($event)"
+                                (onChangeSelection)="onChangeSeg1Selection($event)" [rowSelection]="'multiple'">
+                            </grid-table>
+                        </div>
+
+                        <div style="width: 50%;">
+                            <h4>{{'ListSegment2' | localize}}</h4>
+                            <div class="error-message" errorMessage>
+                                <div *ngIf="valSeg2Required">{{'PickSomeSegment2Please' | localize}}</div>
+                                <div *ngIf="valSeg1Required" style="color: aliceblue;">{{'PickSomeSegment2Please' | localize}}</div>
+                            </div>
+                            <grid-table [height]="'500px'" [columnDefs]="gridColDefSegment2"
+                                [defaultColDef]="defaultColDef" [showPagination]="false" [rowData]="seg2RowData"
+                                (callBackEvent)="callBackSeg2Grid($event)"
+                                (onChangeSelection)="onChangeSeg2Selection($event)" [rowSelection]="'multiple'">
+                            </grid-table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button (click)="save()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        {{'SaveModal' | localize}}
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{'Cancel' | localize}}
+                    </button>
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

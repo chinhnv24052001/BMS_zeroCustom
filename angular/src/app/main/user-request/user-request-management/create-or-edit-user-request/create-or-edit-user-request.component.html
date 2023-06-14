@@ -1,0 +1,197 @@
+<div id="container">
+    <div class="card card-custom gutter-b">
+        <div class="card-body">
+            <fieldset class="fieldset-border">
+                <div class="col-12 mt-2 ph-0">
+                    <div class="row">
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-combobox [text]="l('PurchaseType')" [(ngModel)]="processTypeId" [items]="processTypes"
+                                [isDisabled]="true" [hasFilter]="false"></tmss-combobox>
+                        </div>
+                        <div class="col-xl-6 col-sm-6">
+                            <tmss-text-input [text]="l('URName')"
+                                [(ngModel)]="userRequest.userRequestName"></tmss-text-input>
+                        </div>
+
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-combobox [text]="l('Status')" [(ngModel)]="urStatus" [hasFilter]="false"
+                                [isDisabled]="true" [items]="urStatuses"></tmss-combobox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- <div class="col-xl-3 col-sm-3">
+                            <tmss-combobox [text]="l('ExpenseDepartment')" [isDisabled]="true"
+                                [(ngModel)]="userRequest.expenseDepartmentId" [hasFilter]="false"></tmss-combobox>
+                        </div> -->
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-combobox [text]="l('DocumentType')" [items]="documentTypes" [isDisabled]="true"
+                                [hasFilter]="false"></tmss-combobox>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-combobox [text]="l('PurchasePurpose')" [(ngModel)]="userRequest.purchasePurposeId"
+                                [hasFilter]="false" [items]="purposes"></tmss-combobox>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-search-input [text]="l('BudgetCode')" [(ngModel)]="budgetCode" [isRequired]="true"
+                                (ngModelChange)="userRequest.budgetCodeId == undefined"
+                                (onSearch)="selectBudgetCodeHeadModal.show(budgetCode)"
+                                [showModal]="true"></tmss-search-input>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-datepicker [text]="l('DocumentDate')" [(ngModel)]="documentDate"
+                                (ngModelChange)="changeDocumentDate($event)"></tmss-datepicker>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-datepicker [text]="l('RequestDate')" [(ngModel)]="requestDate"
+                                [isDisabled]="true"></tmss-datepicker>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-text-input [text]="l('RequestUser')" [(ngModel)]="requester.userName"
+                                [isDisabled]="true"></tmss-text-input>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-text-input [text]="l('UserTitle')" [(ngModel)]="requester.userTitle"
+                                [isDisabled]="true"></tmss-text-input>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-text-input [text]="l('DepartmentRequest')" [(ngModel)]="requester.departmentName"
+                                [isDisabled]="true"></tmss-text-input>
+                        </div>
+                        <!-- <div class="col-xl-3 col-sm-3">
+                            <tmss-combobox [text]="l('Status')" [isDisabled]="true"
+                                [(ngModel)]="userRequest.requestUserId" [hasFilter]="false"
+                                [items]="urStatus"></tmss-combobox>
+                        </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-combobox [text]="l('InventoryGroup')" [(ngModel)]="userRequest.inventoryGroupId"
+                                [isRequired]="true" [hasFilter]="false" (onChangeValue)="onChangeInventoryGroup($event)"
+                                [items]="inventoryGroups"></tmss-combobox>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-datepicker [text]="l('DeliveryDate')" [(ngModel)]="deliveryDate"
+                                [isRequired]="true"></tmss-datepicker>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-text-input [text]="l('TotalPrice')" [(ngModel)]="totalPrice"
+                                [isDisabled]="true"></tmss-text-input>
+                        </div>
+                        <div class="col-xl-1 col-sm-1">
+                            <tmss-text-input [value]="'VND'" [isDisabled]="true"></tmss-text-input>
+                        </div>
+                        <div class="col-xl-2 col-sm-2">
+                            <tmss-combobox [text]="l('OriginalCurrency')" [(ngModel)]="userRequest.originalCurrencyId"
+                                (ngModelChange)="changeCurrency($event)" [isRequired]="true" [hasFilter]="false"
+                                [items]="currencies"></tmss-combobox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6 col-sm-6">
+                            <tmss-textarea [text]="l('Note')" [(ngModel)]="userRequest.note"></tmss-textarea>
+                        </div>
+                        <div class="col-xl-6 col-sm-6 text-right">
+                            <button (click)="addRow()" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-plus mr-1"></i>
+                                {{ l('Add') }}
+                            </button>
+                            <button (click)="deleteRow()" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-danger">
+                                <i class="fa tmss-fa fa-trash mr-1"></i>
+                                {{ l('Delete') }}
+                            </button>
+                            <button (click)="refresh()" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-success">
+                                <i class="fa tmss-fa fa-sync-alt mr-1"></i>
+                                {{ l('Refresh') }}
+                            </button>
+                            <button (click)="createOrEdit()" pButton pRipple type="button" [disabled]="requestId"
+                                [disabled]="productOnCart.length < 1"
+                                class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-save mr-1"></i>
+                                {{ l('Save') }}
+                            </button>
+                            <button (click)="sendRequest()" pButton pRipple type="button" [disabled]="!requestId"
+                                class="tmss-btn p-button-outlined btn-outline-success">
+                                <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                                {{ l('SendRequest') }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+    </div>
+    <div class="card card-custom gutter-b">
+        <div class="card-body">
+            <fieldset class="fieldset-border mt-2">
+                <h6 class="card-header pl-0">
+                    {{ l('ProductList') }}
+                </h6>
+                <div class="col-12 ph-0">
+                    <grid-table [height]="'30vh'" [columnDefs]="urColDefs" [defaultColDef]="defaultColDef"
+                        [showPagination]="false" (callBackEvent)="callBackDetailsGrid($event)"
+                        (onChangeSelection)="onChangeProductSelection($event)"
+                        [frameworkComponents]="frameworkComponents" (onSearch)="searchByEnter($event)"
+                        (keydown)="agKeyUp($event)" (cellEditingStopped)="cellEditingStopped($event)"></grid-table>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="card card-custom gutter-b">
+        <div class="card-body">
+            <div class="col-xl-12 ph-0" style="display: flex;">
+                <tmss-text-input class="pl-0" [text]="l('File')" [(ngModel)]="fileName">
+                </tmss-text-input>
+                <div style="display: flex; justify-content: space-between;">
+                    <button type="button" style="margin-left: 0; height: 24px;" (click)="uploadFiles()">
+                        <i class="fa fa-upload mr-1"></i>
+                        <span>{{ l('ChooseFile') }}</span>
+                    </button>
+                </div>
+                <button (click)="refreshFile()" class="tmss-btn p-button-outlined btn-outline-success ml-2">
+                    <i class="fa fa-sync-alt mr-1"></i>{{ l('Refresh') }}
+                </button>
+                <button class="tmss-btn p-button-outlined btn-outline-danger" (click)="deleteFile()">
+                    <i class="fa fa-trash mr-1"></i>{{ l('Delete') }}
+                </button>
+            </div>
+            <fieldset class="fieldset-border mt-2">
+                <h6 class="card-header pl-0">
+                    {{ l('Attachments') }}
+                </h6>
+                <div class="col-12 ph-0">
+                    <grid-table [height]="'20vh'" [columnDefs]="attachmentsColDefs" [defaultColDef]="defaultColDef"
+                        [showPagination]="false" [rowData]="uploadData" (callBackEvent)="callBackFileGrid($event)"
+                        (onChangeSelection)="onChangeFileSelection($event)"></grid-table>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+
+<tmss-select-grid-modal #selectProductModal [height]="'300px'" [headerText]="l('ProductSelection')"
+    [columnDefs]="productColDefs" [isHideSearchField]="false" [apiCall]="getAllProducts.bind(this)"
+    [defaultColDef]="defaultColDef" [modalClass]="'modal-lg'" [textLeft]="l('Confirm')"
+    (close)="patchProduct($event)"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #selectBudgetCodeModal [height]="'300px'" [headerText]="l('BudgetCodeSelection')"
+    [columnDefs]="budgetCodeColDefs" [isHideSearchField]="false" [apiCall]="getAllGlCode.bind(this)"
+    [defaultColDef]="defaultColDef" [modalClass]="'modal-lg'" [textLeft]="l('Confirm')" [notPartFilter]="true"
+    (close)="patchBudgetCode($event, true)"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #selectBudgetCodeHeadModal [height]="'300px'" [headerText]="l('BudgetCodeSelection')"
+    [columnDefs]="budgetCodeColDefs" [isHideSearchField]="false" [apiCall]="getAllGlCode.bind(this)"
+    [defaultColDef]="defaultColDef" [modalClass]="'modal-lg'" [textLeft]="l('Confirm')" [notPartFilter]="true"
+    (close)="patchBudgetCode($event, false)"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #selectUomModal [height]="'300px'" [headerText]="l('UomSelection')"
+    [columnDefs]="uomColDefs" [isHideSearchField]="false" [showPagination]="false" [listInput]="uomList"
+    [defaultColDef]="defaultColDef" [modalClass]="'modal-lg'" [textLeft]="l('Confirm')" [notPartFilter]="true"
+    (close)="patchUom($event)"></tmss-select-grid-modal>
+
+    <view-list-approve-detail  #viewDetailApprove></view-list-approve-detail>

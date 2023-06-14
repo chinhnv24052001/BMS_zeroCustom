@@ -1,0 +1,105 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+
+            <div class="row">
+                <div class="col-xl-8 col-sm-12">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-body">
+                            <div class="row align-items-center" style="margin-top: 13px">
+                                <div class="col-12">
+                                    <grid-table [height]="'700px'" [columnDefs]="gridColDef"
+                                        [defaultColDef]="defaultColDef" [showPagination]="false" [rowData]="listGrid"
+                                        (callBackEvent)="callBackGrid($event)"
+                                        (onChangeSelection)="onChangeSelection($event)">
+                                    </grid-table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-sm-12">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-body">
+                            <fieldset class="fieldset-custom">
+                                <legend style="width: fit-content;">
+                                    <h4 style="width: fit-content;">{{'UserInfomation' | localize}}</h4>
+                                </legend>
+                                <form class="form" [formGroup]="gridForm" *ngIf="gridForm">
+                                    <div class="row">
+                                        <div class="col-xl-12 col-sm-12">
+                                            <div class="form-group">
+                                                <tmss-text-input [text]="l('UserName')" formControlName="userName"
+                                                    isDisabled="true"></tmss-text-input>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xl-12 col-sm-12">
+                                            <div class="form-group">
+                                                <tmss-text-input [text]="l('FullName')" formControlName="fullName"
+                                                    isDisabled="true"></tmss-text-input>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xl-6 col-sm-12">
+                                            <div class="form-group">
+                                                <tmss-checkbox [text]="l('IsFinanceMA')"
+                                                    formControlName="isFinanceMA"></tmss-checkbox>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-xl-6 col-sm-12">
+                                            <div class="form-group">
+                                                <tmss-checkbox [text]="l('GroupManageRight')"
+                                                    formControlName="isGroupManageRight"></tmss-checkbox>
+                                            </div>
+                                        </div> -->
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xl-6 col-sm-12">
+                                            <div class="form-group">
+                                                <button (click)="userManagement()" pButton pRipple type="button"
+                                                    class="btn-manager-user-control tmss-btn p-button-outlined btn-outline-warning">
+                                                    <i class="fa tmss-fa fa-file-signature"></i>
+                                                    {{'ManagerDepartment' | localize}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-sm-12">
+                                            <div class="form-group">
+                                                <button (click)="groupManagement()" pButton pRipple type="button"
+                                                    class="btn-manager-user-control tmss-btn p-button-outlined btn-outline-secondary">
+                                                    <i class="fa tmss-fa fa-file-signature"></i>
+                                                    {{'ManagerGroup' | localize}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <hr class="hr-control-user">
+                                        </div>
+                                    </div>
+
+                                    <button style="float: right;" (click)="save()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-save mr-1"></i>
+                                        {{'SaveModal' | localize}}
+                                    </button>
+                                </form>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <add-bms-user-budget-control #addBmsUserBudgetControl ></add-bms-user-budget-control>
+    </div>
+</div>

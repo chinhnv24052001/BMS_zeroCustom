@@ -1,0 +1,129 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <form class="form" [formGroup]="gridForm" *ngIf="gridForm">
+                        <p-panel header="{{'Search' | localize}}" [toggleable]="true">
+                            <div class="row align-items-center">
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-combobox class="input-search"
+                                        (ngModelChange)="getListVersionByPeriodId($event)" [text]="l('Period')"
+                                        formControlName="periodId" [items]="listPertiod">
+                                    </tmss-combobox>
+                                </div>
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-combobox class="input-search" [text]="l('PeriodVersion')"
+                                        formControlName="periodVersionId" [items]="listPertiodVersion">
+                                    </tmss-combobox>
+                                </div>
+                                <div class="col-xl-3 col-sm-12">
+                                    <button (click)="search()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-search mr-1"></i>
+                                        {{'Search' | localize}}
+                                    </button>
+                                </div>
+                            </div>
+                        </p-panel>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="listGrid"
+                                [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                (onChangeSelection)="onChangeSelection($event)">
+                            </grid-table>
+                        </div>
+                    </div>
+                    <!-- </p-panel> -->
+                    <div class="col-12 text-right">
+                        <button *ngIf="tabKey == 1" (click)="add()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{'AddTransfer' | localize}}
+                        </button>
+                        <button *ngIf="tabKey == 1" (click)="addition()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{'Addition' | localize}}
+                        </button>
+                        <button *ngIf="tabKey == 1" (click)="edit()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'Update' | localize}}
+                        </button>
+                        <button *ngIf="tabKey == 1" (click)="delete()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+                            {{'Delete' | localize}}
+                        </button>
+
+                        <button *ngIf="tabKey == 1" [disabled]="disableUSerSubmit == 1" (click)="submit()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-check mr-1"></i>
+                            {{'Submit' | localize}}
+                        </button>
+
+                        <button *ngIf="tabKey == 2" [disabled]="disableGroupApproval" (click)="submit()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-check mr-1"></i>
+                            {{'Approval and Submit' | localize}}
+                        </button>
+
+                        <button *ngIf="!isMAFin && tabKey == 3" [disabled]="disableFinApproval" (click)="submit()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-check mr-1"></i>
+                            {{'Approval and Submit' | localize}}
+                        </button>
+
+                        <button *ngIf="isMAFin && tabKey == 3" [disabled]="disableFinApproval" (click)="submit()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-check mr-1"></i>
+                            {{'Approval' | localize}}
+                        </button>
+
+                        <button  *ngIf="tabKey == 2" [disabled]="disableGroupReject || disableFinReject" (click)="reject()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa tmss-fa fa-times mr-1"></i>
+                            {{'Reject' | localize}}
+                        </button>
+
+                        <button  *ngIf="tabKey == 3" [disabled]="disableFinReject || disableFinReject" (click)="reject()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa tmss-fa fa-times mr-1"></i>
+                            {{'Reject' | localize}}
+                        </button>
+
+                        <button pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-success">
+                            <i class="fa tmss-fa fa-file-download mr-1"></i>
+                            {{'Report' | localize}}
+                        </button>
+
+                        <button *ngIf="tabKey != 1" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa fa-download mr-1"></i>
+                            {{'Download' | localize}}
+                        </button>
+
+                        <button *ngIf="tabKey != 2" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-success">
+                            <i class="fa tmss-fa fa-file-download mr-1"></i>
+                            {{'ExportToExcel' | localize}}
+                        </button>
+                        <button *ngIf="tabKey != 3" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-history mr-1"></i>
+                            {{'History' | localize}}
+                        </button>
+                        <button *ngIf="tabKey == 3" (click)="edit()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'Update' | localize}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <create-or-edit-bms-budget-transfer-user [isMAFin] = "isMAFin" [selectRowTransfer]="selectedRow" #createOrEditBmsBudgetTransferUser
+            (close)="search()" [tabKey] ="tabKey"></create-or-edit-bms-budget-transfer-user>
+
+            <bms-budget-addition #bmsBudgetAddition
+            (close)="search()" [tabKey] ="tabKey" ></bms-budget-addition>
+    </div>
+</div>

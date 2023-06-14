@@ -1,0 +1,172 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-text-input [text]="l('PoNo')" [(ngModel)]="poNumber"></tmss-text-input>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-text-input [text]="l('InvoiceNo')"
+                                [(ngModel)]="invoiceNumFilter"></tmss-text-input>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-text-input [text]="l('Inv.Symbol')"
+                                [(ngModel)]="invoiceSymbolFilter"></tmss-text-input>
+                        </div>
+
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-datepicker [text]="this.l('InvoiceReceiveDate')"
+                                [(ngModel)]="createInvoiceDate"></tmss-datepicker>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6 col-sm-6">
+                            <tmss-combobox [text]="l('VendorName')" [(ngModel)]="vendorid"
+                                [items]="vender"></tmss-combobox>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-text-input [text]="l('VatRegistrationInvoice')" [(ngModel)]="vatRegistrationInvoice"></tmss-text-input>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6 col-sm-6">
+                            <tmss-combobox [text]="l('PicUser')" [(ngModel)]="picUserId" [items]="userList"></tmss-combobox>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-combobox [text]="l('Source')" [(ngModel)]="source" [hasFilter]="false"
+                                [items]="sources"></tmss-combobox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-datepicker [text]="this.l('FromDate')"
+                                [(ngModel)]="fromDateFilter"></tmss-datepicker>
+                        </div>
+
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-datepicker [text]="this.l('ToDate')"
+                                [(ngModel)]="toDateFilter"></tmss-datepicker>
+                        </div>
+
+                        <div class="col-xl-3 col-sm-3">
+                            <tmss-combobox [text]="l('Status')" [(ngModel)]="statusText"
+                                [items]="listStatus"></tmss-combobox>
+                        </div>
+                        <div class="col-xl-1 col-sm-12">
+                            <button (click)="getInvoices()" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-search"></i>
+                                {{'Search' | localize}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                    <div class="row align-items-center">
+                        <div id="table1" class="col-12">
+                            <grid-table [height]="'200px'" [columnDefs]="gridColDef" [rowData]="listItem"
+                                [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                (onChangeSelection)="onChangeSelection($event)"
+                                cellEditStopParams="{'stopEditingWhenGridLosesFocus': true}">
+                            </grid-table>
+                        </div>
+                    </div>
+                    <!-- </p-panel> -->
+                    <div class="col-12 text-right">
+                        <!-- <button *ngIf="selectedRow.id && !selectedRow.isPaid" (click)="showPrepayment()" pButton pRipple
+                            type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{'Apply/UnApplyPrepayment' | localize}}
+                        </button> -->
+                        <button (click)="addInventoryItem()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{'Add' | localize}}
+                        </button>
+                        <button *ngIf="selectedRow.id && selectedRow.status != statusMatched" (click)="editInventoryItem()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-warning">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'Edit' | localize}}
+                        </button>
+                        <!-- <button *ngIf="selectedRow.id" (click)="matchedInvoice.show(selectedRow)" pButton pRipple
+                            type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'Matched' | localize}}
+                        </button> -->
+                        <button *ngIf="selectedRow.id" (click)="view()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-secondary">
+                            <i class="fa tmss-fa fa-eye mr-1"></i>
+                            {{'ViewRequestDetail' | localize}}
+                        </button>
+                        <button *ngIf="selectedRow.id" (click)="noteModal.show()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa tmss-fa fa-ban mr-1"></i>
+                            {{'CancelInvoice' | localize}}
+                        </button>
+                        <button *ngIf="selectedRow.id" (click)="deleteInvoice()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa tmss-fa fa-times mr-1"></i>
+                            {{'Delete' | localize}}
+                        </button>
+                        <button (click)="importMutipleInvoice.show()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-success">
+                            <i class="fa tmss-fa fa-file-upload mr-1"></i>
+                            {{'ImportFromExcel' | localize}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                    <div class="row align-items-center">
+                        <div id="table1" class="col-12">
+                            <grid-table [height]="'300px'" [columnDefs]="gridDetailColDef" [rowData]="listDetailItem"
+                                (callBackEvent)="callBackDetailGrid($event)"
+                                (onChangeSelection)="onChangeDetailSelection($event)" [showPagination]="false"
+                                cellEditStopParams="{'stopEditingWhenGridLosesFocus': true}">
+                            </grid-table>
+                        </div>
+                    </div>
+                    <!-- </p-panel> -->
+                    <!-- <div class="col-12 text-right">
+                        <button (click)="addInventoryItem()" pButton pRipple type="button"
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            Add
+                        </button>
+                        <button ng-if="selectedRow" (click)="editInventoryItem()" pButton pRipple type="button"
+                            class="tmss-btn p-button-raised">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            Edit
+                        </button>
+                    </div> -->
+
+                </div>
+            </div>
+        </div>
+        <create-or-edit-invoices #createOrEditInvoices (modalSave)="getInvoices()" (modalClose)="getInvoices()"></create-or-edit-invoices>
+    </div>
+</div>
+
+<!-- <tmss-select-grid-modal #listAllPrepayments [height]="'330px'" [headerText]="l('ListPrepayments')" [modalClass]="'modal-lg'"
+    (close)="patchSelectedPrepayment($event)" [isHideSearchField]="false" [columnDefs]="gridPrepaymentsDef"
+    [showPagination]="false"
+    [showInput]="true"
+    [apiCall]="getAllPrepayments.bind(this)"
+    [alwaysShowModal] = "true"
+    (isLoading)="setLoading($event)"
+    ></tmss-select-grid-modal> -->
+
+<apply-prepayment #applyPrepayment (close)="getInvoices()"></apply-prepayment>
+<app-invoice-import-multiple #importMutipleInvoice (updateAfterEdit)="getInvoices()">
+</app-invoice-import-multiple>
+<app-matched-invoice #matchedInvoice (updateAfterEdit)="getInvoices()">
+</app-matched-invoice>
+<note-modal #noteModal (modalSave)="cancelInvoice($event)"></note-modal>

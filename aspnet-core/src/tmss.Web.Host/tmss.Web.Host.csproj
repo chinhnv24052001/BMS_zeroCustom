@@ -1,0 +1,146 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <Import Project="..\..\common.props"></Import>
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <AssemblyName>tmss.Web.Host</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>tmss.Web.Host</PackageId>
+    <UserSecretsId>MyCompanyName-tmss-894FDFC1-6482-4A56-926A-3C46C9FE0329</UserSecretsId>
+    <RootNamespace>tmss.Web</RootNamespace>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="App_Data\**" />
+    <Content Remove="App_Data\**" />
+    <EmbeddedResource Remove="App_Data\**" />
+    <None Remove="App_Data\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\swagger\ui\index.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="DxServices\Reports\GR\AcceptanceNoteReport.vsrepx" />
+    <None Remove="DxServices\Reports\GR\ReceiptNoteReport.vsrepx" />
+    <None Remove="DxServices\Reports\Payment\PaymentRequestReport.vsrepx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="wwwroot\Plugins\.gitkeep" />
+    <None Update="Dockerfile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Update="wwwroot\**\*">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\tmss.Web.Core\tmss.Web.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Abp.Castle.Log4Net" Version="6.2.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="5.0.0-preview1" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="5.0.0-preview1" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="5.0.0-preview1" />
+    <PackageReference Include="DevExpress.Xpo" Version="20.2.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DxServices\Reports\GR\AcceptanceNoteReport.vsrepx" />
+    <EmbeddedResource Include="DxServices\Reports\GR\ReceiptNoteReport.vsrepx" />
+    <EmbeddedResource Include="DxServices\Reports\Payment\PaymentRequestReport.vsrepx" />
+    <EmbeddedResource Include="wwwroot\swagger\ui\index.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\AttachFile\CatalogPriceImages\" />
+    <Folder Include="wwwroot\AttachFile\Receipts\" />
+	<Folder Include="wwwroot\AttachFile\Payments\" />
+    <Folder Include="wwwroot\PC\" />
+    <Folder Include="wwwroot\ProductImage\" />
+    <Folder Include="wwwroot\TempFile\" />
+    <Folder Include="wwwroot\Plugins\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v20.2">
+      <HintPath>..\..\libs\DevExpress.Data.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v20.2">
+      <HintPath>..\..\libs\DevExpress.DataAccess.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Office.v20.2.Core">
+      <HintPath>..\..\libs\DevExpress.Office.v20.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v20.2.Core">
+      <HintPath>..\..\libs\DevExpress.Pdf.v20.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v20.2.Drawing">
+      <HintPath>..\..\libs\DevExpress.Pdf.v20.2.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v20.2.Core">
+      <HintPath>..\..\libs\DevExpress.Printing.v20.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v20.2.Core">
+      <HintPath>..\..\libs\DevExpress.RichEdit.v20.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v20.2.Export">
+      <HintPath>..\..\libs\DevExpress.RichEdit.v20.2.Export.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v20.2">
+      <HintPath>..\..\libs\DevExpress.XtraReports.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v20.2.Web">
+      <HintPath>..\..\libs\DevExpress.XtraReports.v20.2.Web.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="DxServices\Reports\GR\AcceptanceNoteReport.cs">
+      <DependentUpon>AcceptanceNoteReport.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="DxServices\Reports\GR\AcceptanceNoteReport.Designer.cs">
+      <DependentUpon>AcceptanceNoteReport.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="DxServices\Reports\GR\ReceiptNoteReport - Copy.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>ReceiptNoteReport.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="DxServices\Reports\GR\ReceiptNoteReport - Copy.Designer.cs">
+      <DependentUpon>ReceiptNoteReport.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="DxServices\Reports\GR\ReceiptNoteReport.cs">
+      <DependentUpon>ReceiptNoteReport.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="DxServices\Reports\GR\ReceiptNoteReport.Designer.cs">
+      <DependentUpon>ReceiptNoteReport.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="DxServices\Reports\Payment\PaymentRequestReport.cs">
+      <DependentUpon>PaymentRequestReport.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="DxServices\Reports\Payment\PaymentRequestReport.Designer.cs">
+      <DependentUpon>PaymentRequestReport.vsrepx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="wwwroot\Excel_Template\CPS_Template_Export_GR.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Excel_Template\CPS_Template_Export_Return.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Excel_Template\CPS_Template_Export_GR_Detail.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Excel_Template\CPS_Template_Export_RN.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>

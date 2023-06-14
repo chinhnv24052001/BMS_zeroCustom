@@ -1,0 +1,45 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog tmss-modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                <h5 class="modal-title" style="margin-left: 15px;">
+                    <span>{{'ViewDetail' | localize}}</span>
+                </h5>
+                <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModal()"
+                    [attr.aria-label]="l('Close')">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+
+            <div class="modal-body modal-body-master">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <grid-table [height]="'400px'" [columnDefs]="gridColDef" [rowData]="listInvoiceAdjusted"
+                            [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                            (changePaginationParams)="changePaginationParams($event)"
+                            (onChangeSelection)="onChangeSelection($event)" [rowSelection]="'multiple'">
+                        </grid-table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer modal-footer-master">
+                <button pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-primary">
+                    <i class="fa tmss-fa fa-save mr-1"></i>
+                    {{ l('Save') }}
+                </button>
+                <button pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-danger">
+                    <i class="fa tmss-fa fa-times mr-1"></i>
+                    {{'Close' | localize}}
+                </button>
+
+                <button class="ghost" #submitBtn></button>
+
+            </div>
+        </div>
+    </div>
+</div>

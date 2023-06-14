@@ -1,0 +1,315 @@
+<div class="content d-flex flex-column flex-column-fluid">
+    <div [class]="containerClass">
+        <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+            autocomplete="off">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <!-- <p-panel header="{{l('GeneralInformation')}}" [toggleable]="true"> -->
+                    <div class="row">
+                        <div class="col-xl-3 col-sm-12">
+                            <div class="form-group">
+                                <tmss-text-input [text]="l('PoNo')" isDisabled="true"
+                                    formControlName="segment1"></tmss-text-input>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-12">
+                            <div class="form-group">
+                                <tmss-text-input [text]="l('PoRef')"
+                                    formControlName="poRef"></tmss-text-input>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-12">
+                            <div class="form-group">
+                                <tmss-combobox [text]="l('TypePurchaseOrders')" formControlName="typeLookupCode"
+                                    [items]="listLookupCode" [hasFilter]="false"></tmss-combobox>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-12">
+                            <tmss-text-input [text]="l('DocumentType')" isDisabled="true"
+                                formControlName="documentType"></tmss-text-input>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-4 col-sm-12">
+                            <div class="form-group">
+                                <tmss-text-input [text]="l('TotalPrice')" isDisabled="true"
+                                    formControlName="totalPrice"></tmss-text-input>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-12">
+                            <div class="form-group">
+                                <tmss-combobox [text]="l('Currency')" formControlName="currencyCode"
+                                    (onChangeValue)="changeCurrency()" [items]="listCurrency"
+                                    [hasFilter]="false"></tmss-combobox>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-sm-12">
+                            <div class="form-group">
+                                <tmss-combobox [text]="l('Buyer')" isRequired="true" formControlName="buyerId"
+                                    [items]="listUsers"></tmss-combobox>
+                                <!-- <tmss-search-input [text]="l('Buyer')" formControlName="buyerName" isRequired="true"
+                                    (onSearch)="showSearchBuyer()" [showModal]="true"></tmss-search-input> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-4 col-sm-12">
+                            <div class="form-group">
+                                <tmss-text-input [text]="l('Status')" isDisabled="true"
+                                    formControlName="authorizationStatus"></tmss-text-input>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-12">
+                            <div class="form-group">
+                                <tmss-combobox [text]="l('Supplier')" [items]="listSuppliers" formControlName="vendorId"
+                                    isRequired="true"></tmss-combobox>
+                                <!-- <tmss-search-input [text]="l('Supplier')" formControlName="vendorName" isRequired="true"
+                                    (onSearch)="showSearchSupplier()" [showModal]="true"></tmss-search-input> -->
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-12">
+                            <div class="form-group">
+                                <tmss-text-input [text]="l('Titles')" isDisabled="true"
+                                    formControlName="position"></tmss-text-input>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-4 col-sm-12">
+                            <div class="form-group">
+                                <tmss-combobox [text]="l('ShipTo')" formControlName="shipToLocationId"
+                                    [items]="listLocations"></tmss-combobox>
+                                <!-- <tmss-search-input [text]="l('ShipTo')" formControlName="shipToLocationName"
+                                    (onSearch)="showSearchShipLocation()" [showModal]="true"></tmss-search-input> -->
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-sm-12">
+                            <div class="form-group">
+                                <tmss-combobox [text]="l('Site')" formControlName="vendorSiteId"
+                                    [isRequired]="isRequired" [items]="listSites" [hasFilter]="false"></tmss-combobox>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-12">
+                            <div class="form-group">
+                                <tmss-text-input [text]="l('Tel')" isDisabled="true"
+                                    formControlName="tel"></tmss-text-input>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-xl-4 col-sm-12">
+                            <div class="form-group" hasError="billToLocationId">
+                                <tmss-combobox [text]="l('BillTo')" formControlName="billToLocationId"
+                                    [items]="listLocations"></tmss-combobox>
+                                <!-- <tmss-search-input [text]="l('BillTo')" formControlName="billToLocationName"
+                                    (onSearch)="showSearchBillLocation()" [showModal]="true"></tmss-search-input> -->
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-12">
+                            <div class="form-group">
+                                <tmss-combobox [text]="l('Contact')" [items]="listSupplierContacts"
+                                    formControlName="vendorContactId" [hasFilter]="false"></tmss-combobox>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-12">
+                            <div class="form-group">
+                                <tmss-text-input [text]="l('Email')" isDisabled="true"
+                                    formControlName="email"></tmss-text-input>
+                            </div>
+                        </div>
+                        <!-- <div class="col-xl-4 col-sm-12">
+                            <div class="form-group">
+                                <tmss-combobox [text]="l('Currency')" formControlName="currencyCode"
+                                    [items]="listCurrency"></tmss-combobox>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-4 col-sm-12">
+                            <div class="form-group" hasError="inventoryGroupId">
+                                <tmss-combobox [text]="l('InventoryGroup')" isRequired="true" [hasFilter]="false"
+                                    formControlName="inventoryGroupId" [items]="listInventoryGroups"
+                                    (onChangeValue)="onChangeInventoryGroup($event)"></tmss-combobox>
+                                <div class="error-message" errorMessage>
+                                    <div *ifError="'required'">Bắt buộc</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-12">
+                            <div class="form-group">
+                                <!-- <tmss-combobox [text]="l('Supplier')" [items]="listSuppliers" formControlName="vendorId"
+                                    isRequired="true"></tmss-combobox> -->
+                                <tmss-search-input [text]="l('BudgetCode')" formControlName="chargeAccount"
+                                    isRequired="true" (onSearch)="showChargeAccount()"
+                                    [showModal]="true"></tmss-search-input>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-12">
+                            <tmss-datepicker [text]="l('DocumentDate')" formControlName="rateDate" isRequired="true"
+                                (ngModelChange)="changeDocumentDate()"></tmss-datepicker>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-8 col-sm-12">
+                            <div class="form-group">
+                                <tmss-textarea [text]="l('Description')" formControlName="description"></tmss-textarea>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-12">
+                            <tmss-checkbox [text]="l('PrepayReceipt')"  formControlName="isPrepayReceipt"
+                            ></tmss-checkbox>
+                        </div>
+                    </div>
+
+                    <div class="text-right">
+
+                        <!-- <button (click)="showTemplateContract()" pButton pRipple type="button" [disabled]="!isRequired"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-save mr-1"></i>
+                            {{'PrintContract' | localize}}
+                        </button> -->
+ 
+                        <button (click)="addRow(true)" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{l('Add')}}
+                        </button>
+                        <button (click)="removeSelectedRow()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa tmss-fa fa-times mr-1"></i>
+                            {{l('Delete')}}
+                        </button>
+                        <button (click)="sendRequest()" pButton pRipple type="button" [disabled]="currentIdPo === 0 || status !== 'NEW'"
+                            class="tmss-btn p-button-outlined btn-outline-success">
+                            <i class="fa tmss-fa fa-plane mr-1"></i>
+                            {{ l('SendRequest') }}
+                        </button>
+                        <button (click)="showTerms()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-save mr-1"></i>
+                            {{'Terms' | localize}}
+                        </button>
+                        <button (click)="createPo()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-save mr-1"></i>
+                            {{'RememberMe' | localize}}
+                        </button>
+                        <!-- <button (click)="createPr()" pButton pRipple type="button"
+                                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                                        <i class="fa tmss-fa fa-save mr-1"></i>
+                                                        {{l('Save')}}
+                                                    </button> -->
+                    </div>
+                    <!-- </p-panel> -->
+                </div>
+            </div>
+            <button class="ghost" #submitBtn></button>
+        </form>
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <grid-table [height]="'300px'" [columnDefs]="gridColDefDetail"
+                            [rowData]="listPurchaseOrdersDetail" (callBackEvent)="callBackGridPoDetail($event)"
+                            [showPagination]="false" (onChangeSelection)="onChangeSelectionPoDetail($event)"
+                            (keydown)="agKeyUp($event)" [frameworkComponents]="frameworkComponents"
+                            (cellValueChanged)="cellValueChanged($event)"
+                            (cellEditingStopped)="cellEditingStopped($event)" (onSearch)="searchByEnter($event)">
+                        </grid-table>
+                    </div>
+                </div>
+
+                <!-- </p-panel> -->
+            </div>
+        </div>
+
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <div class="col-xl-12 ph-0" style="display: flex;">
+                    <tmss-text-input class="pl-0" [text]="l('File')" [(ngModel)]="fileName">
+                    </tmss-text-input>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button type="button" style="margin-left: 0; height: 24px;" (click)="uploadSubImage()">
+                            <i class="fa fa-upload mr-1"></i>
+                            <span>{{ l('ChooseFile') }}</span>
+                        </button>
+                    </div>
+                    <button (click)="refreshFile()" class="tmss-btn p-button-outlined btn-outline-success ml-2">
+                        <i class="fa fa-sync-alt mr-1"></i>{{ l('Refresh') }}
+                    </button>
+                    <button class="tmss-btn p-button-outlined btn-outline-danger" (click)="deleteFile()">
+                        <i class="fa fa-trash mr-1"></i>{{ l('Delete') }}
+                    </button>
+                </div>
+                <fieldset *ngIf="this.uploadData.length > 0 || this.listFileAttachment.length > 0"
+                    class="fieldset-border mt-2">
+                    <h6 class="card-header pl-0">
+                        {{ l('Attachments') }}
+                    </h6>
+                    <div class="col-12 ph-0">
+                        <grid-table [height]="'20vh'" [columnDefs]="attachmentsColDefs" [showPagination]="false"
+                            [rowData]="uploadData" (callBackEvent)="callBackFileGrid($event)"
+                            (onChangeSelection)="onChangeFileSelection($event)"></grid-table>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<tmss-select-grid-modal #listCategory [height]="'330px'" [headerText]="l('ListCategory')" [modalClass]="'modal-lg'"
+    (close)="patchCategory($event)" [isHideSearchField]="false" [columnDefs]="categoryDefs" [showPagination]="false"
+    [showInput]="true" [apiCall]="getAllCategories.bind(this)" [notPartFilter]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #listInventoryItems [height]="'330px'" [headerText]="l('ListInventoryItems')"
+    [modalClass]="'modal-lg'" (close)="patchInventoryItems($event)" [isHideSearchField]="false"
+    [columnDefs]="inventoryItemsDefs" [showPagination]="false" [showInput]="true"
+    [apiCall]="getAllInventoryItems.bind(this)" [notPartFilter]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #listUOM [height]="'330px'" [headerText]="l('ListUOM')" [modalClass]="'modal-lg'"
+    (close)="patchUOM($event)" [isHideSearchField]="false" [columnDefs]="uomItemsDefs" [showPagination]="false"
+    [showInput]="true" [apiCall]="getAllUOM.bind(this)" [notPartFilter]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #listBuyer [height]="'330px'" [headerText]="l('ListBuyer')" [modalClass]="'modal-lg'"
+    (close)="patchBuyer($event)" [isHideSearchField]="false" [columnDefs]="buyerDefs" [showPagination]="true"
+    [showInput]="true" [apiCall]="getAllBuyers.bind(this)" [notPartFilter]="true"
+    [notPartFilter]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #selectBudgetCodeHeadModal [height]="'300px'" [headerText]="l('BudgetCodeSelection')"
+    [columnDefs]="budgetCodeColDefs" [isHideSearchField]="false" [apiCall]="getAllGlCode.bind(this)"
+    [modalClass]="'modal-lg'" [textLeft]="l('Confirm')" [notPartFilter]="true"
+    (close)="patchBudgetCode($event)"></tmss-select-grid-modal>
+
+
+<tmss-select-grid-modal #listSupplierPopup [height]="'330px'" [headerText]="l('ListSupplier')" [modalClass]="'modal-lg'"
+    (close)="patchSupplier($event)" [isHideSearchField]="false" [columnDefs]="supplierDefs" [showPagination]="false"
+    [showInput]="true" [notPartFilter]="true" [apiCall]="getAllSupplier.bind(this)"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #listLocationBill [height]="'330px'" [headerText]="l('ListLocation')" [modalClass]="'modal-lg'"
+    (close)="patchLocationBill($event)" [isHideSearchField]="false" [columnDefs]="locationDefs" [showPagination]="false"
+    [showInput]="true" [apiCall]="getAllLocations.bind(this)" [notPartFilter]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #listLocationShip [height]="'330px'" [headerText]="l('ListLocation')" [modalClass]="'modal-lg'"
+    (close)="patchLocationShip($event)" [isHideSearchField]="false" [columnDefs]="locationDefs" [showPagination]="false"
+    [showInput]="true" [apiCall]="getAllLocations.bind(this)" [notPartFilter]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #selectChargeAccount [height]="'300px'" [headerText]="l('BudgetCodeSelection')"
+    [columnDefs]="budgetCodeColDefs" [isHideSearchField]="false" [apiCall]="getAllChargeAccount.bind(this)"
+    [modalClass]="'modal-lg'" [textLeft]="l('Confirm')" [notPartFilter]="true"
+    (close)="patchChargeAccount($event)"></tmss-select-grid-modal>
+
+<purchase-orders-shipments #poShipments (close)="pathShipments($event)"></purchase-orders-shipments>
+<purchase-order-terms-modal #poTerms (close)="pathTerms($event)"></purchase-order-terms-modal>
+<select-template-print-contract #printContracts></select-template-print-contract>
+<view-list-approve-detail (getData)="getPurchaseOrderForEdit(currentIdPo)" #viewDetailApprove></view-list-approve-detail>

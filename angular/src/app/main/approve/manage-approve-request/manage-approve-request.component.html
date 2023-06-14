@@ -1,0 +1,118 @@
+<div class="content d-flex flex-column flex-column-fluid">
+    <div [class]="containerClass">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <form class="form" [formGroup]="searchForm" *ngIf="searchForm">
+                    <div class="row">
+                        <div class="col-xl-4 col-sm-4">
+                            <tmss-text-input (onClickInput)="searchData(paginationParams)" [text]="l('URNumber')" formControlName="requestNo"></tmss-text-input>
+                        </div>
+                        <div class="col-xl-4 col-sm-4">
+                            <tmss-combobox [items]="requestTypeList" [text]="l('RequestType')"
+                                formControlName="requestType"></tmss-combobox>
+                        </div>
+                        <div class="col-xl-4 col-sm-4">
+                            <tmss-combobox [items]="approvalStatusList" [text]="l('ApprovalStatus')"
+                                formControlName="approvalStatus"></tmss-combobox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-4 col-sm-4">
+                            <tmss-datepicker [text]="l('FromDate')" formControlName="fromDate"></tmss-datepicker>
+                        </div>
+                        <div class="col-xl-4 col-sm-4">
+                            <tmss-datepicker [text]="l('ToDate')" formControlName="toDate"></tmss-datepicker>
+                        </div>
+                        <div class="col-xl-4 col-sm-4">
+                            <button (click)="searchData(paginationParams)" pButton pRipple type="button"
+                                class="tmss-btn p-button-outlined btn-outline-primary">
+                                <i class="fa tmss-fa fa-search mr-1"></i>
+                                {{ l('Search') }}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <div class="col-12 ph-0">
+                    <grid-table [height]="'300px'" [columnDefs]="requestColDef" [rowData]="requestList"
+                        [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                        (changePaginationParams)="changePaginationParams($event)"
+                        [rowSelection]="'multiple'"
+                        (onChangeSelection)="onChangeSelection($event)">
+                    </grid-table>
+                </div>
+                <div class="row text-right">
+                    <button (click)="viewDetail()" pButton pRipple type="button" [disabled]="selectedRequest.length != 1 "
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-eye mr-1"></i>
+                        {{l('ViewDetail')}}
+                    </button>
+                    <button (click)="requestMoreInformation()" pButton pRipple type="button" [disabled]="selectedRequest.length != 1"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-clock mr-1"></i>
+                        {{l('Yêu cầu thêm thông tin')}}
+                    </button>
+                    <!-- <button [disabled]="selectedRequest.length != 1 || (selectedRequest.length == 1 && selectedRequest[0].approvalStatus != 'WAITTING')" (click)="forwardApproveRequestModal.show()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                        {{ l('Forward') }}
+                    </button> -->
+                    <!-- <button  (click)="note.show(true,false,selectedRequest[0].reqId,selectedRequest[0].processTypeCode)" pButton pRipple type="button" [disabled]="selectedRequest.length == 0"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-check mr-1"></i>
+                        {{l('Duyệt cuối')}}
+                    </button> -->
+                    <button (click)="note.show(true,true,selectedRequest[0].reqId,selectedRequest[0].processTypeCode)" pButton pRipple type="button" [disabled]="selectedRequest.length == 0 || selectedRequest[0].approvalStatus == 'APPROVE'"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-check mr-1"></i>
+                        {{ l('Duyệt')}}
+                    </button>
+
+                    <!-- <button *ngIf="(selectedRequest.length > 1)" [disabled]="selectedRequest.length != 1 || (selectedRequest.length == 1 && selectedRequest[0].approvalStatus != 'WAITTING')" (click)="approveMultiRequestRow.show(true,false,selectedRequest[0].reqId,selectedRequest[0].processTypeCode)" pButton pRipple type="button" [disabled]="selectedRequest.length == 0"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-check mr-1"></i>
+                        {{l('Duyệt và chuyển tiếp')}}
+                    </button> -->
+
+                    <button (click)="note.show(false,false)" pButton pRipple type="button" [disabled]="selectedRequest.length == 0"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{l('Reject')}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<forward-approve-request-modal #forwardApproveRequestModal (modalSave)="forward($event)"></forward-approve-request-modal>
+
+<view-approval-history #viewApprovalHistoryModal></view-approval-history>
+
+
+
+<app-create-or-edit-appendix-contract [selectedRow]="selectedAnnex" #pcModal (requestMoreInfoEvent)="requestMoreInformation()" (approveEvent)="note.show(true,true,selectedRequest[0].reqId,selectedRequest[0].processTypeCode)" [viewOnly]="true"  (rejectEvent)="rejectFromModal()"></app-create-or-edit-appendix-contract>
+
+<view-user-request-modal (requestMoreInfoEvent)="requestMoreInformation()" (approveEvent)="note.show(true,true,selectedRequest[0].reqId,selectedRequest[0].processTypeCode)" [viewOnly]="true" #urModal  (rejectEvent)="rejectFromModal()" ></view-user-request-modal>
+
+<view-purchase-request (requestMoreInfoEvent)="requestMoreInformation()" (approveEvent)="note.show(true,true,selectedRequest[0].reqId,selectedRequest[0].processTypeCode)" [viewOnly]="true" #prModal  (rejectEvent)="rejectFromModal()" ></view-purchase-request>
+
+<view-detail-purchase-orders (requestMoreInfoEvent)="requestMoreInformation()" (approveEvent)="note.show(true,true,selectedRequest[0].reqId,selectedRequest[0].processTypeCode)" [viewOnly]="true" #poModal  (rejectEvent)="rejectFromModal()" ></view-detail-purchase-orders>
+
+<create-or-edit-payment-headers #pmModal (requestMoreInfoEvent)="requestMoreInformation()" (approveEvent)="note.show(true,true,selectedRequest[0].reqId,selectedRequest[0].processTypeCode)" [viewOnly]="true"   (rejectEvent)="rejectFromModal()" > </create-or-edit-payment-headers>
+
+<app-view-supplier-request-info-modal #srModal [showFooter]="true" (requestMoreInfoEvent)="requestMoreInformation()" (approveEvent)="note.show(true,true,selectedRequest[0].reqId,selectedRequest[0].processTypeCode)" [viewOnly]="true"   (rejectEvent)="rejectFromModal()" ></app-view-supplier-request-info-modal>
+
+
+
+<app-note-modal #note (approveLast)="approveOrReject($event)" (approveAndForward)="approveReject($event)" ></app-note-modal>
+
+<app-note-modal #requetMoreInfo [hasStep]="false" (requestMoreInfo)="requestMoreInfo($event)" ></app-note-modal>
+
+<app-note-modal #approveMultiRequestRow [hasStep]="false" (approveLast)="approveMultiRequest($event)" ></app-note-modal>
+
+<!-- <create-or-edit-purchase-orders #poModal ></create-or-edit-purchase-orders> -->
+

@@ -1,0 +1,148 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog tmss-modal-md">
+        <div class="modal-content">
+            <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span>{{'Terms' | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModal()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body modal-body-master">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-body">
+                            <!-- <p-panel header="{{l('GeneralInformation')}}" [toggleable]="true"> -->
+                            <div class="row">
+                                <div class="col-xl-6 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('Payment')" formControlName="termsId"
+                                            [hasFilter]="false" [items]="listPayments"></tmss-combobox>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-datepicker [text]="l('Date')"
+                                            formControlName="attribute10"></tmss-datepicker>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-6 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('Freight')" formControlName="freight"
+                                            [hasFilter]="false" [items]="listFreights"></tmss-combobox>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('PlaceOfDelivery')" formControlName="attribute11"
+                                            [hasFilter]="false" [items]="listplaces"></tmss-combobox>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-6 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('Carrier')" formControlName="carrier"
+                                            [hasFilter]="false" [items]="listCarriers"></tmss-combobox>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('Shipment')" formControlName="attribute12"
+                                            [hasFilter]="false" [items]="listShipments"></tmss-combobox>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-6 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('Fob')" formControlName="fob" [hasFilter]="false"
+                                            [items]="listFobs"></tmss-combobox>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('PriceBasis')" formControlName="attribute13"
+                                            [hasFilter]="false" [items]="listPriceBasis"></tmss-combobox>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-6 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('PayOn')" formControlName="payOn" [hasFilter]="false"
+                                            [items]="listPayOns"></tmss-combobox>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('PaidBy')" formControlName="attribute14" [hasFilter]="false"
+                                            [items]="listPaidBys"></tmss-combobox>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <!-- <div class="col-xl-6 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-datepicker [text]="l('ContractExpirationDate')"
+                                            formControlName="ContractExpirationDate"></tmss-datepicker>
+                                    </div>
+                                </div> -->
+
+                                <div class="col-xl-6 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('PersonSigningContract')"
+                                            formControlName="personSigningId" [items]="listUsers"></tmss-combobox>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-combobox [text]="l('Others')" formControlName="attribute15"
+                                            [hasFilter]="false" [items]="listOthers"></tmss-combobox>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-12 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-textarea [text]="l('Description')"
+                                            formControlName="termDescription"></tmss-textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-master">
+                    <button (click)="save()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        {{ l('Save') }}
+                    </button>
+                    <button (click)="closeModal()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{'Close' | localize}}
+                    </button>
+
+                    <button class="ghost" #submitBtn></button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

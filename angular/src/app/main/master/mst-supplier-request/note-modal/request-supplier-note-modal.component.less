@@ -1,0 +1,77 @@
+:host ::ng-deep {
+    .row {
+        padding: 2px 12px 2px 12px !important;
+    }
+    .input-group-text.left-text {
+        width: 160px !important;
+    }
+}
+
+
+li {
+    width: 5%;
+    height: 4em;
+    text-align: center;
+    line-height: 4em;
+    border-radius: 100%;
+    background: lightgrey;
+    margin: 0 5%;
+    display: inline-block;
+    color: white;
+    position: relative;
+  }
+
+  li::before{
+    content: '';
+    position: absolute;
+    top: 2em;
+    left: -200%;
+    width: 200%;
+    height: .4em;
+    background: lightgrey;
+    z-index: 1;
+    // border-top : 1px solid grey;
+    // border-bottom : 1px solid grey;
+
+  }
+
+
+  li:first-child::before {
+    display: none;
+  }
+
+  .approved {
+    background: lightgreen;
+  }
+
+  .approved ~ li {
+    background: lightgrey;
+  }
+
+  .approved ~ li::before {
+    background: lightgrey;
+  }
+
+  .waitting {
+    background: rgb(73, 170, 255) !important;
+  }
+
+  .waitting ~ li {
+    background: lightgrey;
+  }
+
+  .waitting ~ li::before {
+    background: lightgrey;
+  }
+
+  .skip {
+    background: rgb(255, 110, 110) !important;
+  }
+
+  .skip ~ li {
+    background: lightgrey;
+  }
+
+  .skip ~ li::before {
+    background: lightgrey;
+  }

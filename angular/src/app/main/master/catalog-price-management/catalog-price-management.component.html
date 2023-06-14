@@ -1,0 +1,91 @@
+<!-- <div id="container" class="mt-2" >
+    <div class="content d-flex flex-column flex-column-fluid">
+        <fieldset class="fieldset-border grid-parent">
+            <div [class]="containerClass">
+                <div class="card card-custom gutter-b">
+                    <div class="card-body">
+                        <form class="form" [formGroup]="searchForm" *ngIf="searchForm">
+                            <p-panel [header]="l('Search')" [toggleable]="true">
+                                <div class="row">
+                                    <div class="col-xl-4 col-sm-4">
+                                        <div class="form-group">
+                                            <tmss-text-input [text]="l('ProductName')"
+                                            formControlName="productName"></tmss-text-input>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-sm-4">
+                                        <div class="form-group">
+                                            <tmss-text-input [text]="l('SupplierName')"
+                                            formControlName="supplierName"></tmss-text-input>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-sm-4">
+                                        <div class="form-group">
+                                            <tmss-combobox [text]="l('InventoryGroup')" [items]="inventoryGroups"
+                                            formControlName="inventoryGroup"></tmss-combobox>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-4 col-sm-4">
+                                        <div class="form-group">
+                                            <tmss-datepicker [text]="l('EffectFrom')"
+                                            formControlName="effectFrom"></tmss-datepicker>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-sm-4">
+                                        <div class="form-group">
+                                            <tmss-datepicker [text]="l('EffectTo')"
+                                            formControlName="effectTo"></tmss-datepicker>
+                                        </div>
+                                    </div>
+                                    <div class="text-left col-xl-4 col-sm-4">
+                                        <button pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary" (click)="search()">
+                                            <i class="fa tmss-fa fa-search mr-1"></i>
+                                            {{ l('Search') }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </p-panel>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <p-panel [header]="l('CatalogPriceList')"class="content-panel-custom" [toggleable]="true">
+                    <div class="row align-items-center">
+                        <div class="col-12 ph-0">
+                            <grid-table [columnDefs]="catalogPriceColDefs" [paginationParams]="paginationParams" [rowData]="catalogPriceList"
+                                [defaultColDef]="defaultColDefs" [height]="'450px'" (callBackEvent)="catalogGridCallBack($event)" (onChangeSelection)="onChangeCatalogSelection($event)" (changePaginationParams)="changePaginationParams($event)">
+                            </grid-table>
+                        </div>
+                    </div>
+                </p-panel>
+                <div class="col-12 text-right">
+                    <button (click)="importCatalogModal.show()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-success">
+                        <i class="fa tmss-fa fa-file-upload mr-1"></i>
+                        {{ l('Upload') }}
+                    </button>
+                    <button (click)="createOrEditModal.show()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{ l('Add') }}
+                    </button>
+                    <button (click)="createOrEditModal.show(selectCatalog)" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary" [disabled]="!selectCatalog.id">
+                        <i class="fa tmss-fa fa-edit mr-1"></i>
+                        {{ l('Edit') }}
+                    </button>
+                    <button (click)="delete()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger" [disabled]="!selectCatalog.id">
+                        <i class="fa tmss-fa fa-trash mr-1"></i>
+                        {{ l('Delete') }}
+                    </button>
+                </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+<create-or-edit-catalog-price-modal #createOrEditModal [currencies]="currencies" [taxRates]="taxRates" (modalSave)="catalogGridCallBack($event)" (modalClose)="onChangeCatalogSelection($event)" [inventoryGroups]="inventoryGroups"></create-or-edit-catalog-price-modal>
+<import-catalog-price-modal #importCatalogModal></import-catalog-price-modal> -->

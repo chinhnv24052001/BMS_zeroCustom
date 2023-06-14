@@ -1,0 +1,43 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <grid-table [height]="'500px'" [columnDefs]="gridColDef" [defaultColDef]="defaultColDef"
+                                [rowData]="listGrid" [paginationParams]="paginationParams"
+                                (callBackEvent)="callBackGrid($event)"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                (onChangeSelection)="onChangeSelection($event)" [rowSelection]="'multiple'">
+                            </grid-table>
+                        </div>
+                    </div>
+                    <!-- </p-panel> -->
+                    <div class="col-12 text-right">
+                        <button pButton pRipple type="button" class="tmss-btn p-button-outlined p-button-success">
+                            <i class="fa tmss-fa fa-file-download mr-1"></i>
+                            {{'Export' | localize}}
+                        </button>
+
+                        <button pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-success">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'ImportFromExcel' | localize}}
+                        </button>
+
+                        <button pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                            {{'Send To Group for Approval' | localize}}
+                        </button>
+
+                        <button pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-save mr-1"></i>
+                            {{'Save Change' | localize}}
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\common.props"></Import>
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <AssemblyName>tmss.Application</AssemblyName>
+    <PackageId>tmss.Application</PackageId>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <RootNamespace>tmss</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Abp.EntityFrameworkCore.EFPlus" Version="6.2.0" />
+    <PackageReference Include="FastMember" Version="1.5.0" />
+    <PackageReference Include="NPOI" Version="2.5.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\tmss.Application.Shared\tmss.Application.Shared.csproj" />
+    <ProjectReference Include="..\tmss.Core\tmss.Core.csproj" />
+    <ProjectReference Include="..\tmss.EntityFrameworkCore\tmss.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+	<ItemGroup>
+		<COMReference Include="Microsoft.Office.Interop.Excel">
+			<WrapperTool>tlbimp</WrapperTool>
+			<VersionMinor>9</VersionMinor>
+			<VersionMajor>1</VersionMajor>
+			<Guid>00020813-0000-0000-c000-000000000046</Guid>
+			<Lcid>0</Lcid>
+			<Isolated>false</Isolated>
+			<EmbedInteropTypes>true</EmbedInteropTypes>
+		</COMReference>
+	</ItemGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Office.v20.2.Core">
+      <HintPath>..\..\libs\DevExpress.Office.v20.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v20.2.Core">
+      <HintPath>..\..\libs\DevExpress.RichEdit.v20.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GemBox.Spreadsheet">
+      <HintPath>..\..\libs\GemBox.Spreadsheet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Invoice\" />
+  </ItemGroup>
+</Project>

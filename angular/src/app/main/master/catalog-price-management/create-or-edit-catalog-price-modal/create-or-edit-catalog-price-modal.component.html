@@ -1,0 +1,194 @@
+<!-- <div bsModal #createOrEditCatalogPriceModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditCatalogPriceModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form #createOrEdit="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span>{{ isEdit ? l('EditCatalog') : l('AddCatalog') }}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="close()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body-master">
+                    <div class="row ph-0">
+                        <div class="col-xl-6 col-sm-6">
+                            <div class="form-group">
+                                <tmss-combobox [text]="l('InventoryGroup')" formControlName="inventoryGroup"
+                                    [items]="inventoryGroups"></tmss-combobox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ph-0">
+                        <div class="col-xl-6 col-sm-6">
+                            <div class="form-group" hasError="productName">
+                                <tmss-search-input [text]="l('ProductName')" formControlName="productName"
+                                    [placeholder]="'Enter supplier name...'" [showModal]="true" [isRequired]="true"
+                                    [isValidate]="true" (onSearch)="productsPopup()"></tmss-search-input>
+                                <div class="error-message" errorMessage>
+                                    <div *ifError="'required'">{{ l('ThisFieldIsRequired') }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <div class="form-group">
+                                <tmss-text-input [text]="l('ProductCode')" [isDisabled]="true"
+                                    formControlName="productCode"></tmss-text-input>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <div class="form-group">
+                                <tmss-text-input [text]="l('ColorCode')" [isDisabled]="true"
+                                    formControlName="colorCode"></tmss-text-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ph-0">
+                        <div class="col-xl-6 col-sm-6">
+                            <div class="form-group" hasError="supplierName">
+                                <tmss-search-input [text]="l('SupplierName')" formControlName="supplierName"
+                                    [placeholder]="'Enter supplier name...'" [showModal]="true" [isRequired]="true"
+                                    [isValidate]="true" (onSearch)="supplierPopup()"></tmss-search-input>
+                                <div class="error-message" errorMessage>
+                                    <div *ifError="'required'">{{ l('ThisFieldIsRequired') }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <div class="form-group">
+                                <tmss-text-input [text]="l('SupplierCode')" [isDisabled]="true"
+                                    formControlName="supplierCode"></tmss-text-input>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <div class="form-group">
+                                <tmss-text-input [text]="l('TaxCode')" [isDisabled]="true"
+                                    formControlName="supplierTaxCode"></tmss-text-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ph-0">
+                        <div class="col-xl-6 col-sm-6">
+                            <div class="form-group">
+                                <tmss-datepicker [text]="l('EffectFrom')" formControlName="effectFrom"></tmss-datepicker>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-sm-6">
+                            <div class="form-group">
+                                <tmss-datepicker [text]="l('EffectTo')" formControlName="effectTo"></tmss-datepicker>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ph-0">
+
+                        <div class="col-xl-3 col-sm-3">
+                            <div class="form-group" hasError="contractPriceAmount">
+                                <tmss-text-input [text]="l('ContractPrice')" formControlName="contractPriceAmount"
+                                    [type]="'number'" [isRequired]="true" [isValidate]="true"></tmss-text-input>
+                                <div class="error-message" errorMessage>
+                                    <div *ifError="'required'">{{ l('ThisFieldIsRequired') }}</div>
+                                    <div *ifError="'numberFormat'">{{ l('IsInvalid', l('ContractPrice')) }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <div class="form-group" hasError="marketPriceAmount">
+                                <tmss-text-input [text]="l('MarketPrice')" formControlName="marketPriceAmount"
+                                    [type]="'number'" [isRequired]="true" [isValidate]="true"></tmss-text-input>
+                                <div class="error-message" errorMessage>
+                                    <div *ifError="'required'">{{ l('ThisFieldIsRequired') }}</div>
+                                    <div *ifError="'numberFormat'">{{ l('IsInvalid', l('MarketPrice')) }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-sm-3">
+                            <div class="form-group" hasError="currencyId">
+                                <tmss-combobox [text]="l('Currency')" formControlName="currencyId" [items]="currencies"
+                                    [isRequired]="true" [isValidate]="true"></tmss-combobox>
+                                <div class="error-message" errorMessage>
+                                    <div *ifError="'required'">{{ l('ThisFieldIsRequired') }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-3">
+                            <div class="form-group" hasError="taxPriceAmount">
+                                <tmss-text-input [text]="l('Tax')" formControlName="taxPriceAmount" [type]="'number'"
+                                    [isRequired]="true" [isValidate]="true"></tmss-text-input>
+                                <div class="error-message" errorMessage>
+                                    <div *ifError="'required'">{{ l('ThisFieldIsRequired') }}</div>
+                                    <div *ifError="'numberFormat'">{{ l('IsInvalid', l('Tax')) }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row ph-0" *ngIf="!isEdit">
+                        <div class="col-xl-2 col-sm-2">
+                            <p-panel [header]="l('PrimaryImage')">
+                                <div *ngIf="!primaryImage" style="width: 100%; height: 24px !important; display: flex; flex-wrap: wrap; margin: auto; cursor: pointer;" (click)="uploadPrimaryImage()">
+                                    <div style="margin: auto;">
+                                        <input [value]="l('ChooseFile')" [disabled]="true">
+                                    </div>
+                                </div>
+                                <div *ngIf="primaryImage" style="width: 100%; height: 24px !important; display: flex; flex-wrap: wrap; margin: auto; cursor: pointer;" (click)="uploadPrimaryImage()">
+                                    <input style="text-overflow: ellipsis !important; overflow-x: hidden !important;" [value]="primaryImage" [disabled]="true">
+                                </div>
+                            </p-panel>
+                        </div>
+                        <div class="col-xl-10 col-sm-10">
+                            <p-panel [header]="l('SubImage')">
+                                <div style="display: flex;">
+                                    <div *ngFor="let item of subImages">
+                                        <div *ngIf="item" style="width: 100%; height: 24px !important; display: flex; flex-wrap: wrap; margin: auto; cursor: pointer; padding-left: 2px;" (click)="uploadSubImage()">
+                                            <input style="text-overflow: ellipsis !important; overflow-x: hidden !important;" [value]="item" [disabled]="true">
+                                        </div>
+                                    </div>
+                                    <div *ngIf="subImages.length < 4" style="width: 20%; height: 24px !important; display: flex; flex-wrap: wrap; cursor: pointer; padding-left: 2px;" (click)="uploadSubImage()">
+                                        <div style="margin: auto;">
+                                            <input [value]="l('ChooseFile')" [disabled]="true">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button (click)="refreshAllFiles()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-success">
+                                            <i class="fa tmss-fa fa-sync-alt mr-1"></i>
+                                            {{ l('Refresh') }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </p-panel>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button (click)="save()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        {{ l('Save') }}
+                    </button>
+                    <button (click)="close()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{ l('Cancel') }}
+                    </button>
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<tmss-select-grid-modal #productsSelectPopup [height]="'330px'" [headerText]="'Product List'" [modalClass]="'modal-lg'"
+    [apiCall]="getAllProduct.bind(this)" [enableFilter]="true" (close)="patchProduct($event)"
+    [isHideSearchField]="false" [columnDefs]="productColDefs" [showPagination]="true" [hideCancelButton]="false"
+    [showPagination]="true" [showInput]="true"></tmss-select-grid-modal>
+
+<tmss-select-grid-modal #supplierSelectPopup [height]="'330px'" [headerText]="'Supplier List'" [modalClass]="'modal-lg'"
+    [apiCall]="getAllSupplier.bind(this)" [enableFilter]="true" (close)="patchSupplier($event)"
+    [isHideSearchField]="false" [columnDefs]="supplierColDefs" [showPagination]="true" [hideCancelButton]="false"
+    [showInput]="true"></tmss-select-grid-modal> -->

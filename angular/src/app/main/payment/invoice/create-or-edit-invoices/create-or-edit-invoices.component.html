@@ -1,0 +1,211 @@
+<div appBsModal #createOrEditModal="bs-modal" class="modal fade" role="dialog" aria-labelledby="createOrEditModal"
+    aria-hidden="true" id="container" data-dismiss="modal" (onHidden)="reset()" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog tmss-modal-lg">
+        <div class="modal-content">
+            <div novalidate autocomplete="off">
+                <div *ngIf="isEdit" class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span *ngIf="selectedRow.id">{{l('EditInvoice') }}</span>
+                        <span *ngIf="!selectedRow.id">{{l('AddInvoice')}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div *ngIf="!isEdit" class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span>{{l('ViewInvoice') }}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body modal-body-master">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="row">
+                                <div class="col-xl-8 col-sm-8" style="padding-left: -1px;">
+                                    <tmss-combobox [disabled]="selectedRow.id" (onChangeValue)="getParamExport()"
+                                        [text]="this.l('VendorName')" [items]="vendorList"
+                                        [(ngModel)]="selectedRow.vendorId"></tmss-combobox>
+                                    <div class="error" *ngIf="invalidVendor">
+                                        {{this.l('CannotEmpty',this.l('VendorName'))}}</div>
+                                </div>
+                                <div class="col-xl-3 col-sm-3" style="padding-left: 1px; padding-right: 7px;">
+                                    <tmss-text-input [text]="this.l('VatRegistrationInvoice')"
+                                        [(ngModel)]="selectedRow.vatRegistrationInvoice"
+                                        [isDisabled]="true"></tmss-text-input>
+                                </div>
+                                <div class="col-xl-1 col-sm-1" style="padding-left: 1px; padding-right: 7px;">
+                                    <button (click)="updateSupplier()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-edit mr-1"></i>
+                                        {{ l('UpdateSupplier') }}
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-8">
+                            <div class="row">
+                                <div class="col-xl-3 col-sm-3">
+                                    <tmss-text-input [text]="this.l('Inv.Symbol')"
+                                        [(ngModel)]="selectedRow.invoiceSymbol" [maxLength]="10"></tmss-text-input>
+                                </div>
+                                <div class="col-xl-3 col-sm-3" style="padding-left: 1px; padding-right: 7px;">
+                                    <tmss-text-input [text]="this.l('InvoiceNo')" [(ngModel)]="selectedRow.invoiceNum"
+                                        [maxLength]="50"></tmss-text-input>
+                                    <div class="error" *ngIf="invalidInvNum">
+                                        {{this.l('CannotEmpty',this.l('InvoiceNo'))}}</div>
+                                </div>
+                                <div class="col-xl-6 col-sm-6">
+                                    <tmss-text-input [text]="this.l('PicUser')" [isDisabled]="true"
+                                        [(ngModel)]="selectedRow.picInvoice"></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <tmss-datepicker [text]="this.l('InvoiceDate')"
+                                        [(ngModel)]="selectedRow.invoiceDate"></tmss-datepicker>
+                                    <div class="error" *ngIf="invalidDate">{{this.l('CannotEmpty',
+                                        this.l('InvoiceDate'))}}</div>
+                                </div>
+                                <div class="col-xl-3">
+                                    <tmss-text-input [min]="0" [text]="this.l('TaxRate')"
+                                        [(ngModel)]="selectedRow.taxRate" [type]="'number'"></tmss-text-input>
+                                </div>
+                                <div class="col-xl-3">
+                                    <tmss-combobox [text]="this.l('Currency')" [items]="currencyList"
+                                        [(ngModel)]="selectedRow.currencyId"></tmss-combobox>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <tmss-text-input [className]="'text-right'" [isDisabled]="true"
+                                        [text]="this.l('TotalPO')" [ngModel]="totalAmountPo | number"></tmss-text-input>
+                                </div>
+                                <div class="col-xl-6">
+                                    <tmss-text-input [className]="'text-right'" #totalAmountInput
+                                        [text]="this.l('TotalActual')" [ngModel]="selectedRow.totalAmount | number"
+                                        (ngModelChange)="changeActualTotalAmount($event)"></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <tmss-text-input [className]="'text-right'" [isDisabled]="true"
+                                        [text]="this.l('TotalTaxPO')"
+                                        [ngModel]="totalTaxAmountPo | number"></tmss-text-input>
+                                </div>
+                                <div class="col-xl-6">
+                                    <tmss-text-input [className]="'text-right'" #totalAmountTaxInput
+                                        [text]="this.l('TotalTaxActual')" [ngModel]="selectedRow.totalTaxAmount | number"
+                                        (ngModelChange)="changeTotalTaxActualAmount($event)"></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <tmss-text-input [text]="this.l('LookupCode')"
+                                        [(ngModel)]="selectedRow.lookupCode"></tmss-text-input>
+                                </div>
+                                <div class="col-xl-6">
+                                    <tmss-text-input [text]="this.l('LookupLink')"
+                                        [(ngModel)]="selectedRow.lookupLink"></tmss-text-input>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-sm-12">
+                                <tmss-textarea [text]="this.l('Description')" [(ngModel)]="selectedRow.description"
+                                    [maxLength]="255"></tmss-textarea>
+                            </div>
+                        </div>
+                        <div class="col-xl-4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <import-attach-file #attach [viewOnly]="!isEdit" [height]="'140px'"
+                                        [attachType]="'INVOICE'"></import-attach-file>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="isEdit" class="col-xl-12 col-sm-12 mt-1" style="border-top: none; padding: 0%;">
+                        <button [disabled]="checkPaid" (click)="appendInvoices()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{l('AppendInvoices') }}
+                        </button>
+                        <button [disabled]="checkPaid" (click)="deleteRow()" pButton pRipple
+                            type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+                            {{l('Delete') }}
+                        </button>
+                        <button [disabled]="checkPaid" (click)="import()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-success">
+                            <i class="fa tmss-fa fa-file-upload mr-1"></i>
+                            {{l('ImportExcel') }}
+                        </button>
+                        <button *ngIf="selectedRow.id" [disabled]="checkPaid" (click)="updatePoMultiLines.show()"
+                            pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{l('UpdatePo') }}
+                        </button>
+                    </div>
+
+                    <div class="col-xl-12 col-md-12 mt-1 ph-0">
+                        <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="listItem"
+                            [showPagination]="false" (callBackEvent)="callBackGrid($event)" [rowSelection]="'multiple'"
+                            cellEditStopParams="{'stopEditingWhenGridLosesFocus': true}"
+                            (onChangeSelection)="onChangeDetailRow($event)"
+                            (cellValueChanged)="onCellValueChanged($event)">
+                            <!-- (cellEditingStopped)="cellEditingStop($event)" -->
+                        </grid-table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer modal-footer-master">
+                <!-- <button *ngIf="isEdit" (click)="saveDraft()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-primary">
+                    <i class="fa tmss-fa fa-check mr-1"></i>
+                    {{'SaveDraft' | localize}}
+                </button> -->
+                <button *ngIf="isEdit" [disabled]="checkPaid" (click)="save()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-primary">
+                    <i class="fa tmss-fa fa-check mr-1"></i>
+                    {{'Save' | localize}}
+                </button>
+                <button (click)="closeModel()" pButton pRipple type="button"
+                    class="tmss-btn p-button-outlined btn-outline-danger">
+                    <i class="fa tmss-fa fa-times mr-1"></i>
+                    {{'CancelModal' | localize}}
+                </button>
+                <button class="ghost" #submitBtn></button>
+            </div>
+        </div>
+    </div>
+    <tmss-select-grid-modal [height]="'330px'" #poVendorModal [isExport]="true" [urlExport]="'ListPOExportExcel'"
+        [fileNameExport]="'ListPOItems'" [headerText]="'Po List'" [columnDefs]="poColDef" [notPartFilter]="true"
+        [alwaysShowModal]="true" [defaultColDef]="defaultColDef" [showInput]="false" [textLeft]="'Confirm'"
+        [rowSelection]="'multiple'" [isPatchDataList]="true" [showPagination]="false" (setLoading)="setLoading($event)"
+        [apiCall]="getPoVendor.bind(this)" (close)="setDataForGrid($event)">
+    </tmss-select-grid-modal>
+
+    <tmss-select-grid-modal [height]="'330px'" #poVendorModalFromRow [isExport]="true" [urlExport]="'ListPOExportExcel'"
+        [fileNameExport]="'ListPOItems'" [headerText]="'Po List'" [columnDefs]="poColDef" [notPartFilter]="true"
+        [alwaysShowModal]="true" [defaultColDef]="defaultColDef" [showInput]="false" [textLeft]="'Confirm'"
+        [rowSelection]="'multiple'" [isPatchDataList]="true" [showPagination]="false" (setLoading)="setLoading($event)"
+        [apiCall]="getPoVendor.bind(this)" (close)="setDataForRow($event)">
+    </tmss-select-grid-modal>
+
+    <tmss-select-grid-modal [height]="'330px'" #updatePoMultiLines [headerText]="'Po List'"
+        [columnDefs]="updatePoColDef" [notPartFilter]="true" [alwaysShowModal]="true" [defaultColDef]="defaultColDef"
+        [showInput]="false" [textLeft]="'Confirm'" [rowSelection]="'single'" [apiCall]="getAllPoNumber.bind(this)"
+        [showPagination]="false" (setLoading)="setLoading($event)" (close)="updatePoMultiLinesFunc($event)">
+    </tmss-select-grid-modal>
+    <!-- [apiCall]="getPoVendor.bind(this)" -->
+
+    <app-import-po-items #importPO (updateAfterEdit)="setDataForGrid($event)">
+    </app-import-po-items>
+</div>

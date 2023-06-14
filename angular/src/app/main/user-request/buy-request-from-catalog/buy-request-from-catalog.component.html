@@ -1,0 +1,109 @@
+<div id="container">
+    <div class="card card-custom gutter-b">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xl-3 col-sm-3">
+                    <tmss-text-input [text]="l('ProductName')" [(ngModel)]="productName"></tmss-text-input>
+                </div>
+                <div class="col-xl-3 col-sm-3">
+                    <tmss-text-input [text]="l('SupplierName')" [(ngModel)]="supplierName"></tmss-text-input>
+                </div>
+                <div class="col-xl-3 col-sm-3">
+                    <tmss-combobox [text]="l('InventoryGroup')" [(ngModel)]="inventoryGroupId" [items]="inventoryGroups" [hasFilter]="false"></tmss-combobox>
+                </div>
+                <div class="col-xl-1 col-sm-1">
+                    <button (click)="search()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-search mr-1"></i>
+                        {{ l('Search') }}
+                    </button>
+                </div>
+                <div class="col-xl-1 col-sm-1">
+                    <button (click)="reload()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-success">
+                        <i class="fa tmss-fa fa-sync-alt mr-1"></i>
+                        {{ l('Refresh') }}
+                    </button>
+                </div>
+                <div class="col-xl-1 col-sm-1">
+                    <button class="cart" type="button"
+                        style="height: 30px; background-color: transparent; border: none;"
+                        (click)="viewShoppingCartModal.show(onCartProducts)" [disabled]="onCartProducts.length < 1">
+                        <i class="fa"
+                            style="font-size: 20px !important; color: #3B82F6; margin: -2px 0px 0px 0px !important; height: 24px !important;">&#xf290;</i>
+                        <span class='badge badge-warning' id='lblCartCount'>{{ productAmount }}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 pagination">
+            <span>
+                <button type="button" class="btn" (click)="changePaginationParams(false, 1)"
+                    [disabled]="paginationParams.pageNum === 1 || paginationParams.pageNum === 0">
+                    <i class="pi pi-step-backward pi-pagation"></i>
+                </button>
+
+                <button type="button" class="btn" (click)="changePaginationParams(false, undefined)"
+                    [disabled]="paginationParams.pageNum === 1 || paginationParams.pageNum === 0">
+                    <i class="pi pi-caret-left pi-pagation"></i>
+                </button>
+                <span>
+                    {{ l('Page') }} {{ this.paginationParams.totalCount / paginationParams.pageSize === 0 ? 0 :
+                    paginationParams.pageNum }} /
+                    {{ paginationParams.totalPage }}
+                </span>
+                <button (click)="changePaginationParams(true, undefined)" type="button" class="btn" [disabled]="
+                        paginationParams.pageNum ===
+                        this.paginationParams.totalPage
+                    ">
+                    <i class="pi pi-caret-right pi-pagation"></i>
+                </button>
+                <button (click)="changePaginationParams(true, paginationParams.totalPage)" type="button" class="btn"
+                    [disabled]="
+                        paginationParams.pageNum ===
+                        this.paginationParams.totalPage
+                    ">
+                    <i class="pi pi-step-forward pi-pagation"></i>
+                </button>
+            </span>
+        </div>
+        <div class="card-body" style="height: 79vh;">
+            <div class="ui-g-12" style="padding: 0.5rem; width: 100%; display: flex; flex-wrap: wrap;">
+                <div *ngFor="let item of products" class="view_item" style="width: 20%; display: flex; flex-wrap: wrap;"
+                    [title]="item.productName">
+                    <div style="padding: 1rem; display: inline-block; margin: auto; width: 100%;">
+                        <div>
+                            <img [src]="'/assets/common/images/no_image.png'">
+                        </div>
+                        <div style="text-overflow: ellipsis !important;">
+                            <p class="title">{{item.productName}}</p>
+                        </div>
+                        <div style="text-overflow: ellipsis !important;">
+                            <p class="content">{{item.productCode}}{{ item.color ? '.' + item.color : '' }}</p>
+                        </div>
+                        <div style="text-overflow: ellipsis !important;">
+                            <p class="content">{{item.productGroupName}}</p>
+                        </div>
+                        <div style="text-overflow: ellipsis !important;">
+                            <p class="content">{{item.supplierName}}</p>
+                        </div>
+                        <div style="text-overflow: ellipsis !important;">
+                            <p class="price">{{moneyFormat(item.unitPrice)}} {{item.currencyCode}} / {{item.primaryUomCode}}</p>
+                        </div>
+                        <div class="btn" (click)="addToCart(item)">
+                            <i class="fa" style="color: #3B82F6">&#xf290;</i>
+                            {{ l('AddToCart') }}
+                        </div>
+                        <div class="btn" (click)="viewProductDetailModal.show(item)">
+                            <i class="fa" style="color: #3B82F6">&#xf141;</i>
+                            {{ l('ViewMore') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<view-shopping-cart-modal #viewShoppingCartModal (modalSave)="openUrMgmt()" (modalEdited)="cartEdit($event)" (modalRefresh)="cartRefresh($event)" (modalClose)="cartClose($event)"></view-shopping-cart-modal>
+<view-product-detail-modal #viewProductDetailModal (modalSave)="addToCart($event)"></view-product-detail-modal>

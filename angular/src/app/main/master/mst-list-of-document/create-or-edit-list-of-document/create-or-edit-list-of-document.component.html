@@ -1,0 +1,73 @@
+<div appBsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ ignoreBackdropClick: 'static' }">
+    <div class="modal-dialog tmss-modal-md">
+        <div class="modal-content">
+            <form #mstInventoryItemsForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px">
+                    <h5 class="modal-title" style="margin-left: 15px">
+                        <span *ngIf="isEditForm">{{"Edit" | localize}}</span>
+                        <span *ngIf="!isEditForm">{{"Add" | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body modal-body-master">
+                    <div class="row">
+                        <div class="form-group col-sm-6 "  hasError="documentCode"  >
+                            <tmss-text-input [text]="l('DocumentCode')" formControlName="documentCode"
+                               [isRequired]="true"></tmss-text-input>
+                               <div class="error-message" errorMessage>
+                                <div *ifError="'required'">{{'Required' | localize}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6"  hasError="documentName" >
+                            <tmss-text-input [isRequired]="true" [text]="l('DocumentName')" formControlName="documentName"
+                            ></tmss-text-input>
+                            <div class="error-message" errorMessage>
+                                <div *ifError="'required'">{{'Required' | localize}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6" >
+                            <tmss-combobox [text]="l('TransactionType')" formControlName="processTypeId" [items]="listProcessType"
+                              ></tmss-combobox>
+                        </div>
+                        <div class="form-group col-sm-6" >
+                            <tmss-combobox [text]="l('InventoryGroup')" formControlName="inventoryGroupId" [items]="listIventoryGroup"
+                              ></tmss-combobox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-2">
+                            <tmss-checkbox [rightCheckbox]="true" [text]="l('Irregular')" formControlName="isIrregular"
+                            ></tmss-checkbox>
+                        </div>
+                        <div class="form-group col-sm-4" >
+                            <tmss-text-input [type]="'number'" [min]="0"  [text]="l('LeadtimeModal')" formControlName="leadtime"
+                            ></tmss-text-input>
+                        </div>
+                        <div class="form-group col-sm-6" >
+                            <tmss-combobox [text]="l('Status')" formControlName="status" [items]="listStatus"
+                              ></tmss-combobox>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-master">
+                    <button *ngIf="isGranted('ConfigureSystem.ListOfDocument.Add') && isGranted('ConfigureSystem.ListOfDocument.Edit')" (click)="save()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{"Save" | localize}}
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button" class="tmss-btn p-button-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{"Cancel" | localize}}
+                    </button>
+                    <button class="ghost" #submitBtn></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

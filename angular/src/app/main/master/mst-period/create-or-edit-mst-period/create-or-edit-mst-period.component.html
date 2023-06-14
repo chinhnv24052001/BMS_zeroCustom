@@ -1,0 +1,57 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form #mstSleDeliveryPlaceForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span *ngIf="isEdit">{{l("Edit")}}</span>
+                        <span *ngIf="!isEdit">{{l("Add")}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body modal-body-master">
+                    <div class="form-group" hasError="PeriodYear1">
+                        <tmss-text-input [text]="'inputText212345345'" formControlName="PeriodYear1"></tmss-text-input>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">Bắt buộc</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" hasError="PeriodYear2">
+                        <tmss-datepicker [text]="'inputText2'" formControlName="PeriodYear2"></tmss-datepicker>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">Bắt buộc</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <tmss-text-input [text]="'inputText2'" formControlName="PeriodYear3"></tmss-text-input>
+                    </div>
+
+                        <tmss-checkbox [text]="'IsCurrent'" formControlName="IsCurrent" [value]="'true'"></tmss-checkbox>
+
+                    
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button (click)="closeModel()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{"Cancel" | localize}}
+                    </button>
+                    <button (click)="save()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{"Save" | localize}}
+                    </button>
+
+                    <button class="ghost" #submitBtn></button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

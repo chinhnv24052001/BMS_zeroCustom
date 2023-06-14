@@ -1,0 +1,83 @@
+
+  ::ng-deep{
+    #kt_aside{
+        display: none !important;
+    }
+    #kt_header{
+        display: none !important;
+    }
+
+    #kt_wrapper{
+        padding: 0 !important;
+    }
+
+    button {
+        //min-height: 38px;
+        margin-right: 3px;
+    }
+
+    .choose-file-btn {
+        min-height: 38px;
+        // margin-right: 3px;
+    }
+    .login-aside{
+        display: none !important;
+    }
+
+    .login.login-1 .login-content {
+         width: 100%;
+         max-width: 100%;
+    }
+
+    .login.login-1 .login-content .login-form {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .justify-content-lg-start {
+        // -webkit-box-pack: start !important;
+        // -ms-flex-pack: start !important;
+        // justify-content: flex-start !important;
+        display: block !important;
+    }
+
+    .pb-13, .py-13 {
+        /* padding-bottom: 3.25rem !important; */
+        padding: 0 !important;
+    }
+
+    // .grid-btn{
+    //     height: 17px !important;
+    // }
+  }
+
+  .fieldset-custom{
+    padding: 10px;
+    border: 1px solid black;
+    background-color: white;
+  }
+
+  :host::ng-deep {
+    .first-input .input-group-text.left-text {
+        min-width: 125px;
+    }
+
+    .second-input .input-group-text.left-text {
+        min-width: 130px;
+    }
+
+    .third-input .input-group-text.left-text {
+        min-width: 65px;
+    }
+    .grid-btn-download{
+        // border: 1px solid #009a00 !important;
+        height: 17px !important;
+        width: 10px !important;
+        // border-radius: 5px !important;
+        // background-color: #009a00 !important;
+        cursor: pointer !important;
+    }
+  }
+
+
+

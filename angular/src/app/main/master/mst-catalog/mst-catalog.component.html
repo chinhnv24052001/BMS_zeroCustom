@@ -1,0 +1,66 @@
+<div class="content d-flex flex-column flex-column-fluid">
+    <div [class]="containerClass">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <div class="form" >
+                    <p-panel header="{{l('SearchModal')}}" [toggleable]="true">
+                        <div class="row">
+                            <div class="col-xl-3 col-sm-12">
+                                <tmss-text-input [text]="l('Code_Name')"  [(ngModel)]="filterText"></tmss-text-input>
+                            </div>
+                            <!-- <div class="col-xl-3 col-sm-12">
+                                <tmss-datepicker [text]="'Từ ngày '" [(ngModel)]="fromDate"></tmss-datepicker>
+                            </div>
+                            <div class="col-xl-3 col-sm-12">
+                                <tmss-datepicker [text]="'Đến ngày'"  [(ngModel)]="toDate"></tmss-datepicker>
+                            </div> -->
+
+                            <div class="col-xl-3 col-sm-12">
+                                <button (click)="searchData()" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i class="fa tmss-fa fa-search mr-1"></i>
+                                    {{'Search' | localize}}</button>
+                            </div>
+                        </div>
+                    </p-panel>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="rowData"
+                             (callBackEvent)="callBackGrid($event)"
+                            [paginationParams]="paginationParams" (changePaginationParams)="changePaginationParams($event)"
+                            (onChangeSelection)="onChangeSelection($event)">
+                        </grid-table>
+                    </div>
+
+                    <div class="col-12 text-right">
+                        <button *ngIf="isGranted('MasterData.MasterCatalog.Add')" (click)="createOrEditModal.show()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{ l('Add') }}
+                        </button>
+                        <button *ngIf="isGranted('MasterData.MasterCatalog.Edit')" (click)="createOrEditModal.show(selectedRow)" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary" [disabled]="!selectedRow.id">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{ l('Edit') }}
+                        </button>
+                        <button *ngIf="isGranted('MasterData.MasterCatalog.Delete')" (click)="deleteRow()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger" [disabled]="!selectedRow.id">
+                            <i class="fa tmss-fa fa-trash mr-1"></i>
+                            {{ l('Delete') }}
+                        </button>
+                    </div>
+                </div>
+                <!-- </p-panel> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-create-or-edit-catalog-modal (modalSave)="searchData()"  #createOrEditModal> </app-create-or-edit-catalog-modal>
+
+<!-- <app-create-or-edit-currency-data-modal (modalSave)="searchData()" [currencyList]="currencyList" #createOrEditModal></app-create-or-edit-currency-data-modal> -->
+

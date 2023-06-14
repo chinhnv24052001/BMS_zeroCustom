@@ -1,0 +1,105 @@
+<div appBsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span *ngIf="isEdit">{{'Edit' | localize}}</span>
+                        <span *ngIf="!isEdit">{{'AddModal' | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body modal-body-master">
+                    
+                    <div class="row">
+                        <div class="col-xl-12 col-sm-12">
+                            <div class="form-group" hasError="vendorId">
+                                <tmss-combobox [items]="listSupplier" [text]="l('Vendor')"
+                                    formControlName="vendorId" isRequired="true"></tmss-combobox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-10 col-sm-12">
+                            <div class="form-group" hasError="poNo">
+                                <tmss-text-input [text]="l('PoNo')" formControlName="poNo"
+                                    isRequired="true"></tmss-text-input>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-sm-12">
+                            <div class="form-group">
+                                <button (click)="searchPOs()" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i class="fa tmss-fa fa-search mr-1"></i>
+                                    {{'SearchPO' | localize}}</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" hidden="true" hasError="poHeaderId">
+                        <tmss-text-input [text]="l('PO')" isDisabled="true" formControlName="poHeaderId"
+                            isRequired="true"></tmss-text-input>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-10 col-sm-12">
+                            <div class="form-group">
+                                <tmss-text-input type="number" [text]="l('AvailableAmount')" formControlName="availableAmount"
+                                isDisabled="true" [className]="'text-number text-right'"></tmss-text-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-10 col-sm-12">
+                            <div class="form-group">
+                                <tmss-text-input type="number" [text]="l('Prepayment')" formControlName="amount"
+                                    isRequired="true" [className]="'text-number text-right'"></tmss-text-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-10 col-sm-12">
+                            <div class="form-group" hasError="advancedDate">
+                                <tmss-datepicker [text]="l('AdvancedDate')" isRequired="true"
+                                    formControlName="advancedDate"></tmss-datepicker>
+                                <div class="error-message" errorMessage>
+                                    <div *ifError="'required'">{{'Required' | localize}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button *ngIf="!isEdit" (click)="save()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{'SaveModal' | localize}}
+                    </button>
+                    <button *ngIf="isEdit" (click)="save()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{'SaveModal' | localize}}
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{'Cancel' | localize}}
+                    </button>
+
+                    <button class="ghost" #submitBtn></button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<tmss-select-grid-modal #listAllPOs [height]="'330px'" [headerText]="l('ListPOs')" [modalClass]="'modal-lg'"
+    (close)="patchSelectedPO($event)" [isHideSearchField]="false" [columnDefs]="gridRNotesDef" [showPagination]="true"
+    [showInput]="true" [apiCall]="getAllPOs.bind(this)"
+    [alwaysShowModal] = "true"
+    (isLoading)="setLoading($event)"></tmss-select-grid-modal>

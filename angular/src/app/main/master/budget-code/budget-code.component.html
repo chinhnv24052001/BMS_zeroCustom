@@ -1,0 +1,40 @@
+<div class="content d-flex flex-column flex-column-fluid">
+    <div [class]="containerClass">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <div class="form" >
+                    <p-panel header="{{l('Search')}}" [toggleable]="true">
+                        <div class="row">
+                            <div class="col-xl-3 col-sm-12">
+                                <tmss-text-input [text]="l('Keyword')"  [(ngModel)]="filterText"></tmss-text-input>
+                            </div>
+
+                            <div class="col-xl-3 col-sm-12">
+                                <button (click)="searchData()" pButton pRipple type="button"
+                                    class="tmss-btn p-button-outlined btn-outline-primary">
+                                    <i class="fa tmss-fa fa-search mr-1"></i>
+                                    {{l('Search')}} </button>
+                            </div>
+                        </div>
+                    </p-panel>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="rowData"
+                            (callBackEvent)="callBackGrid($event)"
+                            [paginationParams]="paginationParams" (changePaginationParams)="changePaginationParams($event)"
+                            (onChangeSelection)="onChangeSelection($event)">
+                        </grid-table>
+                    </div>
+                </div>
+                <!-- </p-panel> -->
+            </div>
+        </div>
+    </div>
+</div>

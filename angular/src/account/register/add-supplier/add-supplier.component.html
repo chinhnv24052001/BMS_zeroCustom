@@ -1,0 +1,225 @@
+<div *ngIf="expired == true" style="justify-content: space-around;height: 100%;">
+    <h3 style="text-align: center;">This URL has expired or incorrect , please try again later or contact for another link</h3>
+ </div>
+
+ <div *ngIf="expired == false " style="justify-content: space-around;height: 100%;">
+    <h3 style="text-align: center;">Please enter all the required field
+    </h3>
+
+
+
+    <div class="row" style="padding-left: 15%; padding-right: 15%;">
+
+        <fieldset class="fieldset-custom" >
+            <legend style="width: fit-content;">
+                <h3 style="width: fit-content;">{{l('GeneralInformations')}}</h3>
+            </legend>
+            <div class="row">
+                        <div class="col-xl-7 col-sm-4 mt-1 first-input">
+                            <tmss-text-input [text]="l('SupplierName')" [placeholder]="l('SupplierName') + ' ,ex: Cong Ty ...'" [(ngModel)]="selectedRequest.supplierName"
+                                isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                    </div>
+
+                    <div class="col-xl-5 col-sm-12 mt-1">
+                            <tmss-text-input [text]="l('EmailConfirm')"  [(ngModel)]="selectedRequest.requestEmail"
+                                isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                    </div>
+
+                    <!-- <div class="col-xl-2 col-sm-2 mt-1">
+                        <tmss-text-input [text]="'Password'" [(ngModel)]="selectedRequest.address"
+                            isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                    </div>
+
+                    <div class="col-xl-2 col-sm-2 mt-1">
+                            <tmss-text-input [text]="'Status'" [(ngModel)]="selectedRequest.tel"
+                                isRequired="true" [hasCheck]="true" [disabled]="true" ></tmss-text-input>
+                    </div> -->
+
+                    <!-- 2 -->
+                    <div class="col-xl-5 col-sm-4 mt-1 first-input">
+                        <tmss-text-input [text]="l('AbbreviateName')" [placeholder]="l('AbbreviateName') " [(ngModel)]="selectedRequest.abbreviateName"
+                            isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-3 col-sm-3 mt-1">
+                        <tmss-text-input [text]="l('TaxCode')" [(ngModel)]="selectedRequest.taxRegistrationNumber"
+                            isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-4 col-sm-2 mt-1">
+                    <tmss-text-input [text]="l('RepresentName')" [placeholder]="l('RepresentName') + ' ,ex: Nguyen Van ....' " [(ngModel)]="selectedRequest.representName"
+                        isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                </div>
+
+            <!-- /////// -->
+
+                <div class="col-xl-6 col-sm-12 mt-1 first-input">
+                    <tmss-text-input [text]="l('BeneficiaryName')" [(ngModel)]="selectedRequest.beneficiaryName"
+                        ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-6 col-sm-12 mt-1 second-input">
+                    <tmss-text-input [text]="l('BeneficiaryAccount')" [(ngModel)]="selectedRequest.beneficiaryAccount"
+                        ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-6 col-sm-12 mt-1 first-input">
+                    <tmss-text-input [text]="l('BankName')" [placeholder]="l('BankName')" [(ngModel)]="selectedRequest.bankName"
+                        ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-6 col-sm-12 mt-1 second-input">
+                        <tmss-text-input [text]="l('BankCode')" [placeholder]="l('BankCode')" [(ngModel)]="selectedRequest.bankCode"
+                             ></tmss-text-input>
+                </div>
+
+
+                <div class="col-xl-6 col-sm-12 mt-1 first-input">
+                        <tmss-text-input [text]="l('BankBranch')" [(ngModel)]="selectedRequest.bankBranch"
+                             ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-6 col-sm-12 mt-1 second-input">
+                    <tmss-text-input [text]="l('BankAddress')"  [placeholder]="l('BankAddress')"  [(ngModel)]="selectedRequest.bankAddress"
+                        ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-6 col-sm-12 mt-1 first-input">
+                    <tmss-text-input [text]="l('ClassificationType')" [(ngModel)]="selectedRequest.classificationType"
+                         ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-6 col-sm-12 mt-1 first-input">
+                    <tmss-combobox [text]="l('Currency')" [hasFilter]="false" [(ngModel)]="selectedRequest.currencyId" [items]="currencyList"
+                         ></tmss-combobox>
+                </div>
+            </div>
+        </fieldset>
+
+    <!-- 3 -->
+        <fieldset class="fieldset-custom">
+            <legend style="width: fit-content;">
+                <h3 style="width: fit-content;">{{l('DetailInformations')}}</h3>
+            </legend>
+
+            <div class="row">
+                <!-- <div class="col-xl-4 col-sm-12 mt-1 first-input">
+                    <tmss-combobox [text]="'Nation'" (ngModelChange)="setProvinceList($event)" [(ngModel)]="selectedRequest.nationId"
+                        isRequired="true" [items]="nationList" ></tmss-combobox>
+                </div>
+
+                <div class="col-xl-4 col-sm-12 mt-1">
+                        <tmss-combobox [text]="'Province'" (ngModelChange)="setDistrictList($event)"  [(ngModel)]="selectedRequest.provinceId"
+                            isRequired="true" [items]="provinceList" ></tmss-combobox>
+                </div>
+
+                <div class="col-xl-4 col-sm-12 mt-1 third-input">
+                    <tmss-combobox [text]="'District'" [(ngModel)]="selectedRequest.districtId"
+                            isRequired="true" [items]="districtList" ></tmss-combobox>
+                </div> -->
+
+                <div class="col-xl-8 col-sm-12 mt-1 first-input">
+                    <tmss-text-input [text]="l('Address')" [placeholder]="l('SupplierAddress')" [(ngModel)]="selectedRequest.address"
+                        isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-4 col-sm-12 mt-1 third-input">
+                    <tmss-text-input [text]="l('Tel')" [placeholder]="l('SupplierTel')" [(ngModel)]="selectedRequest.tel"
+                        isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                </div>
+
+                <!-- <div class="col-xl-8 col-sm-12 mt-1 first-input">
+                    <tmss-text-input [text]="'Location'" [(ngModel)]="selectedRequest.location"
+                        isRequired="true" [hasCheck]="true"  ></tmss-text-input>
+                </div> -->
+
+
+                <!-- 4 -->
+        <!--
+                <div class="col-xl-5 col-sm-12 mt-1">
+                        <tmss-text-input [text]="'Category'" [(ngModel)]="selectedRequest.contactMobile"
+                            isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-3 col-sm-12 mt-1">
+                    <tmss-combobox [text]="'Currency'" [(ngModel)]="selectedRequest.conntactPerson"
+                            isRequired="true"  ></tmss-combobox>
+                </div> -->
+
+
+
+
+                <!-- <div class="col-xl-12 col-sm-12 mt-1">
+                    <h3>Contact Informations</h3>
+                </div> -->
+            <!-- 5 -->
+
+                <div class="col-xl-5 col-sm-12 mt-1 first-input">
+                    <tmss-text-input [text]="l('ContactPerson') + ' 1'" [placeholder]="l('ContactName') + ' ,ex: Nguyen Van ....' " [(ngModel)]="selectedRequest.conntactPerson1"
+                        isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-3 col-sm-12 mt-1">
+                    <tmss-text-input [text]="l('Tel')" [placeholder]="l('ContactTel') + ' ,ex: 098.....' " [(ngModel)]="selectedRequest.contactMobile1"
+                        isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-4 col-sm-12 mt-1 third-input">
+                    <tmss-text-input [text]="l('Email')" [placeholder]="l('ContactPersonMail') + ' ,ex: abc@gmail.com' " [(ngModel)]="selectedRequest.contactEmail1"
+                        isRequired="true" [hasCheck]="true" ></tmss-text-input>
+                </div>
+
+                <!-- 6 -->
+                <div class="col-xl-5 col-sm-12 mt-1 first-input">
+                    <tmss-text-input [text]="l('ContactPerson') + ' 2'" [(ngModel)]="selectedRequest.conntactPerson2"
+                        ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-3 col-sm-12 mt-1 ">
+                    <tmss-text-input [text]="l('Tel')" [(ngModel)]="selectedRequest.contactMobile2"
+                         ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-4 col-sm-12 mt-1 third-input">
+                    <tmss-text-input [text]="l('Email')" [(ngModel)]="selectedRequest.contactEmail2"
+                       ></tmss-text-input>
+                </div>
+
+                 <!-- 7 -->
+                 <div class="col-xl-5 col-sm-12 mt-1 first-input">
+                    <tmss-text-input [text]="l('ContactPerson') + ' 3'" [(ngModel)]="selectedRequest.conntactPerson3"
+                        ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-3 col-sm-12 mt-1">
+                    <tmss-text-input [text]="l('Tel')" [(ngModel)]="selectedRequest.contactMobile3"
+                         ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-4 col-sm-12 mt-1 third-input">
+                    <tmss-text-input [text]="l('Email')" [(ngModel)]="selectedRequest.contactEmail3"
+                         ></tmss-text-input>
+                </div>
+
+                <div class="col-xl-12 col-sm-12 mt-1">
+                    <import-attach-file #attach [viewOnly]="false" [reqId]="selectedRequest.id" [attachType]="'SUPPLYREQUEST'"></import-attach-file>
+                </div>
+
+
+            </div>
+
+        </fieldset>
+    </div>
+
+    <div class="row" class="text-center mt-1" style="padding-left: 20%; padding-right: 20%;">
+        <button (click)="saveInformation()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary mt-1">
+                        <i class="fa tmss-fa fa-save mr-1"></i>
+                        Save info
+                    </button>
+    </div>
+ </div>
+
+ <div class=" col-xl-12 col-sm-12 mt-1 text-center d-flex justify-content-lg-start justify-content-center align-items-end py-7 py-lg-0">
+    <language-switch class="mx-auto"></language-switch>
+</div>

@@ -1,0 +1,41 @@
+<div class="row align-items-center" style="margin-right: 1px;">
+    <div class="col-12">
+        <div>
+            <h6> {{'ListSupplierContact' | localize}}</h6>
+        </div>
+        <grid-table [height]="'200px'" [columnDefs]="gridColDef" [rowData]="listSupplierContact"
+            [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+            (changePaginationParams)="changePaginationParams($event)" (onChangeSelection)="onChangeSelection($event)">
+        </grid-table>
+    </div>
+</div>
+
+<div class="col-12 text-right">
+    <button (click)="addContact()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+        <i class="fa tmss-fa fa-plus mr-1"></i>
+        {{'AddModal' | localize}}
+    </button>
+
+    <button (click)="edit(1)" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+        <i class="fa tmss-fa fa-edit mr-1"></i>
+        {{'EditInfomation' | localize}}
+    </button>
+
+    <button (click)="edit(2)" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+        <i class="fa tmss-fa fa-edit mr-1"></i>
+        {{'CreateAccount' | localize}}
+    </button>
+
+    <button (click)="edit(3)" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-primary">
+        <i class="fa tmss-fa fa-edit mr-1"></i>
+        {{'ResetPassword' | localize}}
+    </button>
+
+    <button (click)="deleteContact()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+        <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+        {{'Delete' | localize}}
+    </button>
+</div>
+
+<create-or-reset-mst-supplier-contact #createOrResetMstSupplierContact
+    (close)="searchSupplierContact($event)"></create-or-reset-mst-supplier-contact>

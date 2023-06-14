@@ -1,0 +1,64 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <form class="form" [formGroup]="currencyForm" *ngIf="currencyForm">
+                        <p-panel header="{{'SearchCurrency' | localize}}" [toggleable]="true">
+                            <div class="row align-items-center">
+                                <tmss-text-input [text]="l('CurrencyName')"
+                                    formControlName="currencyName">
+                                </tmss-text-input>
+                                <tmss-text-input [text]="l('CurrencyCode')" class="currency-code"
+                                    formControlName="currencyCode">
+                                </tmss-text-input>
+                                <div class="col-xl-3 col-sm-3">
+                                    <button (click)="searchCurrency()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-search mr-1"></i>
+                                        {{'Search' | localize}}
+                                    </button>
+                                </div>
+                            </div>
+                        </p-panel>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <!-- <p-panel header="List purchase purpose" class="content-panel-custom" [toggleable]="true"> -->
+                        <div class="row align-items-center">
+                            <div class="col-12">
+                                <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="listCurrency"
+                                    [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                                    (changePaginationParams)="changePaginationParams($event)"
+                                    (onChangeSelection)="onChangeSelection($event)"
+                                    >
+                                </grid-table>
+                            </div>
+                        </div>
+                    <!-- </p-panel> -->
+                    <div class="col-12 text-right">
+                        <button *ngIf="isGranted('MasterData.CurrencyType.Add')" (click)="add()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{'Add' | localize}}
+                        </button>
+                        <button *ngIf="isGranted('MasterData.CurrencyType.Edit')" (click)="edit()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'Edit' | localize}}
+                        </button>
+                        <button *ngIf="isGranted('MasterData.CurrencyType.Delete')" (click)="delete()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+                            {{'Delete' | localize}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <create-or-edit-mst-currency #createOrEditMstCurrency (close)="searchCurrency()"></create-or-edit-mst-currency>
+    </div>
+</div>

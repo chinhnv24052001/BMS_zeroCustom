@@ -1,0 +1,76 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <form class="form" [formGroup]="approvalTreeForm" *ngIf="approvalTreeForm">
+                        <p-panel header="{{'SearchApprovalTree' | localize}}" [toggleable]="true">
+                            <div class="row align-items-center">
+                                <div class="col-xl-3 col-sm-12">
+                                    <div class="form-group">
+                                        <tmss-combobox class="input-search combobox-input-width"
+                                            [text]="l('ProcessType')" formControlName="processTypeId"
+                                            [items]="listProcessType">
+                                        </tmss-combobox>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-3 col-sm-12" style="margin-top: -26px !important;">
+                                    <div class="">
+                                        <tmss-combobox
+                                            class="input-search left-margin-input-search combobox-input-width"
+                                            [text]="l('InventoryGroupId')" formControlName="inventoryGroupId"
+                                            [items]="listIventory">
+                                        </tmss-combobox>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-1 col-sm-12">
+                                    <button (click)="searchApprovalTree()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-search mr-1"></i>
+                                        {{'Search' | localize}}
+                                    </button>
+                                </div>
+                            </div>
+                        </p-panel>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <grid-table [height]="'300px'" [columnDefs]="gridColDef" [rowData]="listApprovalTree"
+                                [paginationParams]="paginationParams" (callBackEvent)="callBackGrid($event)"
+                                (changePaginationParams)="changePaginationParams($event)"
+                                (onChangeSelection)="onChangeSelection($event)">
+                            </grid-table>
+                        </div>
+                    </div>
+                    <!-- </p-panel> -->
+                    <div class="col-12 text-right">
+                        <button *ngIf="isGranted('ConfigureSystem.ApprovalTree.Add')" (click)="add()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-plus mr-1"></i>
+                            {{'AddModal' | localize}}
+                        </button>
+                        <button *ngIf="isGranted('ConfigureSystem.ApprovalTree.Edit')" (click)="edit()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-primary">
+                            <i class="fa tmss-fa fa-edit mr-1"></i>
+                            {{'Edit' | localize}}
+                        </button>
+                        <button *ngIf="isGranted('ConfigureSystem.ApprovalTree.Delete')" (click)="delete()" pButton pRipple type="button"
+                            class="tmss-btn p-button-outlined btn-outline-danger">
+                            <i class="fa tmss-fa fa-trash-alt mr-1"></i>
+                            {{'Delete' | localize}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <create-or-edit-approval-tree #createOrEditApprovalTree
+            (close)="searchApprovalTree()"></create-or-edit-approval-tree>
+    </div>
+</div>

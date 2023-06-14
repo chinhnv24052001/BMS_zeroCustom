@@ -1,0 +1,100 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" style="margin-top: 70px;"
+    aria-labelledby="createOrEditModal" (onHidden)="reset()" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form #mstPurchasePurposeForm="ngForm" *ngIf="createOrEditForm" [formGroup]="createOrEditForm" novalidate
+                autocomplete="off">
+                <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                    <h5 class="modal-title" style="margin-left: 15px;">
+                        <span *ngIf="isEdit">{{'Edit' | localize}}</span>
+                        <span *ngIf="!isEdit">{{'Add' | localize}}</span>
+                    </h5>
+                    <button type="button" style="margin-right: 1% !important;" class="close" (click)="closeModel()"
+                        [attr.aria-label]="l('Close')">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body modal-body-master">
+                    <div class="form-group" hasError="approvalTypeId">
+                        <tmss-combobox (change)="setHrOrgInternal()" class="input-search" [text]="l('ApprovalType')"
+                            isRequired="true" formControlName="approvalTypeId" [items]="listApprovalType">
+                        </tmss-combobox>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">{{'Required' | localize}}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" hasError="hrOrgStructureId">
+                        <tmss-combobox class="input-search" (ngModelChange)="onChangeHrOrg()" [text]="l('HrOrgStructure')"
+                            [isDisabled]="createOrEditForm.get('approvalTypeId').value == 1"
+
+                            formControlName="hrOrgStructureId" [items]="listHrOrgStructure">
+                        </tmss-combobox>
+                        <div *ngIf="valHrOrg" class="error-message" errorMessage>
+                            <div>{{'Required' | localize}}</div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="form-group" hasError="titleId">
+                        <tmss-combobox (ngModelChange)="onChangeTitle()" class="input-search" [text]="l('Title')"
+                            formControlName="titleId" [items]="listTitle">
+                        </tmss-combobox>
+                        <div *ngIf="valTitle" class="error-message" errorMessage>
+                            <div>{{'Required' | localize}}</div>
+                        </div>
+                    </div> -->
+
+                    <div class="form-group" hasError="positionId">
+                        <tmss-combobox (ngModelChange)="onChangePosition()" class="input-search" [text]="l('PositionModal')"
+                            formControlName="positionId" [items]="listPosition">
+                        </tmss-combobox>
+                        <div *ngIf="valTitle" class="error-message" errorMessage>
+                            <div>{{'Required' | localize}}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" hasError="listUserId">
+                        <tmss-multiSelect [options]="listUser"
+                             [text]="l('ListUserId')"
+                            name="listUserId" formControlName="listUserId" [isDisabled]="createOrEditForm.get('approvalTypeId').value == 1">
+                        </tmss-multiSelect>
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">{{'Required' | localize}}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" hasError="dayOfProcess">
+                        <tmss-text-input [text]="l('DayOfProcess')" formControlName="dayOfProcess" isRequired="true"
+                            type="number"></tmss-text-input>
+
+                        <div class="error-message" errorMessage>
+                            <div *ifError="'required'">{{'Required' | localize}}</div>
+                            <div *ngIf="valDayOfProcess">{{'Day of process must be greater than 0' | localize}}</div>
+                        </div>
+                    </div>
+                    <div hidden class="form-group col-sm-5">
+                        <tmss-text-input [text]="l('')"
+                            formControlName="check"></tmss-text-input>
+                    </div>
+                </div>
+
+                <div class="modal-footer modal-footer-master">
+                    <button *ngIf="isGranted('ConfigureSystem.ApprovalTree.Add') && isGranted('ConfigureSystem.ApprovalTree.Edit')" (click)="save()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-primary">
+                        <i class="fa tmss-fa fa-plus mr-1"></i>
+                        {{'Save' | localize}}
+                    </button>
+                    <button (click)="closeModel()" pButton pRipple type="button"
+                        class="tmss-btn p-button-outlined btn-outline-danger">
+                        <i class="fa tmss-fa fa-times mr-1"></i>
+                        {{'Cancel' | localize}}
+                    </button>
+
+                    <button class="ghost" #submitBtn></button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

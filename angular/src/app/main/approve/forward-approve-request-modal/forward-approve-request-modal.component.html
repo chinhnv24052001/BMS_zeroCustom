@@ -1,0 +1,50 @@
+<div bsModal #forwardApproveRequestModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="forwardApproveRequestModal" [config]="{ignoreBackdropClick: 'static'}">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header modal-header-master" style="margin-bottom: 20px;">
+                <h5 class="modal-title" style="margin-left: 15px;">
+                    <span>{{ l('ForwardApproveRequest') }}</span>
+                </h5>
+                <button type="button" style="margin-right: 1% !important;" class="close" (click)="close()"
+                    [attr.aria-label]="l('Close')">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+
+            <div class="modal-body modal-body-master">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <tmss-combobox [text]="l('Department')" [(ngModel)]="departmentId" [isRequired]="true" [items]="departments" (ngModelChange)="onChangeDepartment($event)"></tmss-combobox>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <tmss-combobox [text]="l('PicUser')" [(ngModel)]="userId" [isRequired]="true" [items]="userCombobox" (ngModelChange)="onChangeUser($event)"></tmss-combobox>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <tmss-text-input [text]="l('Email')" [(ngModel)]="forwardEmail" [disabled]="true"></tmss-text-input>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <tmss-textarea [text]="l('Note')" [(ngModel)]="note" [height]="'70px'"></tmss-textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer modal-footer-master">
+                <button (click)="forward()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-success">
+                    <i class="fa tmss-fa fa-location-arrow mr-1"></i>
+                    {{ l('Forward') }}
+                </button>
+                <button (click)="close()" pButton pRipple type="button" class="tmss-btn p-button-outlined btn-outline-danger">
+                    <i class="fa tmss-fa fa-times mr-1"></i>
+                    {{ l('Cancel')}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

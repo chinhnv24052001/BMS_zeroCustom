@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "files": [
+    "main.ts",
+    "polyfills.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts",
+    "typings.d.ts",
+    "**/app/main/**/*module.ts",
+    "**/app/master/**/*module.ts"
+  ]
+}

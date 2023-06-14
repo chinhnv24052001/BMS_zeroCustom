@@ -1,0 +1,82 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <form class="form" [formGroup]="gridForm" *ngIf="gridForm">
+                        <p-panel header="{{'Search' | localize}}" [toggleable]="true">
+                            <div class="row align-items-center" style="margin-bottom: 5px;">
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-combobox class="input-search"
+                                        (ngModelChange)="getListVersionByPeriodId($event)" [text]="l('Period')"
+                                        formControlName="periodId" [items]="listPertiod" (ngModelChange)="onchangePeriod($event)">
+                                    </tmss-combobox>
+                                </div>
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-text-input [text]="l('Year')" formControlName="year" [isDisabled]="true">
+                                    </tmss-text-input>
+                                </div>
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-combobox class="input-search" [text]="l('PeriodVersion')"
+                                        formControlName="periodVersionId" [items]="listPertiodVersion" (ngModelChange)="onchangePeriodVersion($event)"> 
+                                    </tmss-combobox>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center" style="margin-bottom: 5px;">
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-combobox class="input-search" [text]="l('Group')" formControlName="groupId"
+                                        [items]="listGroup">
+                                    </tmss-combobox>
+                                </div>
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-combobox class="input-search" [text]="l('Division')" formControlName="divId"
+                                        [items]="listDiv">
+                                    </tmss-combobox>
+                                </div>
+                                <div class="col-xl-3 col-sm-12">
+                                    <tmss-combobox class="input-search" [text]="l('Department')" formControlName="depId"
+                                        [items]="listDep">
+                                    </tmss-combobox>
+                                </div>
+                                <div class="col-xl-3 col-sm-12">
+                                    <button (click)="search()" pButton pRipple type="button"
+                                        class="tmss-btn p-button-outlined btn-outline-primary">
+                                        <i class="fa tmss-fa fa-search mr-1"></i>
+                                        {{'Search' | localize}}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-xl-3 col-sm-12">
+                                    <span>Department Status:</span>
+                                </div>
+                                <div class="col-xl-3 col-sm-12">
+                                    <span>Group Status:</span>
+                                </div>
+                                <div class="col-xl-3 col-sm-12">
+                                    <span>Finance Status:</span>
+                                </div>
+                            </div>
+                        </p-panel>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <!--Tab-->
+                <tabset #tabsetComponent class="tab-container tabbable-line mt-3 tabset-budget-review">
+                    <tab [heading]="l('Expense')">
+                        <app-bms-budget-plan-review-expense #bmsBudgetPlanReviewExpense [tabKey]="tabKey" [listColumn]="lisColumn" [year]="year" [versionName]="versionName">
+                        </app-bms-budget-plan-review-expense>
+                    </tab>
+                    <tab [heading]="l('Investment')">
+                        <app-bms-budget-plan-review-investment #bmsBudgetPlanReviewInvestment [tabKey]="tabKey">
+                        </app-bms-budget-plan-review-investment>
+                    </tab>
+                </tabset>
+                <!--Tab-->
+            </div>
+        </div>
+    </div>
